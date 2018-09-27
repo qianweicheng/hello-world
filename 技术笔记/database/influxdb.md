@@ -1,0 +1,5 @@
+"influxdb_host":              "monitoring-influxdb",
+"influxdb_port":              "8086",
+"influxdb_database":          "k8s",
+"influxdb_user":              "root",
+"influxdb_password":          "root",

@@ -1,0 +1,51 @@
+=========Opensips===============
+http://www.opensips.org/Documentation/Manual-2-3
+教程：https://segmentfault.com/a/1190000008048397
+1） 安装opensips
+    $ git clone https://github.com/OpenSIPS/opensips.git -b 2.3 opensips-2.3
+    $ apt-get update && apt-get install -y gcc make flex bison libncurses-dev libmysqlclient-dev perl libdbi-perl libdbd-mysql-perl libdbd-pg-perl libfrontier-rpc-perl libterm-readline-gnu-perl libberkeleydb-perl
+    #apt-get install -y mysql-server libmysqld-dev
+    在menuconfig中选择--->Configure Compile Options---> Configure Excluded Modules，方向键向下滚动，按空格选中[*] db_mysql
+    $ make menuconfig
+2) 修改系统参数
+        $ vi /etc/sysctl.conf
+            net.ipv4.ip_forward=1
+            net.ipv4.ip_nonlocal_bind = 1
+        $ sysctl -p
+3) 修改配置文件opensipsctlrc，和opensips.conf
+    #mysqld start&
+    配置mysql, SIP_DOMAIN=your-ip-address
+    opensipsdbctl create
+    opensipsctl add 100 123456
+    opensipsctl add 101 123456
+    
+4) 安装rtpproxy
+    不能使用：apt-get install rtpproxy 版本太旧
+    参考（https://github.com/sippy/rtpproxy）
+    $ git clone -b master https://github.com/sippy/rtpproxy.git
+    $ git -C rtpproxy submodule update --init --recursive
+    $ cd rtpproxy
+    $ ./configure && make && make install
+    使用：
+    killall rtpproxy
+       (STAG):rtpproxy -p /var/run/rtpproxy.pid -u root -F -s udp:127.0.0.1:12221 -A 172.31.7.60/34.214.188.140 -m 11000 -M 62000 -n tcp:127.0.0.1:12221 -i 30 -T 30 -W 30 -2 -d DBUG local0
+       (PROD):rtpproxy -p /var/run/rtpproxy.pid -u root -F -s udp:127.0.0.1:12221 -A 172.20.56.120/18.217.177.61 -m 11000 -M 62000 -n tcp:127.0.0.1:12221 -i 30 -T 30 -W 30 -2
+
+5) 安装mediaproxy(可选)：
+    #git clone https://github.com/AGProjects/mediaproxy
+    /etc/apt/sources.list
+    deb http://ag-projects.com/ubuntu xenial main
+    deb-src http://ag-projects.com/ubuntu xenial main
+
+    $ apt-get update
+    $ apt-get install mediaproxy-dispatcher mediaproxy-relay mediaproxy-web-sessions
+    $ cd /etc/mediaproxy/tls/
+    $ cp /usr/share/doc/mediaproxy-common/tls/* .
+    $ cd ..
+    $ vi config.ini （参考配置文件mediaproxy-xxx.ini）
+
+    $ media-dispatcher restart
+    $ media-relay restart
+
+6) 启动
+    opensipsctl start/restart/stop
