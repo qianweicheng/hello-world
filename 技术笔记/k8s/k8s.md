@@ -23,9 +23,6 @@ kubectl scale statefulset tigase-beta --replicas=3
 ####强制删除
 kubectl delete pods <pod> --grace-period=0 --force
 
-####修改kube-apiserver密码（https://kubernetes.io/docs/admin/kube-apiserver/）
-登陆到k8s-master机器，修改basic_auth.csv文件。(通过 ps aux | grep kube-apiserver 查看basic-auth-file=/srv/kubernetes/basic_auth.csv)
-
 kubectl get pvc --all-namespaces（只有get的时候可用）
 kubectl get pvc -l xxx=yyy --namespace=xxx
 kubectl delete pvc xxx --namespace=xxx

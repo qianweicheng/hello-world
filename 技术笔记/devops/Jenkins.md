@@ -1,3 +1,8 @@
+#[Jenkins](https://jenkins.io)
+##pipeline分成两种
+- Declarative(推荐)
+- Scripted
+®
 pipeline {
     agent {
         docker { image 'node:7-alpine' }

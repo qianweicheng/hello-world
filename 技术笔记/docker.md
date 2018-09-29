@@ -1,8 +1,8 @@
-Docker配置
+#Docker配置
 /etc/sysconfig
 .docker 私有库用户名密码
 
-新建镜像
+#新建镜像
 docker build -t busybox .
 docker tag busybox edisonchat/busybox
 docker push edisonchat/busybox
@@ -14,17 +14,13 @@ docker start 启动已经停止的docker
 docker stop 停止守护式docker
 docker exec 命令在容器内部额外启动新进程。
 $ docker exec -t -i aofo /bin/bash
-docker run 
-#-d 守护模式 
-#--name 取名 
-#-p 8080:80
-#-v 文件映射
-$ docker run --name aofo -d ubuntu:14.04 /bin/sh -c "xxxx"
+docker run --name myname -d ubuntu:14.04 /bin/sh -c "xxxx"
+> -d 守护模式 --name 取名 -p 8080:80 -v 文件映射 -u root
 docker attach 
 docker inspect 获取容器内部信息
 docker port NAME 查看端口映射情况。
-
-镜像启动
+docker logs NAME
+#镜像启动
 ENTRYPOINT 指令的两种格式：
 ENTRYPOINT ["executable", "param1", "param2"] (the preferred exec form)
 ENTRYPOINT command param1 param2 (shell form)
@@ -39,7 +35,7 @@ Docker日记
 /var/lib/docker/containers/
 --log-opt max-size=10m --log-opt max-file=3
 
-搭载私有docker hub
+#搭载私有docker hub
 参考文档：https://docs.docker.com/registry/deploying/
 docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
 在”/etc/docker/“目录下，创建”daemon.json“文件。在文件中写入：
@@ -49,7 +45,7 @@ docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
     ]
 }
 
-常用基础Docker镜像：
+#常用基础Docker镜像：
 FROM alpine:latest
 FROM docker.io/jeanblanchard/alpine-glibc
 FROM golang:1.8
@@ -69,3 +65,9 @@ ADD指令不仅能够将构建命令所在的主机本地的文件或目录，�
 ADD/COPY folder1 ./folder1/
 不能:
 ADD/COPY folder1 ./
+
+#Docker in Docker
+直接映射到宿主机的docker(mac和linux的安装地址不一样)
+docker run --name jenkins -d  -p 8080:8080 jenkins/jenkins:lts
+docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker --name jenkins -d  -p 8080:8080 jenkins/jenkins:lts
+> 映射/var/run/docker.sock可以利用宿主机的dockerd，docker内部本身可以自己安装docker client，或者映射宿主机的client
