@@ -93,9 +93,9 @@ db.system.profile.find().sort({$natural:-1})
    部分备份  mongodump --collection myCollection --db test
 2）直接拷贝文件，不要启动服务器：mongodump --dbpath /data/db/
 
-导入数据
+####导入数据
 mongorestore -d tigase -c tig_users dump/tigase/tig_users.bson
-
+####运行命令
 mongo mongodb-shad-a-0.mongodb-shad:27018 --eval "printjson(rs.status())"
 
 直接安装步骤（https://www.mongodb.com/download-center#community）：

@@ -14,8 +14,13 @@ docker start 启动已经停止的docker
 docker stop 停止守护式docker
 docker exec 命令在容器内部额外启动新进程。
 $ docker exec -t -i aofo /bin/bash
-docker run --name myname -d ubuntu:14.04 /bin/sh -c "xxxx"
-> -d 守护模式 --name 取名 -p 8080:80 -v 文件映射 -u root
+docker run \
+--name myname \
+-p 8080:80 \
+-v 文件映射 \
+-u root \
+-d #守护模式 \
+ubuntu:14.04 /bin/sh -c "xxxx" 
 docker attach 
 docker inspect 获取容器内部信息
 docker port NAME 查看端口映射情况。
@@ -71,3 +76,6 @@ ADD/COPY folder1 ./
 docker run --name jenkins -d  -p 8080:8080 jenkins/jenkins:lts
 docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker --name jenkins -d  -p 8080:8080 jenkins/jenkins:lts
 > 映射/var/run/docker.sock可以利用宿主机的dockerd，docker内部本身可以自己安装docker client，或者映射宿主机的client
+
+#坑
+运行在docker里面的程序新开启的文件会被docker缓存而得不到释放，从而造成内存泄漏

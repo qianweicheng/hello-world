@@ -2,37 +2,6 @@
 ##pipeline分成两种
 - Declarative(推荐)
 - Scripted
-®
-pipeline {
-    agent {
-        docker { image 'node:7-alpine' }
-    }
-    stages {
-        stage('Test') {
-            steps {
-                sh 'node --version'
-            }
-        }
-    }
-}
-pipeline {
-    agent none
-    stages {
-        stage('Back-end') {
-            agent {
-                docker { image 'maven:3-alpine' }
-            }
-            steps {
-                sh 'mvn --version'
-            }
-        }
-        stage('Front-end') {
-            agent {
-                docker { image 'node:7-alpine' }
-            }
-            steps {
-                sh 'node --version'
-            }
-        }
-    }
-}
+##安装部署
+docker run --name jenkins -d -p 8080:8080 jenkins/jenkins:lts
+docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker --name jenkins -d  -p 8080:8080 jenkins/jenkins:lts
