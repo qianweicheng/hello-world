@@ -1,10 +1,11 @@
 具体流程查看：http://idea.lanyus.com/
 
 破解补丁为 Rover12421 开发，使用方法如下：
-下载 http://idea.lanyus.com/jar/JetbrainsCrack-xxx.jar， 并放置到IntelliJ开发的一些列应用中:
+1. 下载 http://idea.lanyus.com/jar/JetbrainsCrack-xxx.jar， 并放置到IntelliJ开发的一些列应用中:
 例如: 1）/Applications/PyCharm.app/Contents/bin
      2）/Applications/IntelliJ IDEA.app/Contents/bin
-
+2. 修改idea.properties，idea.vmoptions. 注:不通产品名字可能有细微差别
+3. 输入Code。注:不通产品名字可能有细微差别
 ThisCrackLicenseId-{
 "licenseId":"ThisCrackLicenseId",
 "licenseeName":"Rover12421",
