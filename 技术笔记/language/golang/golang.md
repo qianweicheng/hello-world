@@ -6,7 +6,10 @@ export PATH=$PATH:/usr/local/go/bin
 如果安装到其他目录的话，就需要设置GOROOT
 export GOROOT=$HOME/go1.X
 export PATH=$PATH:$GOROOT/bin
-
+##make用于创建map,slic,channel
+slic为指针
+##除了new创建的，都是值类型；make创建出来的也一样，只不过其底层捂住了一个指针
+##init和main
 ##Faq. https://golang.org/doc/faq
 This situation can be confusing, and arises when a nil value is stored inside an interface value such as an error return:
 func returnsError() error {

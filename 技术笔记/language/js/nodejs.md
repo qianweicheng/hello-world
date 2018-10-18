@@ -9,9 +9,10 @@ npm install
     -P 默认，安装到dependencies
     -D devDependencies
     -O optionalDependencies
-    --no-save 不保存到dependencies
+    --no-save 不保存到dependencies， 默认save
 会生成package-lock.json    
-
+npm init, npm i,
+npm start === npm run start, 类似的还有stop, test
 ####依赖查看
 npm ls 查看package.json里面定义的，和node_modules里面安装的所有模块
      -g 查看全局安装的模块
