@@ -1,20 +1,10 @@
-#### http://nginx.org/en/docs/
+## http://nginx.org/en/docs/
 架设Nginx服务器(Docker)
 docker run -d --name web1 -p 80:80 nginx
 /usr/share/nginx/html
 架设Nginx服务器(yum)
 yum -y install gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum install -y nginx
-#### 其他
-避免触发后端的AUTH
-proxy_set_header Authorization "";
-add_header X-Upstream weicheng always;
-####rewrite重定向
-- last: 本条规则匹配完成后，继续向下匹配新的location. URI规则相当于Apache里的(L)标记. 浏览器地址栏URL地址不变
-- break；本条规则匹配完成后，终止匹配，不再匹配后面的规则. 浏览器地址栏URL地址不变
-- redirect：返回302临时重定向，浏览器地址会显示跳转后的URL地址 
-- permanent：返回301永久重定向，浏览器地址栏会显示跳转后的URL地址 
-  Ex: rewrite  ^/(.*)$  http://abc.com/$1  permanent;
 ####Nginx Location
 以=开头表示精确匹配
 ^~ 开头表示uri以某个常规字符串开头
@@ -41,15 +31,10 @@ location /documents/ {
   [ configuration C ] 
 }
 
-location ~ /documents/Abc {
+location ~ /documents/ {
   >匹配任何以 /documents/ 开头的地址，匹配符合以后，还要继续往下搜索
   >只有后面的正则表达式没有匹配到时，这一条才会采用这一条
   [ configuration CC ] 
-}
- 
-location ^~ /images/ {
-  >匹配任何以 /images/ 开头的地址，匹配符合以后，停止往下搜索正则，采用这一条。
-  [ configuration D ] 
 }
  
 location ~* \.(gif|jpg|jpeg)$ {
@@ -68,7 +53,12 @@ location /images/abc {
   >F与G的放置顺序是没有关系的
   [ configuration G ] 
 }
- 
+
+location ^~ /images/ {
+  >匹配任何以 /images/ 开头的地址，匹配符合以后，停止往下搜索正则，采用这一条。
+  [ configuration D ] 
+}
+
 location ~ /images/abc/ {
    >只有去掉 config D 才有效：先最长匹配 config G 开头的地址，继续往下搜索，匹配到这一条正则，采用
    [ configuration H ] 
@@ -99,3 +89,23 @@ location /api/ {
 location = /api {
     proxy_pass http://someserver/;
 }
+##Rewirte重定向
+rewrite指令执行顺序：
+1.执行server块的rewrite指令(这里的块指的是server关键字后{}包围的区域，其它xx块类似)
+2.执行location匹配
+3.执行选定的location中的rewrite指令
+如果其中某步URI被重写，则重新循环执行1-3，直到找到真实存在的文件
+如果循环超过10次，则返回500 Internal Server Error错误
+####flag指令
+- last: 本条规则匹配完成后，重头开始走一遍新的location匹配. URI规则相当于Apache里的(L)标记. 浏览器地址栏URL地址不变
+- break；本条规则匹配完成后，终止匹配，不再匹配后面的rewrite规则，但会继续执行本指令块后面的非rewrite指令. 浏览器地址栏URL地址不变
+  作用域：server,location,if
+- redirect：返回302临时重定向，浏览器地址会显示跳转后的URL地址 
+- permanent：返回301永久重定向，浏览器地址栏会显示跳转后的URL地址 
+  Ex: rewrite  ^/(.*)$  http://abc.com/$1  permanent;
+- return 作用域：server,location,if
+
+## 其他
+避免触发后端的AUTH
+proxy_set_header Authorization "";
+add_header X-Upstream weicheng always;

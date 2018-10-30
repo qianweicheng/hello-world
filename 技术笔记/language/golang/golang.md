@@ -6,10 +6,18 @@ export PATH=$PATH:/usr/local/go/bin
 如果安装到其他目录的话，就需要设置GOROOT
 export GOROOT=$HOME/go1.X
 export PATH=$PATH:$GOROOT/bin
-##make用于创建map,slic,channel
-slic为指针
-##除了new创建的，都是值类型；make创建出来的也一样，只不过其底层捂住了一个指针
-##init和main
+##初始化
+- make用于创建map,slic,channel,slic为指针
+- 除了new创建的，都是值类型；make创建出来的也一样，只不过其底层捂住了一个指针
+- Go语言和C语言一样，类型都是基于值传递的。要想修改变量的值，只能传递指针
+- 在Go语言中没有构造函数的概念，一般使用工厂方法
+  rect1 := new(Rect)
+  rect2 := &Rect{}
+
+##程序启动
+1. 每个包的变量
+2. 每个包的init函数
+3. main包的main入口
 ##Faq. https://golang.org/doc/faq
 This situation can be confusing, and arises when a nil value is stored inside an interface value such as an error return:
 func returnsError() error {

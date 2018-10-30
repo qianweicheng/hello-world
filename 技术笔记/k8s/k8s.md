@@ -75,6 +75,8 @@ kubectl create deployment nginx --image=nginx
 aws ec2 modify-volume --volume-id vol-070a7796c8543f11d --size 44 
 ##修改资源
 kubectl patch deployment mongodb-shad-a --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/resources/limits/memory", "value":"16Gi"},{"op": "replace", "path": "/spec/template/spec/containers/0/resources/requests/memory", "value":"16Gi"}]'
+##修改资源(2)
+kubectl patch deployment busybox --patch "$(cat tmp.yaml)"
 kubectl patch pod busybox --patch "$(cat pod-busybox.yaml)"
 ## Spec
 apiVersion, kind, metadata, and spec
