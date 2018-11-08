@@ -27,6 +27,10 @@ c. 运行mvn spring-boot:run
 ##Context
 ##Actuator 
 @Endpoint添加管理节点
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
 ##静态资源
 spring.resources.static-locations=file:target/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
 ##添加编译信息, 在/actuator/info查看
