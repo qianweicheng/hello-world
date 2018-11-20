@@ -36,3 +36,10 @@ mvn help:describe -Dplugin=“Group:Artifact”
     </plugin>
     ```
 2. 运行：`mvn wrapper:wrapper`
+####dependency详解
+- scope: compline,provided,test,import...
+    设置编译的选项
+- type:pom,jar
+    定义引用的是jar包还是一个pom文件
+- optional:true,false
+    解绑引用链关系
