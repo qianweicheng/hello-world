@@ -1,4 +1,5 @@
 #Feign
+spring-cloud-starter-feign 已经废弃
 pom依赖
 ```
     <dependency>
@@ -29,4 +30,6 @@ feign.httpclient
 - 。。。
 - LoadBalancerCommand.call
 - loadBalancerContext
-    - ILoadBalancer.chooseServer 根据IRule选择合适的server 
+    - ILoadBalancer.chooseServer 根据IRule选择合适的server
+##设置Header
+@RequestMapping(value = "/public/user/login", method = RequestMethod.POST, headers = {"X-App-Id=auth"})

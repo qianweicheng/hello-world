@@ -10,6 +10,7 @@ sshfs dev-stag:/home/ec2-user ./dev-stag
 -   动态端口转发（在本机运行）,也叫：ssh socks代理
     >ssh -Nf -D local_A_port ssh-proxy-server
     Ex: ssh -fN -D 8080 ssh-proxy-server
+    Ex: ssh -qTfnN -D 7070 username@xxxx.com
     ssh -i ~/bin/us-west-2.pem.pem -fqTnN -D 1080 ec2-user@aws-admin
 -   本地端口转发-L （在本机运行）前提是远程可以连入
     >ssh -Nf -L [local_A_address]:local_A_port:target_C_server:target_C_port ssh-proxy-server

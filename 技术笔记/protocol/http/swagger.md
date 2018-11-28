@@ -4,3 +4,5 @@
 ##URL
 - swagger-ui.html
 - /v2/api-docs
+##在线editor
+http://editor.swagger.io/
