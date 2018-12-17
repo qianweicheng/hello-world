@@ -1,4 +1,4 @@
-##Mongodb使用注意事项
+# Mongodb使用注意事项
 - 唯一索引必须建在分片键上(如果有), 不能建立在hash索引上
     可以对已有的表建，但必须是无冲突
 - db.collection.count() 不准确

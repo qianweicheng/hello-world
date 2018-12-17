@@ -1,5 +1,5 @@
-#Config 
-##基础pom依赖
+# Config 
+## 基础pom依赖
 - 服务器
     ```
     <dependency>
@@ -14,7 +14,7 @@
         <artifactId>spring-cloud-starter-config</artifactId>
     </dependency>
     ```
-##如需要支持动态刷新
+## 如需要支持动态刷新
 - server和client添加消息队列组件，支持: rabbitMQ（默认），Kafka
     ```
     <dependency>
@@ -36,15 +36,15 @@
         private String age;
     }
 ```
-##当config server 检测到config 变动，则POST /actuator/bus-refresh触发事件，会通过Event Bus推送到各个config client，config。一般通过配置webhook等自动触发
-##各种Environment配置
+## 当config server 检测到config 变动，则POST /actuator/bus-refresh触发事件，会通过Event Bus推送到各个config client，config。一般通过配置webhook等自动触发
+## 各种Environment配置
 xxxEnvironmentProperties 通过@ConfigurationProperties(spring.cloud.config.server)读取
 xxxEnvironmentRepository 返回一个Environment(详细的配置信息)
 xxxEnvironmentRepositoryFactory 返回一个xxxEnvironmentRepository
 真正选择哪个Repository在EnvironmentRepositoryConfiguration里面
-##gitRepository是先下载到本地，然后通过NativeEnvironmentRepository服务
-##EnvironmentController是其它应用获取config的入口
-###获取流程
+## gitRepository是先下载到本地，然后通过NativeEnvironmentRepository服务
+## EnvironmentController是其它应用获取config的入口
+### 获取流程
 - labelledProperties
 - labelled
 - findOne

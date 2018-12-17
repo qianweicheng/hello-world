@@ -1,8 +1,8 @@
-#Docker配置
+# Docker配置
 /etc/sysconfig
 .docker 私有库用户名密码
 
-#新建镜像
+# 新建镜像
 docker build -t busybox .
 docker tag busybox edisonchat/busybox
 docker push edisonchat/busybox
@@ -25,7 +25,7 @@ docker attach
 docker inspect 获取容器内部信息
 docker port NAME 查看端口映射情况。
 docker logs NAME
-#镜像启动
+# 镜像启动
 ENTRYPOINT 指令的两种格式：
 ENTRYPOINT ["executable", "param1", "param2"] (the preferred exec form)
 ENTRYPOINT command param1 param2 (shell form)
@@ -40,7 +40,7 @@ Docker日记
 /var/lib/docker/containers/
 --log-opt max-size=10m --log-opt max-file=3
 
-#搭载私有docker hub
+# 搭载私有docker hub
 参考文档：https://docs.docker.com/registry/deploying/
 docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
 在”/etc/docker/“目录下，创建”daemon.json“文件。在文件中写入：
@@ -50,7 +50,7 @@ docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
     ]
 }
 
-#常用基础Docker镜像：
+# 常用基础Docker镜像：
 FROM alpine:latest
 FROM docker.io/jeanblanchard/alpine-glibc
 FROM golang:1.8
@@ -71,11 +71,11 @@ ADD/COPY folder1 ./folder1/
 不能:
 ADD/COPY folder1 ./
 
-#Docker in Docker
+# Docker in Docker
 直接映射到宿主机的docker(mac和linux的安装地址不一样)
 docker run --name jenkins -d  -p 8080:8080 jenkins/jenkins:lts
 docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker --name jenkins -d  -p 8080:8080 jenkins/jenkins:lts
 > 映射/var/run/docker.sock可以利用宿主机的dockerd，docker内部本身可以自己安装docker client，或者映射宿主机的client
 
-#坑
+# 坑
 运行在docker里面的程序新开启的文件会被docker缓存而得不到释放，从而造成内存泄漏

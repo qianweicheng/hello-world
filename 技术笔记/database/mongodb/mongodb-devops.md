@@ -7,7 +7,7 @@
     rs.initiate(configserver)
     修改使用：rs.reconfig(config_data)
 
-####添加Shard（在router机器）：
+#### 添加Shard（在router机器）：
 >此处只需要指向shard里面其中一台机器
 use admin
 db.runCommand({addshard:"rs1/host1:port,host2:port"})
@@ -16,14 +16,14 @@ db.runCommand({addshard:"rs3/host1:port,host2:port"})
 sh.addShard("rs3/host1:port,host2:port")
 Ex: db.runCommand({addshard:"rs1/mongodb-shad-a-0.mongodb-shad.default.svc.cluster.local:27018"})
 
-####建立索引有两种:一种是升序，一种是hash
+#### 建立索引有两种:一种是升序，一种是hash
 db.collection.createindex/ensureIndex({_id:1/"hashed"})
 
 use tigase
 db.edi_contact.createIndex({ownerId:"hashed"})
 db.msg_history.createIndex({from_hash:1})
 
-####建立分片
+#### 建立分片
 >use admin
 `sh.enableSharding("<database>")` or `db.runCommand({enablesharding:"<database>"})`
     sh.shardCollection("<database>.<collection>", { <key> : "hashed" } )
@@ -34,15 +34,15 @@ db.msg_history.createIndex({from_hash:1})
     db.runCommand({shardcollection:"tigase.edi_contact",key:{_id:1}, options:{numInitialChunks : 3}})
 > mongo collection建立了shard之后，无法修改与删除，只能做好数据备份之后，drop掉这个collection重建
 
-####删除shard，先进行数据迁移
+#### 删除shard，先进行数据迁移
 - db.runCommand({movePrimary : "tigase", to : "rs2" })
 - sh.moveChunk("tigase.wq",{"value":NumberLong(1)},"rs1")
 - db.runCommand({removeshard:"rs1"})
 
-####设置迁移维护窗口
+#### 设置迁移维护窗口
 db.getCollection("settings").update({"_id":"balancer"},{"$set":{"activeWindow.stop":"23:30"}})
 
-####预先分片
+#### 预先分片
 db.tig_users.getShardDistribution()
 sh.splitAt("mydb.wq", {name: 1})  强制指定拆分点
 sh.splitFind("mydb.wq", {name:1}) 自动计算，让两子分片大致平衡
@@ -54,17 +54,17 @@ db.runCommand( { moveChunk:"tigase.wq", bounds :[{"value": "$minKey"}, {"value":
 sh.stopBalancer()
 sh.startBalancer()
 
-####查看分片信息：
+#### 查看分片信息：
 db.wq.getShardDistribution()
 如果某次发现改函数返回空，但用sh.status()有能看到，那很可能是底下某个shard的index被删除了，解决方案就是到该shard里面去重建index
 
-####添加删除机器到某个shard
+#### 添加删除机器到某个shard
 rs.add("host:port")
 rs.remove("host:port")
 rs.addArb("host:port") 或者rs.add({_id:x,host:'xxxx',arbiterOnly:true})
 db.adminCommand
 
-####读写分离：
+#### 读写分离：
 db.getMongo().setSlaveOk() = rs.slaveOk();
 db.getMongo().getSlaveOk()
 primary/primaryPreferred/secondary/secondaryPreferred/nearest
@@ -72,10 +72,10 @@ db.getMongo().setReadPref('secondary')
 db.getMongo().getReadPrefMode()
 
 
-####模拟故障
+#### 模拟故障
 db.adminCommand({"shutdown":1})
 
-####性能监控
+#### 性能监控
 mongostat
 mongotop
 
@@ -93,9 +93,9 @@ db.system.profile.find().sort({$natural:-1})
    部分备份  mongodump --collection myCollection --db test
 2）直接拷贝文件，不要启动服务器：mongodump --dbpath /data/db/
 
-####导入数据
+#### 导入数据
 mongorestore -d tigase -c tig_users dump/tigase/tig_users.bson
-####运行命令
+#### 运行命令
 mongo mongodb-shad-a-0.mongodb-shad:27018 --eval "printjson(rs.status())"
 
 直接安装步骤（https://www.mongodb.com/download-center#community）：

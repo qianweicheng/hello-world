@@ -1,4 +1,4 @@
-##Elastic Search 三要素：
+## Elastic Search 三要素：
 1 _index
 2 _type, 同一个_index下面的需要_type相同
 3 _id
@@ -13,7 +13,7 @@
     词条按顺序通过每个 token 过滤器 。这个过程可能会改变词条（例如，小写化 Quick ），删除词条（例如， 像 a， and， the 等无用词），或者增加词条（例如，像 jump 和 leap 这种同义词）
 
 
-##安装中文分词器：
+## 安装中文分词器：
 1. bin/elasticsearch-plugin install analysis-smartcn 或者 ik_max_word
 2. 重启
 3. 测试效果

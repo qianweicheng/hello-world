@@ -26,7 +26,7 @@ cluster replicate <node_id> ：将当前节点设置为 node_id 指定的节点�
 
 redis扩容步骤：
 1）在集群内部的一台机器上运行：CLUSTER MEET 127.0.0.1 6385
-#或者redis-trib.rb add-node 127.0.0.1:6386(new node) 127.0.0.1:6379(one of cluster ip)
+或者redis-trib.rb add-node 127.0.0.1:6386(new node) 127.0.0.1:6379(one of cluster ip)
 2) ./redis-trib.rb reshard --from <node-id[,node-id]>/all --to <node-id> --slots <number of slots> [--yes] <host>:<port>
 redis缩容步骤：
 1) ./redis-trib.rb info localhost:6379 或 ./redis-trib.rb check localhost:6379 查看集群状态

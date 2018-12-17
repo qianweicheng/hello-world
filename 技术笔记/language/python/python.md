@@ -1,30 +1,30 @@
-####源代码发布
+#### 源代码发布
 1. 可以用pip导出你的dependency:
     $ pip freeze > requirements.txt
 2. 然后在通过以下命令安装dependency:
     $ pip install -r requirements.txt
 
-####二进制发布
+#### 二进制发布
 1. Install PyInstaller from PyPI:
     $ pip install pyinstaller
 2. Go to your program’s directory and run:
     $ pyinstaller yourprogram.py
 3. 下载了wheel，egg等
     $ pip install ./xxx.egg
-####VENV
+#### VENV
 pip install virtualenv
 --no-site-packages 表示不复制当前环境的包，可以创建个干净的环境
 virtualenv --no-site-packages venv-folder-name [python=python3.6(version)]
 进入虚拟环境: source venv/bin/activate
 退出虚拟环境: deactivate
 设置:PYTHONPATH环境变量
-####源码安装
+#### 源码安装
 setup.py 帮助你纪录安装细节方便你卸载
     $python setup.py install
     python setup.py install --record log #这时所有的安装细节都写到 log 里了
 想要卸载的时候 `cat log ｜ xagrs rm －rf` 就可以干净卸载了
 
-####子类调用父类
+#### 子类调用父类
 - 直接调用法：Student.__init__(self,name)
 - 通过super方式：super(child_class, child_object).parent_attribute(arg)
 其中child_class, child_object可以省略，super().parent_attribute(arg)

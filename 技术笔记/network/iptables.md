@@ -1,4 +1,4 @@
-iptables的4表5链
+# iptables的4表5链
 iptables的结构：iptables -> Tables -> Chains -> Rules
 
 iptables具有Filter, NAT, Mangle, Raw四种内建表：

@@ -1,9 +1,9 @@
-用户权限管理相关文件
+## 用户权限管理相关文件
 /etc/group
 /etc/passwd
 /etc/shadow
 
-添加用户
+## 添加用户
 useradd（adduser ->link to useradd）
     Ex: useradd killwall -M -N -s /sbin/nologin -c "Only For Kill Wall"
     Ex: useradd normaluser -c "Only For Kill Wall"

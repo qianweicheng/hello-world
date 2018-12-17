@@ -1,5 +1,5 @@
 ## Operators
-####Query:db.collection.find()
+#### Query:db.collection.find()
 操作符：
 - Comparison：$gt,$lt等
 - Logical: $and, $not, $nor, $or
@@ -15,7 +15,7 @@ db.foo.find(
    { "grades.mean": { $gt: 70 } },
    { "grades.$": 1 }
 )
-####Update:db.collection.update()
+#### Update:db.collection.update()
 操作符:
 - Field Update: $currentDate, $inc, $min, $max, $mul, $rename, $set, $setOnInsert, $unset
 db.products.update(
@@ -28,9 +28,9 @@ db.products.update(
 )
 - Array Update:
 - Bitwise Update
-####db.collection.findAndModify()
+#### db.collection.findAndModify()
 
-####db.collection.aggregate()
+#### db.collection.aggregate()
 
 ## Database Commands
 所有的命令标准格式为db.runCommand(xxx)/db.adminCommand(xxx), db.collection.xxx只是包括shell或者类似pymongo等动态语言的helper方法
@@ -52,9 +52,9 @@ insert	Inserts one or more documents.
 parallelCollectionScan	Lets applications use multiple parallel cursors when reading documents from a collection.
 resetError	Resets the last error status.
 update  Updates one or more documents.
-####Replication Commands¶
+#### Replication Commands¶
 db.runCommand( { isMaster: 1 } )
-####Sharding Commands¶
+#### Sharding Commands¶
 db.runCommand( { addShard: "repl0/mongodb3.example.net:27327"} )
 #### Administration Commands
 db.collection.dropIndex("age_1");

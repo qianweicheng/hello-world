@@ -1,9 +1,9 @@
-####搭建环境
+#### 搭建环境
 - brew install springboot
 - spring install spring-cloud-cli:2.0.0.RELEASE
-####快捷启动开发环境
+#### 快捷启动开发环境
 `spring cloud`
-####依赖
+#### 依赖
 spring-cloud-starter
 - spring-boot-starter
 - spring-cloud-context
@@ -105,19 +105,19 @@ spring-cloud-starter-feign
         </dependency>
     </dependencies>
  </dependencyManagement>
-####服务注册中心
+#### 服务注册中心
     @EnableEurekaServer
     spring-cloud-starter-eureka-server:1.4.5.RELEASE
     spring-cloud-starter-eureka:1.4.5.RELEASE (主要用来注册自己)
-####生产者
+#### 生产者
     @EnableDiscoveryClient
     spring-cloud-starter-eureka:1.4.5.RELEASE
-####Ribbon(Client Side Load Balancer)
+#### Ribbon(Client Side Load Balancer)
     spring-cloud-starter-netflix-ribbon
     @FeignClient
     @LoadBalanced
     LoadBalancerClient.choose(xxx);
-####Hystrix（断路器）
+#### Hystrix（断路器）
 在需要监控的服务上添加:
     @EnableCircuitBreaker
     @HystrixCommand
@@ -137,18 +137,18 @@ spring-cloud-starter-feign
       }
     }
     访问入口：/hystrix.stream
-####Hystrix Dashboard
+#### Hystrix Dashboard
     @EnableHystrixDashboard
     spring-cloud-starter-hystrix-dashboard:1.4.5.RELEASE
     spring-boot-starter-actuator
     访问入口：/hystrix
-####Turbine(/turbine.stream)
+#### Turbine(/turbine.stream)
     @EnableTurbine
     spring-cloud-starter-netflix-turbine
     手动指定Hystrix的Service，把多个hystrix.stream合并成一个turbine.stream,
     然后在Hystrix Dashboard里面添加一个turbine.stream
-####Turbine Stream(高效版Turbine，使用消息队列)
-####Router and Filter: Zuul
+#### Turbine Stream(高效版Turbine，使用消息队列)
+#### Router and Filter: Zuul
     @EnableZuulServer
     spring-cloud-starter-netflix-zuul
     Example:
@@ -157,7 +157,7 @@ spring-cloud-starter-feign
       users:
           path: /myusers/**
           serviceId: users_service
-####Sidecar(Multi-Language Support)
+#### Sidecar(Multi-Language Support)
     @EnableSidecar
     spring-cloud-netflix-sidecar
     Example:

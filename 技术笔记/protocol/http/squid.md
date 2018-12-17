@@ -1,7 +1,7 @@
-#Squid
-##Install
+# Squid
+## Install
 `yum install -y squid`
-##Config
+## Config
 - 前台启动squid，并输出启动过程
     /usr/local/squid/sbin/squid -N -d1
 - 启动squid在后台运行

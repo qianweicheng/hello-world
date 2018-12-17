@@ -1,8 +1,8 @@
-#Springboot
+# Springboot
 ## Springboot创建命令行命令行
 1. 直接使用bare最方便，
 2. 在Application中实现CommandLineRunner方法
-##运行
+## 运行
 1. IDE直接运行
 2. mvn spring-boot:run
 3. java -jar xxx.jar
@@ -19,23 +19,23 @@ a. 添加依赖
 
 b. 设置IDE, 选中Build,Execution,Deployment->Compiler->Make project automatically
 c. 运行mvn spring-boot:run
-##Autoconfig
+## Autoconfig
 - 通过标准的Java-SPI
 - 通过spring.factories注入几种类型的类，主要是AutoConfiguration, AutoConfiguration通过两种机制引入其它configuration
     - @Import其它类型
     - SpringFactoryImportSelector返回一个引入类型列表，相比@Import的优势是可以动态编程控制
-##Context
-##Actuator 
+## Context
+## Actuator 
 @Endpoint添加管理节点
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
-##静态资源
+## 静态资源
 spring.resources.static-locations=file:target/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
-##添加编译信息, 在/actuator/info查看
-- BuildProperties
-- GitProperties
+## 添加编译信息, 在/actuator/info查看
+- BuildProperties:自动提取build.properties的内容
+- GitProperties: 插件会自动生成git.properties
     ```
         <plugin>
            <groupId>pl.project13.maven</groupId>
@@ -55,7 +55,7 @@ spring.resources.static-locations=file:target/,classpath:/META-INF/resources/,cl
                 spring-boot-starter-logging
                 spring-core
 
-##常用
+## 常用
 @EnableAutoConfiguration
 @ComponentScan
 @Configuration，使用了此标签的类默认就是一个Bean
@@ -70,7 +70,7 @@ spring.resources.static-locations=file:target/,classpath:/META-INF/resources/,cl
 @RestController
 @EnableScheduling
 @ServletComponentScan: @WebServlet, @WebFilter, and @WebListener
-##Springboot 配置文件查找顺序
+## Springboot 配置文件查找顺序
 0、命令行--xxx=yyy
 1、config/application.properties
 2、config/application.yml
@@ -81,12 +81,12 @@ spring.resources.static-locations=file:target/,classpath:/META-INF/resources/,cl
 7、resources/application.properties
 8、resources/application.yml
 
-##Springboot autoconfigure
+## Springboot autoconfigure
 几乎包含Spring里面的各个项目的自动配置文件：<optional>true</optional>
-##注入对象生命周期两种方式
+## 注入对象生命周期两种方式
 1. JSR250： @PostConstruct，@PreDestroy
 2. Spring： 注解指定@Bean(initMethod="init",destroyMethod="destroy")
-##Springboot 初始化对象过程
+## Springboot 初始化对象过程
 0. SpringApplication.run 
     - SpringFactoriesLoader.loadFactoryNames:扫描class path里面所有jar包里面的spring.factories
     - 7个ApplicationContextInitializer:
@@ -141,12 +141,12 @@ spring.resources.static-locations=file:target/,classpath:/META-INF/resources/,cl
     - Call ApplicationRunner/CommandLineRunner
     - 触发running事件
     - 返回context  
-##HTTP的几个Client对比
+## HTTP的几个Client对比
 - Java标准HttpURLConnection(Feign默认使用)
 - Apache HttpClient
 - OkHttp
-##其它
-##数据总线：Application Event
+## 其它
+## 数据总线：Application Event
 - spring-boot-context:DelegatingApplicationListener.onApplicationEvent
 - spring-cloud-context:BootstrapApplicationListener.onApplicationEvent
 - RestartApplicationListener

@@ -1,7 +1,7 @@
 #### nodejs 常用命令
 npm cnpm（淘宝镜像）
 
-####初始化
+#### 初始化
 npm init 创建package.json
 npm install 根据当前package.json 安装所有依赖(递归)
 npm install 
@@ -13,23 +13,23 @@ npm install
 会生成package-lock.json    
 npm init, npm i,
 npm start === npm run start, 类似的还有stop, test
-####依赖查看
+#### 依赖查看
 npm ls 查看package.json里面定义的，和node_modules里面安装的所有模块
      -g 查看全局安装的模块
      --depth=0 查看顶级直接依赖模块
     当package.json 里面没有包含，但require里面引用了的话，就会报警。
 用于坚持本地安装但未放置到package.json的情况
-####更新
+#### 更新
 npm update xxx
-####运行
+#### 运行
 npm run
 npm start 对象中没有定义 "start" 属性， 默认执行 node server.js 命令。
-####开发测试的静态服务器
+#### 开发测试的静态服务器
 - webpack-dev-server
 - http-server: 
     npm i -g http-server
     运行：hs->http-server
-####Webpack
+#### Webpack
 https://www.cnblogs.com/wangyingblog/p/7027540.html
 eval	每个module会封装到 eval 里包裹起来执行，并且会在末尾追加注释 //@ sourceURL.
 source-map	生成一个SourceMap文件.

@@ -1,9 +1,9 @@
-#命令行登录IMAP邮箱
-##非TLS使用`telnet`
+# 命令行登录IMAP邮箱
+## 非TLS使用`telnet`
 > telnet imap.126.com 143
-##TLS使用`openssl`
-> openssl s_client -connect imap.126.com:993
-##IMAP协议
+## TLS使用`openssl`
+> openssl s_client -connect imap.126.com:993 -crlf
+## IMAP协议
 - 部分邮件服务商必须在使用`ID`命令
 ```
 C1 ID ("name" "Edison")

@@ -1,4 +1,4 @@
-####CROS
+## CROS
 所有CROS的Header
 * Origin(Client)
 * Access-Control-Request-Headers(Client)
@@ -10,7 +10,7 @@
 * Access-Control-Expose-Headers
 * Access-Control-Max-Age
 
-CORS可以分成两种：
+## CORS可以分成两种：
 * 简单请求
     HTTP方法是下列之一
     1. HEAD

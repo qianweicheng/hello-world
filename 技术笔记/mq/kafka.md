@@ -1,4 +1,4 @@
-####Kafka和ZK可以直接使用域名，方便扩展；也可以直接指定机器名
+#### Kafka和ZK可以直接使用域名，方便扩展；也可以直接指定机器名
 kafka-console-producer.sh --broker-list msg-queue:9092 --topic PUSH_MESSAGE
 kafka-console-consumer.sh --bootstrap-server msg-queue:9092 --topic PUSH_MESSAGE
 kafka-console-consumer.sh --bootstrap-server msg-queue:9092 --from-beginning --topic PUSH_MESSAGE
@@ -8,14 +8,14 @@ kafka-topics.sh --delete --zookeeper zk:2181 --topic PUSH_MESSAGE
 kafka-topics.sh --describe --zookeeper zk:2181 --topic PUSH_MESSAGE
 kafka-topics.sh --alter --topic PUSH_MESSAGE --partitions 6  --zookeeper zk:2181 
 kafka-topics.sh --list --zookeeper zk-0.zk-headless:2181
-####查看consumer group 列表
+#### 查看consumer group 列表
 kafka-consumer-groups.sh --bootstrap-server msg-queue:9092 --list
-####删除consumer group
+#### 删除consumer group
 删除时group里面必须没有激活状态的consumer
 kafka-consumer-groups.sh -bootstrap-server msg-queue:9092 -delete -group xxxx
-####查看各个Partion上的消息
+#### 查看各个Partion上的消息
 kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list msg-queue:9092 --topic pingpong --time -1
-####Topic replication等修改
+#### Topic replication等修改
 1. 建立配置文件：topics-to-move.json  
 ```
 {

@@ -1,4 +1,4 @@
-####Mac Software Trial Forever
+#### Mac Software Trial Forever
 原理：
 >拦截启动程序，使用脚本在每次启动的时候删除配置文件夹(/Users/$(whoami)/Library/Application Support)里面相应的注册信息
 具体步骤（这里假设程序名字为`Victim`）

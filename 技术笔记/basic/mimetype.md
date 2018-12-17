@@ -1,11 +1,11 @@
-#mimetype
-##Standards tree
+# mimetype
+## Standards tree
 >type "/" subtype ["+" suffix] *[";" parameter]
-##Vendor tree
+## Vendor tree
 >type "/" "vnd." subtype ["+" suffix] *[";" parameter]
-##Personal or vanity tree
+## Personal or vanity tree
 >type "/" "prs." subtype ["+" suffix] *[";" parameter]
-##Unregistered tree
+## Unregistered tree
 >type "/" "x." subtype ["+" suffix] *[";" parameter]
-##Suffix
+## Suffix
 +xml, +json, +ber, +der, +fastinfoset, +wbxml, +zip, +gzip
