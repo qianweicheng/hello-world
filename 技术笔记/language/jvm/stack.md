@@ -3,10 +3,9 @@
 ## 持久层框架：MyBatis
 ## 数据库连接池：Alibaba Druid
 ## 本地缓存: Ehcache
-## 分布式任务调度: elastic-job
+## 任务调度: elastic-job,Spring Task
 ## 权限管理:Apache Shiro
-## 工作流引擎：Activiti
-## 任务调度：Spring Task
+## 工作流引擎：Activiti,Shark,OSWorkflow,...
 ## Swagger2
 ## 前端: VUE/React
 ## Jenkins
