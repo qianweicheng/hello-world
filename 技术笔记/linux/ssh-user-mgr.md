@@ -10,11 +10,13 @@ useradd（adduser ->link to useradd）
 passwd normaluser
 userdel
 usermod 改变用户所属组(usermod -a -G groupName userName)
-
+groupmod  修改组(groupmod groupmod -g NEW-GID groupname)
+groups [username]:查询所属group    
 
 用visudo 修改/etc/sudoers 可以让添加的用户有运行sudo的权限
 su - （运行新用户的启动脚本，重置环境变量和当前目录）
 su （单纯的切换用户，环境变量等保持原有的）
+sudo -u xxx -s
 
 sudoers
 1) 配置Host_Alias：就是主机的列表 
