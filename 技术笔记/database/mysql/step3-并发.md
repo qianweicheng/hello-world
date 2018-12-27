@@ -46,9 +46,6 @@ insert、delete和update都是会加排它锁
     - (MYSQL)跟#3的区别主要在，该级别下，会自动将所有普通select转化为select ... lock in share mode执行
     - (PostgreSQL)基于SSI实现
 > 不同级别下，只有写操作释放锁的时机不同，而Locking Read的锁，不论什么级别，都是在事务结束后释放
-## 索引
-- 聚合索引
-- 非聚合索引
 ## MVCC
 MVCC是"Multi-Version Concurrency Control"的缩写
 一般两种实现：
@@ -105,7 +102,6 @@ commit|
 ## SSI
 Serialized Snopshot Isolation
 个事务还是Snapshot Isolation，但事务在进行过程中，除了对数据进行操作外，还要对整个事务的“写前提”——所有修改操作的依赖数据做追踪。当事务被commit时，当前事务会检查这个“写前提”是否被其他事务修改过，如果是，则回滚掉当前事务。PostgreSQL的Serializable基于SSI实现。
-
 
 ## 参考文档
 1. https://baike.baidu.com/item/%E9%AB%98%E6%80%A7%E8%83%BDMySQL/10913803?fr=aladdin
