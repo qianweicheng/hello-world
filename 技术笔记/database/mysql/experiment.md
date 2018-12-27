@@ -18,7 +18,7 @@ CREATE TABLE `t_user` (
   KEY `t_user_name` (`name`),
   UNIQUE KEY `t_user_email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+-- 使用两个单独索引
 CREATE TABLE `t_group_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE `t_group_user` (
   KEY `t_group_user_group_id` (`group_id`),
   KEY `t_group_user_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+-- 使用一个联合索引，group_id在前，user_id在后
 CREATE TABLE `t_group_user2` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE `t_group_user2` (
 查询明显不存在的|SELECT * FROM t_user WHERE id=-1|提前终止
 查询特定Group中所有Usser|SELECT t_user.* FROM t_user
 
-## 案例 Group<->User
+## 案例1: Group<->User
 Case|SQL|备注
 :-:|-|-
 查询User(t_group_user,子查询)|EXPLAIN SELECT t_user.* FROM t_user WHERE t_user.id IN (SELECT t_group_user.user_id  FROM t_group_user WHERE t_group_user.group_id=1);
@@ -58,3 +58,14 @@ Case|SQL|备注
 查询Group(t_group_user,join)|SELECT t_group.* FROM t_group LEFT JOIN t_group_user ON t_group_user.group_id=t_group.id  WHERE t_group_user.user_id=1;
 查询Group(t_group_user2,子查询)|EXPLAIN SELECT t_group.* FROM t_group WHERE t_group.id IN (SELECT t_group_user2.group_id  FROM t_group_user2 WHERE t_group_user2.user_id=1);|全表扫描
 查询Group(t_group_user2,join)|EXPLAIN SELECT t_group.* FROM t_group LEFT JOIN t_group_user2 ON t_group_user2.group_id=t_group.id  WHERE t_group_user2.user_id=1;|全表扫描
+## 案例2: 覆盖测试
+查询User列表|SQL|备注
+:-:|-|-
+通过t_group_user|EXPLAIN SELECT t_group_user.group_id, t_group_user.user_id  FROM t_group_user WHERE t_group_user.group_id=1;|未使用了覆盖索引
+通过t_group_user2|EXPLAIN SELECT t_group_user2.group_id, t_group_user2.user_id  FROM t_group_user2 WHERE t_group_user2.group_id=1;|使用了覆盖索引
+## 案例3: EXISTS VS IN
+CASE|SQL|备注
+:-:|-|-
+EXISTS|SELECT * FROM t_user WHERE EXISTS (SELECT 1 FROM t_group_user WHERE t_user.id=t_group_user.user_id AND t_group_user.group_id = 1);|
+IN|SELECT * FROM t_user WHERE id IN (SELECT user_id FROM t_group_user WHERE group_id=1);|
+JOIN|SELECT t_user.* FROM t_user JOIN t_group_user ON  t_user.id=t_group_user.user_id WHERE t_group_user.group_id=1;|

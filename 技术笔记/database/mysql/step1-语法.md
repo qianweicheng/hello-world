@@ -5,15 +5,22 @@
 - DATETIME：8字节无时区，精确到秒
 - TIMESTAMP：有时区，精确到毫秒
 ## 子查询
+#### 返回值类型
 1. 标量子查询: 是指子查询返回的是单一值的标量，如一个数字或一个字符串，也是子查询中最简单的返回形式.  可以使用: =, >, <, >=, <=, <> 
 2. 列子查询:指子查询返回的结果集是 N 行一列，该结果通常来自对表的某个字段查询返回。 可以使用 IN、ANY、SOME 和 ALL 操作符，不能直接(但可以结合)使用 = > < >= <= <> 这些比较标量结果的操作符。
 3. 行子查询: 指子查询返回的结果集是 N 列一行。 可以使用: =
 4. 表子查询: 指子查询返回的结果集是 N 列 N 行。 可以使用: 同#2
-- IN
-- ANY
-- ALL
-- EXISTS
+#### 关键字
+- IN: 内部使用Hash优化级联
+- EXISTS: 内部使用nested loop[参见物理连接]
     EXISTS谓词的子查询不返回任何数据，只产生逻辑真值“true”或者逻辑假值“false”。
+- ANY:
+- ALL:  
+#### 效率比较（IN,EXISTS,JOIN)
+- 在查询的子表较大(执行时间):`EXISTS <= IN <= JOIN` `NOT EXISTS <= NOT IN <= LEFT JOIN`
+- 当允许NULL时：`NOT EXISTS <= LEFT JOIN <= NOT IN`
+- 当子查询表小的用in， 
+> 因为in 是把外表和内表作hash连接，而exists是对外表作loop循环，每次loop循环再对内表进行查询
 ## JOIN
 ![JOINS](./resources/joins.png)
 - 内链接(INNER JOIN)
@@ -34,14 +41,6 @@
 - UNION ALL/UNION
     `UNION`会通过主键合并，而`UNION ALL`则简单合并
     总是使用临时表，虽然有的时候不是多余的
-## 查询A表中在(或不在)B表中的记录效率比较（IN,EXISTS,JOIN)
-- 在查询的子表较大，执行时间:
-    EXISTS <= IN <= JOIN
-    NOT EXISTS <= NOT IN <= LEFT JOIN
-    当允许NULL时：
-    NOT EXISTS <= LEFT JOIN <= NOT IN
-- 两个表中一个较小，一个较大，则子查询表大的用exists，子查询表小的用in。
-    因为in 是把外表和内表作hash连接，而exists是对外表作loop循环，每次loop循环再对内表进行查询
 ## 物理连接
 - 等值连接：
     - Hash JOIN
