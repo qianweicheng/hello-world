@@ -1,6 +1,10 @@
 -- 通过Group ID搜索User, group_user
 EXPLAIN SELECT t_user.* FROM t_user WHERE t_user.id IN (SELECT t_group_user.user_id  FROM t_group_user WHERE t_group_user.group_id=1);
 EXPLAIN SELECT t_user.* FROM t_user LEFT JOIN t_group_user ON t_group_user.user_id=t_user.id  WHERE t_group_user.group_id=1;
+EXPLAIN SELECT t_user.* FROM t_user WHERE t_user.id IN (1);
+-- 0.00092300
+-- 0.00035700
+-- 0.00027500
 
 -- 通过Group ID搜索User, group_user2
 EXPLAIN SELECT t_user.* FROM t_user WHERE t_user.id IN (SELECT t_group_user2.user_id  FROM t_group_user2 WHERE t_group_user2.group_id=1);
@@ -8,9 +12,13 @@ EXPLAIN SELECT t_user.* FROM t_user LEFT JOIN t_group_user2 ON t_group_user2.use
 EXPLAIN SELECT t_user.* FROM t_group_user2 LEFT JOIN t_user ON t_group_user2.user_id=t_user.id  WHERE t_group_user2.group_id=1;
 
 -- 通过User ID搜索Group, group_user
-EXPLAIN SELECT t_group.* FROM t_group WHERE t_group.id IN (SELECT t_group_user.group_id  FROM t_group_user WHERE t_group_user.user_id=1);
-EXPLAIN SELECT t_group.* FROM t_group LEFT JOIN t_group_user ON t_group_user.group_id=t_group.id  WHERE t_group_user.user_id=1;
-EXPLAIN SELECT t_group.* FROM t_group_user LEFT JOIN t_group ON t_group_user.group_id=t_group.id  WHERE t_group_user.user_id=1;
+EXPLAIN SELECT t_group.* FROM t_group WHERE t_group.id IN (SELECT t_group_user.group_id  FROM t_group_user WHERE t_group_user.user_id=100);
+EXPLAIN SELECT t_group.* FROM t_group LEFT JOIN t_group_user ON t_group_user.group_id=t_group.id  WHERE t_group_user.user_id=100;
+EXPLAIN SELECT t_group.* FROM t_group_user LEFT JOIN t_group ON t_group_user.group_id=t_group.id  WHERE t_group_user.user_id=100;
+-- 0.00031200
+-- 0.00028900
+-- 0.00035300
+
 
 -- 通过User ID搜索Group, group_user2
  SELECT t_group.* FROM t_group WHERE t_group.id IN (SELECT t_group_user2.group_id  FROM t_group_user2 WHERE t_group_user2.user_id=1);

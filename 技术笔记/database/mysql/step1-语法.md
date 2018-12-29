@@ -77,6 +77,7 @@
 ## UPSET
 存在则更新，否则插入
 - MYSQL:`ON DUPLICATE KEY UPDATE`
+    Ex: `INSERT INTO  t_user(id, name) VALUES(1,'zhangsan')  ON DUPLICATE KEY UPDATE name='2_updated';`
 - PostgreSQL: `UPSET`
 ## 批量插入
 `SET AUTOCOMMIT=0` or `START TRANSACTION`
