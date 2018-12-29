@@ -96,13 +96,13 @@ commit|
     do{
         select counter as old_counter from counter_tbl where id = xxx;
         result = update counter_tbl set counter = counter + 1 where id = xxx and counter=old_counter;
-        //忽略死循环情况
+        //忽略死循环情况
     } while(result != 1);
     ```
 ## SSI
 Serialized Snopshot Isolation
 个事务还是Snapshot Isolation，但事务在进行过程中，除了对数据进行操作外，还要对整个事务的“写前提”——所有修改操作的依赖数据做追踪。当事务被commit时，当前事务会检查这个“写前提”是否被其他事务修改过，如果是，则回滚掉当前事务。PostgreSQL的Serializable基于SSI实现。
 
-## 参考文档
+## 参考文档
 1. https://baike.baidu.com/item/%E9%AB%98%E6%80%A7%E8%83%BDMySQL/10913803?fr=aladdin
 2. https://www.jianshu.com/p/eae001e603d6
