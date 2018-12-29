@@ -34,3 +34,6 @@ mysqldump --opt test > mysql.test
 2. 导入数据:
 
 mysqlimport -u root -p123456 < mysql.dbname。
+
+#### 优化
+1. 周期运行：`OPTIMIZE TABLE`
