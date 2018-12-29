@@ -17,6 +17,7 @@
 ## 高性能索引策略
 - 独立的列
     避免在查询的条件字段上做运算
+    >`WHERE age>18;` OR `WHERE age+1>17;`
 - 前缀索引和索引的选择。
     CREATE INDEX xxx ON yyy (LEFT(8));
     通过如下方式分析合适的前缀长度

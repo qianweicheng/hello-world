@@ -33,7 +33,7 @@
     - LEFT/RIGHT JOIN EXCLUDING INNER JOIN
     - OUTER JOIN EXCLUDING INNER JOIN
 - 笛卡尔积连接
-`CROSS JOIN`， JOIN, CROSS JOIN, and INNER JOIN 在MYSQL中等价，标准SQL不一样
+    `CROSS JOIN`， JOIN, CROSS JOIN, and INNER JOIN 在MYSQL中等价，标准SQL不一样
     总结
     - Use CROSS JOIN when and only when you don't compare columns between tables. That is to show that the lack of comparisons was intentional.
     - Use (INNER) JOIN with ON when and only when you compare columns between tables (Plus possibly other conditions.)
