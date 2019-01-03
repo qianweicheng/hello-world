@@ -94,7 +94,7 @@ rewrite指令执行顺序：
 1.执行server块的rewrite指令(这里的块指的是server关键字后{}包围的区域，其它xx块类似)
 2.执行location匹配
 3.执行选定的location中的rewrite指令
-如果其中某步URI被重写，则重新循环执行1-3，直到找到真实存在的文件
+如果其中某步URI被重写，则重新循环执行1-3(具体依赖Flag)，直到找到真实存在的文件
 如果循环超过10次，则返回500 Internal Server Error错误
 #### flag指令
 - last: 本条规则匹配完成后，重头开始走一遍新的location匹配. URI规则相当于Apache里的(L)标记. 浏览器地址栏URL地址不变
@@ -104,7 +104,29 @@ rewrite指令执行顺序：
 - permanent：返回301永久重定向，浏览器地址栏会显示跳转后的URL地址 
   Ex: rewrite  ^/(.*)$  http://abc.com/$1  permanent;
 - return 作用域：server,location,if
-
+## FastCGI
+fastcgi_params
+```
+  fastcgi_pass   127.0.0.1:9000;
+  fastcgi_index  index.php;
+  include        fastcgi_params;
+  #定义变量 $path_info ，用于存放pathinfo信息
+  set $path_info "";
+  #定义变量 $real_script_name，用于存放真实地址
+  set $real_script_name $fastcgi_script_name;
+  #如果地址与引号内的正则表达式匹配
+  if ($fastcgi_script_name ~ "^(.+?\.php)(/.+)$") {
+        #将文件地址赋值给变量 $real_script_name
+        set $real_script_name $1;
+        #将文件地址后的参数赋值给变量 $path_info
+        set $path_info $2;
+  }
+  #配置fastcgi的一些参数
+  fastcgi_param SCRIPT_FILENAME $document_root$real_script_name;
+  fastcgi_param SCRIPT_NAME $real_script_name;
+  fastcgi_param PATH_INFO $path_info;
+  fastcgi_param X-HEADER  Weicheng;
+```
 ## 其他
 避免触发后端的AUTH
 proxy_set_header Authorization "";
