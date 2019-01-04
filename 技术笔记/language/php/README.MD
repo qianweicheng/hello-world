@@ -6,6 +6,11 @@
     可以自行安装任意版本，必须手动额外启动php-fpm(php自带)
     如：`brew install php56`
     查看PHP加载的配置文件:`php --ini`,或`phpinfo()`
+## 运行
+Mac下目前并存了3个版本的PHP
+- PHP7.1：Mac自带，存放在`/usr/bin/php`,`/usr/sbin/php-fpm`，默认从`/etc/php.ini`和`/etc/php-fpm.conf`中读取配置信息
+- PHP5.6: brew安装，存放在`/usr/local/Cellar/php@5.6/...`, 快捷方式到`/usr/local/bin/php`,下同，可以使用脚本在各个版本间切换。默认在`/usr/local/etc/`下读取配置信息
+- PHP7.3: brew安装，存放在`/usr/local/Cellar/php/...`
 ## ThinkPHP URL Rewirte
 值为0   叫做普通模式。如：http://localhost/index.php?m=模块&a=方法
 值为1   叫做pathinfo模式。如：http://localhost/index.php/模块/方法
