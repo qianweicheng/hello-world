@@ -1,11 +1,18 @@
 # PHP
 ## 部署方式
+- 直接运行
+    `php -S 0.0.0.0:9000`
+    注意选择php的版本号
 - apache+php:
-    PHP 使用Apache相对方便些，但MacOS里面只能使用自带的php库，无法替换
+    MacOS里面只能使用自带的php库，无法替换
 - nginx+php-fpm+php
     可以自行安装任意版本，必须手动额外启动php-fpm(php自带)
     如：`brew install php56`
     查看PHP加载的配置文件:`php --ini`,或`phpinfo()`
+- uWSGI
+    [参考](https://uwsgi-docs-zh.readthedocs.io/zh_CN/latest/PHP.html)
+    `UWSGICONFIG_PHPDIR=/opt/php51 python uwsgiconfig.py --plugin plugins/php default php56`
+
 ## 运行
 Mac下目前并存了3个版本的PHP
 - PHP7.1：Mac自带，存放在`/usr/bin/php`,`/usr/sbin/php-fpm`，默认从`/etc/php.ini`和`/etc/php-fpm.conf`中读取配置信息

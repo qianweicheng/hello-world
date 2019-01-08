@@ -131,3 +131,4 @@ fastcgi_params
 避免触发后端的AUTH
 proxy_set_header Authorization "";
 add_header X-Upstream weicheng always;
+## [内置变量](http://nginx.org/en/docs/http/ngx_http_core_module.html#location)
