@@ -72,9 +72,3 @@
     灰度发布,版本控制
     监控（Prometheus/Nagios,Canglia)
 
-# 系统架构
-    zookeeper工作原理
-    微服务
-# 实战
-    探讨“秒杀”功能的实现
-
