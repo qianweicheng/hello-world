@@ -14,5 +14,9 @@ https://kubernetes-charts.storage.googleapis.com
 ## 自带的repo
 helm serve --repo-path ./
 这个会扫描指定目录下的xxx.tgz文件，并生成一个index.yaml文件
-## 本地预览
-helm template mychart -x templates/deployment.yaml
+## 常用命令
+`helm template mychart -x templates/deployment.yaml`
+`helm install --name discover-center ./`
+`helm delete --purge discover-center`
+`helm history discover-center`
+`helm ls --deleted` or `helm ls -a`

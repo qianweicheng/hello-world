@@ -74,3 +74,18 @@
     xhr.withCredentials = true; 
     xhr.send(null);
     ```
+## CORB
+- 如果 response 包含 X-Content-Type-Options: nosniff 响应头部，那么如果 Content-Type 是以下几种的话， response 将受 CORB 保护：
+    html mime type
+    xml mime type（除了 image/svg+xml）
+    json mime type
+    text/plain
+- 如果 response 的状态是 206，那么如果 Content-Type 是以下几种的话， response 将受 CORB 保护：
+    html mime type
+    xml mime type（除了 image/svg+xml）
+    json mime type
+- 否则，CORB 将尝试探测 response 的 body：
+    html mime type，并且探测结果是 html 内容格式，response 受 CORB 保护
+    xml mime type（除了 image/svg+xml）, 并且探测结果是 xml 内容格式，response 受 CORB 保护
+    json mime type，并且探测结果是 json 内容格式，response 受 CORB 保护
+    text/plain，并且探测结果是 json、html 或者 xml 内容格式，response 受 CORB 保护任何以 JSON security prefix 开头的 response（除了 text/css）受 CORB 保护

@@ -19,6 +19,7 @@
 #### 通用Web服务器
 - Nginx
 - Apache
+- nghttpd
 #### Java应用服务器
 - Tomcat:阻塞模型
 - Jetty: 非阻塞模型

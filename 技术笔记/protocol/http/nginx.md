@@ -1,11 +1,11 @@
-## http://nginx.org/en/docs/
+# Nginx(http://nginx.org/en/docs/)
 架设Nginx服务器(Docker)
 docker run -d --name web1 -p 80:80 nginx
 /usr/share/nginx/html
 架设Nginx服务器(yum)
 yum -y install gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum install -y nginx
-#### Nginx Location
+## Nginx Location
 以=开头表示精确匹配
 ^~ 开头表示uri以某个常规字符串开头
 ~ 开头表示区分大小写的正则匹配;
@@ -64,7 +64,7 @@ location ~ /images/abc/ {
    [ configuration H ] 
 }
 
-#### 反向代理
+## 反向代理
 location 的路径带后缀/ 表示精确匹配
 proxy_pass  反向代理， 如果带后缀/，表示代理路径会去掉location里面的值，否则会把location里面的值也带入
 location /api {
@@ -132,3 +132,65 @@ fastcgi_params
 proxy_set_header Authorization "";
 add_header X-Upstream weicheng always;
 ## [内置变量](http://nginx.org/en/docs/http/ngx_http_core_module.html#location)
+
+## Cache
+代理上的缓存设置，浏览器上的缓存
+#### 代理上的缓存设置
+默认不开启
+- proxy_cache_path
+- proxy_cache_key
+- proxy_cache_min_uses
+- proxy_cache_methods
+- proxy_cache_valid
+- proxy_cache_bypass
+- proxy_no_cache
+- proxy_cache_purge
+- proxy_set_header
+- proxy_intercept_errors(fastcgi_intercept_errors)
+- ()
+#### 浏览器上的缓存
+对于静态资源来说，浏览器不会缓存html页面的，所以你每次改完html的页面的时候，html都是改完立即生效的。浏览器缓存的东西有图片，css和js。这些资源将在缓存失效前调用的时候调用浏览器的缓存内容
+- expires   3d;
+- add_header Cache-Control no-store;
+## 404.html
+```
+error_page  404 403 500 502 503 504  /404.html;
+error_page 502 503 =200 /50x.html;#加了code
+location = /404.html {
+}
+```
+## HTTP to HTTPS
+- rewrite
+- error_page 497  https://$host$uri?$args; 
+- HTML
+```
+<html> 
+<meta http-equiv="refresh" content="0;url=https://dev.wangshibo.com/"> 
+</html>
+```
+## 内部跳转，外部无法直接访问
+- 添加internal
+  ```
+    location ~ \.png$ {
+        internal
+    }
+  ```
+- Named Location,只能被Nginx内部配置指令所访问(@)
+  ```
+    location @abc {
+        internal
+    }
+  ```
+## alias vs root
+```
+location /i/ {
+  alias /data/w3/;
+}
+```
+```
+location /i/ {
+  root /data/w3;
+}
+```
+- alias 只能作用在location中，而root可以存在server、http和location中。
+- alias 后面必须要用 “/” 结束，否则会找不到文件，而 root 则对 ”/” 可有可无。
