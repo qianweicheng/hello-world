@@ -1,3 +1,8 @@
+# JVM
+垃圾回收方式（对象存活判断：引用计数vs引用追踪）
+JVM内存分配（方法区，本地方法区/方法栈，栈帧，堆）
+分代收集：Edan/Survivor(8:1:1), Old generation，永久代
+JVM优化：常见的jvm 参数，-Xms -Xmx -Xss等
 ## 垃圾回收算法
 1） 标记清除：容易产生碎片，很少用
 2） 复制算法：一般用在新生带，Survivor，Eden * 2
@@ -27,3 +32,7 @@ ParNew-CMS
 ParNew-Serial Old
 Parallel Scavenge-Serial Old
 Parallel Scavenge-Parallel Old
+## 内存泄漏分析
+- jconsole
+- jvisualvm
+- jmx

@@ -1,5 +1,8 @@
-# Spring Boot 几个特殊的类
+# Spring Boot 
+## 几个特殊的类
 [Doc](https://docs.spring.io/spring-boot/docs/current/reference/html/index.html)
+## 流程
+    Client->DispatchServlet->HandlerMapping->Handler(filter，intecepter)->Controller->ViewResolver->jsp/Template->Client
 ## ApplicationListener
 监听应用的事件
 ## WebMvcConfigurerAdapter

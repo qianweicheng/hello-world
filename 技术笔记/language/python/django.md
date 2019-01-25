@@ -10,6 +10,6 @@
 5. 添加管理员: `python manage.py createsuperuser`, qianweicheng/A1234567
 
 ## CMS
-Mezzanine
-django-cms: 需要开发者二次开发
-Wagtail: 需要开发者二次开发
+- Mezzanine
+- django-cms: 需要开发者二次开发
+- Wagtail: 需要开发者二次开发

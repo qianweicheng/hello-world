@@ -1,38 +1,32 @@
-# Docker配置
+# Docker
+## 配置
 /etc/sysconfig
 .docker 私有库用户名密码
 
-# 新建镜像
+## 常用命令
 docker build -t busybox .
 docker tag busybox edisonchat/busybox
 docker push edisonchat/busybox
-
 docker ps #列出运行中的docker
 docker images #列出所有本机的镜像
 docker rm -f $(docker ps -a -q) #清理docker
 docker start 启动已经停止的docker
 docker stop 停止守护式docker
 docker exec 命令在容器内部额外启动新进程。
-$ docker exec -t -i aofo /bin/bash
-docker run \
---name myname \
--p 8080:80 \
--v 文件映射 \
--u root \
--d #守护模式 \
-ubuntu:14.04 /bin/sh -c "xxxx" 
+docker exec -t -i aofo /bin/bash
+docker run --name myname -p 8080:80 -v 文件映射 -u root(用户) -d(后台模式) ubuntu:14.04 /bin/sh -c "xxxx" 
 docker attach 
 docker inspect 获取容器内部信息
 docker port NAME 查看端口映射情况。
 docker logs NAME
 # 镜像启动
 ENTRYPOINT 指令的两种格式：
-ENTRYPOINT ["executable", "param1", "param2"] (the preferred exec form)
-ENTRYPOINT command param1 param2 (shell form)
+- ENTRYPOINT ["executable", "param1", "param2"] (the preferred exec form)
+- ENTRYPOINT command param1 param2 (shell form)
 CMD 指令的三种格式：
-CMD ["executable","param1","param2"] (exec form, this is the preferred form)
-CMD ["param1","param2"] (as default parameters to ENTRYPOINT)
-CMD command param1 param2 (shell form)
+- CMD ["executable","param1","param2"] (exec form, this is the preferred form)
+- CMD ["param1","param2"] (as default parameters to ENTRYPOINT)
+- CMD command param1 param2 (shell form)
 
 备注：不能通过rc.local文件设置自动启动
 

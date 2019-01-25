@@ -3,17 +3,15 @@ https://hub.docker.com/_/kong/
 https://github.com/PGBI/kong-dashboard
 
 
+docker run -d --name kong-database \
+                -p 9042:9042 \
+                cassandra:3
 
 docker run -d --name kong-database \
                 -p 5432:5432 \
                 -e "POSTGRES_USER=kong" \
                 -e "POSTGRES_DB=kong" \
                 postgres:9.6
-
-docker run -d --name kong-database \
-                -p 9042:9042 \
-                cassandra:3
-
 docker run --rm \
     --link kong-database:kong-database \
     -e "KONG_DATABASE=postgres" \

@@ -1,3 +1,11 @@
+# Job
+## Job管理
+bg %[number] 后台启动一个暂停的任务，默认1
+fg %[number] 将一个后台的任务挪到前台，默认1
+kill -9 %[number]
+jobs 查看后台任务列表
+注：bg/fg的%可以省略
+
 ## crontab命令
 crontab -l -e -r
 /etc/crontab
@@ -20,7 +28,6 @@ crontab服务
 */N 每隔N个单位
 N-M 表示N到M
 N,M 表示N或M
-
 
 ## at命令
 格式如下：

@@ -1,24 +1,25 @@
+# CERT
 公钥和私钥存储有几个规范：http://blog.csdn.net/tuhuolong/article/details/42778945
-PKCS#8 私钥加密格式：-----BEGIN ENCRYPTED PRIVATE KEY-----  
-PKCS#8 私钥非加密格式：-----BEGIN PRIVATE KEY-----  
-Openssl ASN格式：-----BEGIN RSA PRIVATE KEY-----  
+- PKCS#8 私钥加密格式：-----BEGIN ENCRYPTED PRIVATE KEY-----  
+- PKCS#8 私钥非加密格式：-----BEGIN PRIVATE KEY-----  
+- Openssl ASN格式：-----BEGIN RSA PRIVATE KEY-----  
 
-生成证书
+## 生成证书
 1）ssh-keygen -t rsa -C "your_email@example.com"
 2）openssl req -x509 -nodes -days 365 -sha256 -newkey rsa:2048 -keyout mycert.pem -out mycert.pem
 
-免登录
+## 免登录
 把公钥拷贝到远程服务器：ssh-copy-id -i id_rsa.pub ec2-user@remote-server
 其实就是把公要拷贝到远程机器的~/.ssh/authorized_keys中
 
-RSA私钥可以生成公钥
+## RSA私钥可以生成公钥
 如下两个方式生成的公钥格式不一样
 openssl rsa -in myprivate.pem -pubout > mypublic-key.pem
 ssh-keygen -y [-f input_keyfile]  
 
-登陆
+## 登陆
 ssh -i private.key user@remote
-此处的private.key 可以是xxx.pem/id_rsa.pub
+此处的private.key 可以是xxx.pem/id_rsa
 
 通过配置~/.ssh/config简化登陆，添加一节
 Host    alias(注意缩进)

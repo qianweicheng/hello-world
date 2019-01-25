@@ -1,9 +1,11 @@
-/etc/security/limits.conf  limits.conf是针对用户
-/etc/sysctl.conf            sysctl.conf是针对整个系统参数配置。
+# Optimize
+`/etc/security/limits.conf`是针对用户
+`/etc/sysctl.conf`是针对整个系统参数配置。
 ulimit针对当前session的修改，默认值从limits.conf加载
-===========/etc/sysctl.conf，sysctl -p立即生效==================
-所有可设置选项参考/proc/sys/里面
-==============================================================
+`vi /etc/sysctl.conf`然后`sysctl -p`立即生效
+所有可设置选项参考`/proc/sys/`里面
+#### 配置文件
+```
 # 系统总共可打开文件数
 fs.file-max=1048576
 # 单个总共可打开文件数
@@ -73,3 +75,4 @@ kernel.msgmnb=16384
 * hard nofile 1048576 
 
 #root 需要单独设置
+```

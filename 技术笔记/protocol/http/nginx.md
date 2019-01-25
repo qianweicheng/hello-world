@@ -66,29 +66,26 @@ location ~ /images/abc/ {
 
 ## 反向代理
 location 的路径带后缀/ 表示精确匹配
-proxy_pass  反向代理， 如果带后缀/，表示代理路径会去掉location里面的值，否则会把location里面的值也带入
-location /api {
-    proxy_pass http://someserver/
-}
-前端访问->后端访问：http://localhost/api/a  -> http://someserver/a
-前端访问->后端访问：http://localhost/apixxx  -> http://someserver/xxx
+proxy_pass  反向代理则有两种情况：
+- 带后缀/表示绝对路径。表示代理路径会去掉location里面的值
+```
+  location /api {
+      proxy_pass http://someserver/
+  }
+```
+http://localhost/api/a  -> http://someserver/a
+http://localhost/apixxx  -> http://someserver/xxx
+- 不带后缀/表示相对路径，会把location里面的值也带入
+  ```
+  location /api {
+      proxy_pass http://someserver
+  }
+  ```
+  http://localhost/api/a  -> http://someserver/api/a
+  http://localhost/apixxx  -> http://someserver/apixxx
+
 前端访问->后端访问：http://localhost/api  -> Nginx 会发起一个301跳转到http://localhost/api/
 
-location /api {
-    proxy_pass http://someserver
-}
-前端访问->后端访问：http://localhost/api/a  -> http://someserver/api/a
-前端访问->后端访问：http://localhost/apixxx  -> http://someserver/apixxx
-前端访问->后端访问：http://localhost/api  -> Nginx 会发起一个301跳转到http://localhost/api/
-
-location /api/ {
-    proxy_pass http://someserver/;
-}
-前端严格匹配 /api/,其他同上
-如果需要省略'/'，可以前面加'='
-location = /api {
-    proxy_pass http://someserver/;
-}
 ## Rewirte重定向
 rewrite指令执行顺序：
 1.执行server块的rewrite指令(这里的块指的是server关键字后{}包围的区域，其它xx块类似)
@@ -98,7 +95,7 @@ rewrite指令执行顺序：
 如果循环超过10次，则返回500 Internal Server Error错误
 #### flag指令
 - last: 本条规则匹配完成后，重头开始走一遍新的location匹配. URI规则相当于Apache里的(L)标记. 浏览器地址栏URL地址不变
-- break；本条规则匹配完成后，终止匹配，不再匹配后面的rewrite规则，但会继续执行本指令块后面的非rewrite指令. 浏览器地址栏URL地址不变
+- break: 本条规则匹配完成后，终止匹配，不再匹配后面的rewrite规则，但会继续执行本指令块后面的非rewrite指令. 浏览器地址栏URL地址不变
   作用域：server,location,if
 - redirect：返回302临时重定向，浏览器地址会显示跳转后的URL地址 
 - permanent：返回301永久重定向，浏览器地址栏会显示跳转后的URL地址 
@@ -134,25 +131,30 @@ add_header X-Upstream weicheng always;
 ## [内置变量](http://nginx.org/en/docs/http/ngx_http_core_module.html#location)
 
 ## Cache
-代理上的缓存设置，浏览器上的缓存
+https://linux.cn/article-5945-1.html
+Expires: 最原始的配置策略，即设置过期时间，但使用效率低下，目前绝大部分使用Cache-Control
+Cache-Control：定义缓存资源属性是private或者是public
+X-Accel-Expires: 只有nginx能识别的缓存特性header，优先级大于上面两个header
+Etag和Last-Modified是捆绑生成的:有些场景下，你希望client端的浏览器长时间缓存，而缓存服务器只短时间缓存文件，以至于当后端服务器更新后，缓存服务器会及时同步
+
 #### 代理上的缓存设置
 默认不开启
 - proxy_cache_path
 - proxy_cache_key
 - proxy_cache_min_uses
 - proxy_cache_methods
-- proxy_cache_valid
+- proxy_cache_valid 绝对缓存时间，不管inactive是否到期，即使访问很频繁，也会被删除
+- proxy_cache_revalidate:指示NGINX在刷新来自服务器的内容时使用GET请求。如果客户端的请求项已经被缓存过了，但是在缓存控制头部中定义为过期
 - proxy_cache_bypass
 - proxy_no_cache
-- proxy_cache_purge
+- proxy_cache_purge 缓存清除时间
 - proxy_set_header
 - proxy_intercept_errors(fastcgi_intercept_errors)
-- ()
 #### 浏览器上的缓存
-对于静态资源来说，浏览器不会缓存html页面的，所以你每次改完html的页面的时候，html都是改完立即生效的。浏览器缓存的东西有图片，css和js。这些资源将在缓存失效前调用的时候调用浏览器的缓存内容
+对于静态资源来说，浏览器不会缓存html页面的，所以你每次改完html的页面的时候，html都是改完立即生效的。浏览器缓存的东西有图片，css和js。这些资源将在缓存失效前调用的时候调用浏览器的缓存内容, 200(From memory) or 200(From disk). expires到期则发送携带If-Modified-Since/If-no-match头的请求(很可能304回来)
 - expires   3d;
 - add_header Cache-Control no-store;
-## 404.html
+## error_page
 ```
 error_page  404 403 500 502 503 504  /404.html;
 error_page 502 503 =200 /50x.html;#加了code
@@ -194,3 +196,41 @@ location /i/ {
 ```
 - alias 只能作用在location中，而root可以存在server、http和location中。
 - alias 后面必须要用 “/” 结束，否则会找不到文件，而 root 则对 ”/” 可有可无。
+
+## Nginx 内部11个阶段
+参考：
+https://www.cnblogs.com/lidabo/p/4171664.html
+
+https://www.cnblogs.com/lidabo/p/4171844.html
+
+- NGX_HTTP_POST_READ_PHASE = 0, // 接收到完整的HTTP头部后处理的阶段
+- NGX_HTTP_SERVER_REWRITE_PHASE, // URI与location匹配前，修改URI的阶段，用于重定向
+- NGX_HTTP_FIND_CONFIG_PHASE, // 根据URI寻找匹配的location块配置项
+- NGX_HTTP_REWRITE_PHASE, // 上一阶段找到location块后再修改URI
+- NGX_HTTP_POST_REWRITE_PHASE, // 防止重写URL后导致的死循环
+- NGX_HTTP_PREACCESS_PHASE, // 下一阶段之前的准备
+- NGX_HTTP_ACCESS_PHASE, // 让HTTP模块判断是否允许这个请求进入Nginx服务器
+- NGX_HTTP_POST_ACCESS_PHASE, // 向用户发送拒绝服务的错误码，用来响应上一阶段的拒绝
+- NGX_HTTP_TRY_FILES_PHASE, // 为访问静态文件资源而设置
+- NGX_HTTP_CONTENT_PHASE, // 处理HTTP请求内容的阶段，大部分HTTP模块介入这个阶段
+- NGX_HTTP_LOG_PHASE // 处理完请求后的日志记录阶段
+## Nginx 模块
+- ngx_http_core_module
+- ngx_http_headers_module
+  ```
+    add_header
+    add_trailer
+    expires
+  ```
+- ngx_http_index_module: 根据设置显示首页
+- ngx_http_autoindex_module: 目录显示
+- ngx_http_random_index_module： 随机挑选一个显示
+- ngx_http_log_module：设置日记
+- ngx_http_map_module：只在使用了该变量的location计算
+  ```
+    map $url $myvar {
+      ~^/hello/(.*)   greet
+    }
+  ```
+- ngx_http_proxy_module
+- ngx_http_rewrite_module
