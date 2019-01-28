@@ -15,7 +15,8 @@
     - curl,wget,telnet,netcat
 ## Redhat:yum
 Redhat系列依赖库:https://rpmfind.net/linux/RPM/index.html
-- 安装EPEL:http://mirrors.kernel.org/fedora-epel/
+- 方法1: yum -y install epel-release
+- 方法2: 安装EPEL:http://mirrors.kernel.org/fedora-epel/
     `rpm -Uvh http://mirrors.kernel.org/fedora-epel/epel-release-latest-7.noarch.rpm`
     或者
     `yum-config-manager --enable epel`

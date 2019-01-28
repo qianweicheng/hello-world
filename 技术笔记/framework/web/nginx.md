@@ -234,3 +234,6 @@ https://www.cnblogs.com/lidabo/p/4171844.html
   ```
 - ngx_http_proxy_module
 - ngx_http_rewrite_module
+
+## status
+stub_status
