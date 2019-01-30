@@ -6,12 +6,12 @@ docker run -d --name web1 -p 80:80 nginx
 yum -y install gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum install -y nginx
 ## Nginx Location
-以=开头表示精确匹配
-^~ 开头表示uri以某个常规字符串开头
-~ 开头表示区分大小写的正则匹配;
-~* 开头表示不区分大小写的正则匹配
-/ 通用匹配, 如果没有其它匹配,任何请求都会匹配到
-顺序 no优先级：
+- 以=开头表示精确匹配
+- ^~ 开头表示uri以某个常规字符串开头, 普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录
+- ~ 开头表示区分大小写的正则匹配;
+- ~* 开头表示不区分大小写的正则匹配
+- / 通用匹配, 如果没有其它匹配,任何请求都会匹配到
+顺序 no优先级:
 (location =) > (location 完整匹配，直接终止匹配) > (location ^~ 路径) > (location ~,~* 正则顺序，直接终止匹配) > (location 部分起始路径，继续寻找最长匹配) > (/)
 
 location  = / {
@@ -60,13 +60,13 @@ location ^~ /images/ {
 }
 
 location ~ /images/abc/ {
-   >只有去掉 config D 才有效：先最长匹配 config G 开头的地址，继续往下搜索，匹配到这一条正则，采用
+   >只有去掉 config D 才有效:先最长匹配 config G 开头的地址，继续往下搜索，匹配到这一条正则，采用
    [ configuration H ] 
 }
 
 ## 反向代理
 location 的路径带后缀/ 表示精确匹配
-proxy_pass  反向代理则有两种情况：
+proxy_pass  反向代理则有两种情况:
 - 带后缀/表示绝对路径。表示代理路径会去掉location里面的值
 ```
   location /api {
@@ -84,10 +84,10 @@ http://localhost/apixxx  -> http://someserver/xxx
   http://localhost/api/a  -> http://someserver/api/a
   http://localhost/apixxx  -> http://someserver/apixxx
 
-前端访问->后端访问：http://localhost/api  -> Nginx 会发起一个301跳转到http://localhost/api/
+前端访问->后端访问:http://localhost/api  -> Nginx 会发起一个301跳转到http://localhost/api/
 
 ## Rewirte重定向
-rewrite指令执行顺序：
+rewrite指令执行顺序:
 1.执行server块的rewrite指令(这里的块指的是server关键字后{}包围的区域，其它xx块类似)
 2.执行location匹配
 3.执行选定的location中的rewrite指令
@@ -96,11 +96,11 @@ rewrite指令执行顺序：
 #### flag指令
 - last: 本条规则匹配完成后，重头开始走一遍新的location匹配. URI规则相当于Apache里的(L)标记. 浏览器地址栏URL地址不变
 - break: 本条规则匹配完成后，终止匹配，不再匹配后面的rewrite规则，但会继续执行本指令块后面的非rewrite指令. 浏览器地址栏URL地址不变
-  作用域：server,location,if
-- redirect：返回302临时重定向，浏览器地址会显示跳转后的URL地址 
-- permanent：返回301永久重定向，浏览器地址栏会显示跳转后的URL地址 
+  作用域:server,location,if
+- redirect: 返回302临时重定向，浏览器地址会显示跳转后的URL地址 
+- permanent:返回301永久重定向，浏览器地址栏会显示跳转后的URL地址 
   Ex: rewrite  ^/(.*)$  http://abc.com/$1  permanent;
-- return 作用域：server,location,if
+- return 作用域: server,location,if
 ## FastCGI
 fastcgi_params
 ```
@@ -133,7 +133,7 @@ add_header X-Upstream weicheng always;
 ## Cache
 https://linux.cn/article-5945-1.html
 Expires: 最原始的配置策略，即设置过期时间，但使用效率低下，目前绝大部分使用Cache-Control
-Cache-Control：定义缓存资源属性是private或者是public
+Cache-Control:定义缓存资源属性是private或者是public
 X-Accel-Expires: 只有nginx能识别的缓存特性header，优先级大于上面两个header
 Etag和Last-Modified是捆绑生成的:有些场景下，你希望client端的浏览器长时间缓存，而缓存服务器只短时间缓存文件，以至于当后端服务器更新后，缓存服务器会及时同步
 
@@ -198,7 +198,7 @@ location /i/ {
 - alias 后面必须要用 “/” 结束，否则会找不到文件，而 root 则对 ”/” 可有可无。
 
 ## Nginx 内部11个阶段
-参考：
+参考:
 https://www.cnblogs.com/lidabo/p/4171664.html
 
 https://www.cnblogs.com/lidabo/p/4171844.html
@@ -224,9 +224,9 @@ https://www.cnblogs.com/lidabo/p/4171844.html
   ```
 - ngx_http_index_module: 根据设置显示首页
 - ngx_http_autoindex_module: 目录显示
-- ngx_http_random_index_module： 随机挑选一个显示
-- ngx_http_log_module：设置日记
-- ngx_http_map_module：只在使用了该变量的location计算
+- ngx_http_random_index_module: 随机挑选一个显示
+- ngx_http_log_module:设置日记
+- ngx_http_map_module:只在使用了该变量的location计算
   ```
     map $url $myvar {
       ~^/hello/(.*)   greet

@@ -24,17 +24,20 @@ kubectl patch statefulset tigase --type='json' -p='[{"op": "replace", "path": "/
     fieldRef:
         fieldPath: metadata.name
 ```
-## Service 分成三类
+## Service 
+#### 分成三类
 1. ClusterIP
 2. NodePort (default: 30000-32767)
 3. LoadBalancer
-4. Headless service  
-
-port 无需定义，不走service的port, pod 上的port在非NodePort情况下无需定义
-普通service vs headless service(type:ClusterIP + clusterIP:None) 
-1）There is a long history of DNS libraries not respecting DNS TTLs and caching the results of name lookups.
-2）Many apps do DNS lookups once and cache the results.
-3）Even if apps and libraries did proper re-resolution, the load of every client re-resolving DNS over and over would be difficult to manage.
+4. Headless service:port 无需定义，不走service的port, pod 上的port在非NodePort情况下无需定义
+#### Service 的三种格式:
+- xxxx
+- xxxx.<namespace>
+- xxxx.<namespace>.svc.cluster.local
+####  普通service vs headless service(type:ClusterIP + clusterIP:None) 
+1. There is a long history of DNS libraries not respecting DNS TTLs and caching the results of name lookups.
+2. Many apps do DNS lookups once and cache the results.
+3. Even if apps and libraries did proper re-resolution, the load of every client re-resolving DNS over and over would be difficult to manage.
 
 ## 常用命令
 - 查看资源:
@@ -77,7 +80,12 @@ port 无需定义，不走service的port, pod 上的port在非NodePort情况下�
 - 挨个重启的方式
     - 通过set环境变量:`kubectl set env statefulset/kafka key=value`
     - 删除环境变量:`kubectl set env statefulset/kafka key-`
-
+- Context：一个上下文包含四个要素
+    - name: context 的名字
+    - namespace: 默认default 
+    - cluster: 远程k8s集群地址
+    - user: 用户
+    比如新建一个context: `kubectl config set-context dev1-ctx --namespace=dev1 --cluster=stag.easilydo.cc --user=stag.easilydo.cc`
 ## 在pod中查看api server 信息
 -  `curl -v --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"`
 - `https://kubernetes/`
