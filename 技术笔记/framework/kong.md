@@ -48,3 +48,5 @@ https://blog.csdn.net/li396864285/article/details/77371385
 ```
     docker run --name kong-dashboard --network=kong-net --rm -p 8080:8080 pgbi/kong-dashboard start --kong-url http://kong:8001
 ```
+## Plugins
+https://docs.konghq.com/hub/

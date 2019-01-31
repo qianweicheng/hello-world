@@ -4,6 +4,8 @@
     `pip freeze > requirements.txt`
 2. 然后在通过以下命令安装dependency:
     `pip install -r requirements.txt`
+3. 升级
+    `pip install -U pip`
 #### 二进制发布
 1. Install PyInstaller from PyPI:
     `pip install pyinstaller`
