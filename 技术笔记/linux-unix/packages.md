@@ -1,7 +1,20 @@
 # Linux依赖
+## Repositories
+帮助文档: http://mirrors.ustc.edu.cn/help/index.html
 ## 编译准备
+#### Linux/Unix
 - apt-get install build-essential
     depends: gcc g++ make dpkg-dev libc6-dev
+#### Alpine
+apk进行包管理
+-  添加repositories:
+    `echo http://dl-cdn.alpinelinux.org/alpine/latest-stable/main/ > /etc/apk/repositories`
+    清华TUNA镜像源：https://mirror.tuna.tsinghua.edu.cn/alpine/
+    中科大镜像源：http://mirrors.ustc.edu.cn/alpine/
+    阿里云镜像源：http://mirrors.aliyun.com/alpine/
+- package查询:
+    https://pkgs.alpinelinux.org/packages
+    `apk add --update alpine-sdk`
 ## Makefile文件
 - ./configure
 - make

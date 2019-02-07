@@ -237,3 +237,7 @@ https://www.cnblogs.com/lidabo/p/4171844.html
 
 ## status
 stub_status
+## 其他网络配置
+- tcp_nopush sendfile
+- tcp_nodelay 反向代理的时候不缓存，直接发送
+- 

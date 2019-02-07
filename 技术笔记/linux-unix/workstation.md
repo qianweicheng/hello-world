@@ -1,13 +1,29 @@
-1. Tmux: Terminal Multiplexer，一个多终端进程管理器
-2. iTerm2，新的终端，用于替代系统的Terminal， 内置了一个简单的Tmux，但建议安装独立的(http://iterm2.com/downloads.html)
+# workstation
+1. iTerm2:新的终端,内置了一个简单的Tmux，但建议安装独立的(http://iterm2.com/downloads.html)
+- 文本复制
+- 智能选中
+- 窗口面板管理
+- 及时回放(⌘+opt+b)
+2. zsh:新的shell
+- Install: `curl -L http://install.ohmyz.sh | sh`
+chsh [-s 修改默认] /bin/zsh
+配置文件在 .zshrc, 类似.bash_profile+.bash_rc的作用
+oh-my-zsh安装文件在$ZSH所指代的目录下
+- 强大的插件主题
 3. mosh:新的ssh
-    * server side:    mosh-server
-    * mosh
-4. zsh:新的shell
-    chsh [-s 修改默认] /bin/zsh
-    配置文件在 .zshrc, 类似.bash_profile+.bash_rc的作用
-    oh-my-zsh安装文件在$ZSH所指代的目录下   
-   
+使用UDP协议，在弱网络环境下优势明显
+- server side: mosh-server
+- client side: mosh 
+4. Tmux: Terminal Multiplexer，一个多终端进程管理器
+- 分屏功能
+- session保持: 退出了终端，但session可以继续
+## iTerm2
+cmd+t new tab
+cmd+w close tab
+cmd+num switch tab
+cmd+enter full screen
+cmd+d split screen by vertical
+cmd+shift+d split screen by horizontal
 ## tmux
 #### 启动：`tmux`
 配置文件`.tmux.conf`在每个用户home目录
@@ -42,12 +58,5 @@ tmux a # 恢复至上一次的会话
 tmux a -t foo # 恢复名称为 foo 的会话，会话默认名称为数字
 tmux kill-session -t foo # 删除名称为 foo 的会话
 tmux kill-server # 删除所有的会话
-## iTerm2
-cmd+t new tab
-cmd+w close tab
-cmd+num switch tab
-cmd+enter full screen
-cmd+d split screen by vertical
-cmd+shift+d split screen by horizontal
 
 
