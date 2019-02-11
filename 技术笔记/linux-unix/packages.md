@@ -42,6 +42,13 @@ Ubuntu系列依赖库：https://packages.ubuntu.com/xenial/devel/
 - 单纯安装:`apk add --no-cache curl perl`
 # Mac: HomeBrew
 - brew tap 第三方包路径
+    ```
+        brew tap facebook/fb
+        brew install buck
+    ```
+    ```
+        brew untap
+    ```
 - brew install/uninstall
 - brew update
 - Link:
