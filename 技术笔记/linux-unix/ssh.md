@@ -1,3 +1,4 @@
+# SSH
 ## 服务端（/etc/ssh/sshd_config）
 #### 开启密码登录
 - PasswordAuthentication 改为 yes
@@ -21,7 +22,9 @@ sshfs dev-stag:/home/ec2-user ./dev-stag
     注1：此处的local_A_address 是相对于ssh-proxy-server的来说的，不是本机。
     注2: 由于安全性，sshd默认只能服务器本地转发。开启全局：`/etc/ssh/sshd_config`中修改`GatewayPorts yes`
     本地端口转发和远程端口转发，其实都可看着是动态端口转发(代理)的子集；
-
+#### Banner
+- 在登录前显示: 修改/etc/ssh/sshd_config `Banner /etc/issue.net`。 如果登录非常快，则可能不可见，并且对于nologin的用户不可见
+- 在进入SHELL后显示: 添加脚本在 `/etc/update-motd.d/`, 并且修改:`PrintMotd no`
 ## 客户端配置（~/.ssh/config）：
     ControlMaster auto
     ControlPath ~/.ssh/%h-%p-%r
@@ -33,7 +36,3 @@ sshfs dev-stag:/home/ec2-user ./dev-stag
             IdentityFile ~/.ssh/us-west-2.pem.pem
             User ec2-user
             HostName 52.43.115.194
-
-### Banner
-- 在登录前显示: 修改/etc/ssh/sshd_config `Banner /etc/issue.net`。 如果登录非常快，则可能不可见，并且对于nologin的用户不可见
-- 在进入SHELL后显示: 添加脚本在 `/etc/update-motd.d/`, 并且修改:`PrintMotd no`

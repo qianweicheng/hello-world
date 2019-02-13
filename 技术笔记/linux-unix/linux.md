@@ -1,7 +1,10 @@
 # Linux
 ## Linux服务
-service xxxxx start/stop/status
-/etc/init.d/xxxx start
+启动停止服务：
+`service xxxxx start/stop/status` or `/etc/init.d/xxxx start`
+自动启动停止服务:
+`chkconfig --add/del`
+`chkconfig –level 2345 nginx on`
 ## Linux信号
 0   SIGT        ping
 1   SIGHUP      挂起进程，当跟父PID脱离时，如关闭shell，常用于后台进程重启

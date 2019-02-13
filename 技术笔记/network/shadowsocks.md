@@ -25,8 +25,11 @@ https://shadowsocks.org/en/download/clients.html
     "fast_open":true
 }
 ```
-启动服务器（参考docker启动脚本）：
+#### 启动服务器（参考docker启动脚本）：
+- Run directly
 `ss-server  -s 0.0.0.0 -p 8388 -k A1234567 -m aes-256-cfb -t 300 --fast-open`
 `ss-server  -s 0.0.0.0 -c /data/shadowsocks.json --manager-address 0.0.0.0:8080`
+- Run in Docker
+`docker run -e METHOD=aes-256-gcm -e PASSWORD=edison@bj -p 8388:8388 -p 8388:8388/udp -d shadowsocks/shadowsocks-libev`
 ## Shadowsocks Manager
 https://github.com/shadowsocks/shadowsocks-manager

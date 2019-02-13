@@ -7,27 +7,43 @@
 - exec: shell的内建命令exec将并不启动新的shell，而是用要被执行命令替换当前的shell进程，并且将老进程的环境清理掉，而且exec命令后的其它命令将不再执行。
 - case 双分号结束
 - 算数
-i=$(expr $i - 1);echo $i 注意空格
-或者
-i=$[i-1]#在sh下无效
-for循环省略了in之后就对位置参数进行循环
-for循环最好使用:
-```
-    for i in $(seq 0 $nodes_count);do
-        xxxxx
-    done
-```
-## 运算符
-[]      基本的文本和算数运算    
-[[]]    扩展的文本和算数运算
-(())    C语言风格的算数运算
+    - []:      基本的文本和算数运算 #i=$[i-1]  sh 不兼容  
+    - [[]]:    扩展的文本和算数运算 #sh 不兼容  
+    - (()):    C语言风格的算数运算
+    - expr:    $(expr $i - 1) #注意空格,$?返回值有坑，
+    - let:     let I=8+4*5 #sh 不兼容
+- For循环
+    for循环省略了in之后就对位置参数进行循环
+    for循环最好使用:
+    ```
+        for i in $(seq 0 $nodes_count);do
+            xxxxx
+        done
+    ```
+- 逻辑运算: &&,||, !
+    - c风格
+    if [ "$a" = 'a' ] || [ "$b" = 'b' ]
+    if [ ! $n = 0 ] && [ ! $m = 0 ]
+    - shell风格: -o = or , -a = and
+    if [ $a -gt $b -o $a -lt $c ]
+## 数组
+- 定义: 
+    arr=(1 2 3)
+    或者
+    array_name[0]=value0
+    array_name[1]=value1
+    array_name[2]=value2
+- 获取: ${arr[0]}
+- 数组长度: ${#arr[@]}
+- 打印所有: ${arr[@/*]}
+
+## 命令替换
 ()      命令组，开启一个新的shell运行，兼容性较``差
 ``      命令组，开启一个新的shell运行，兼容性较好
 $()     将() 运行的结果替换
 $``     同上
 {}      命令组， 前面有空格，最后得有分号,在本shell里执行
 ${}     变量替换
-
 ## 变量替换
 假设我们定义了一个变量为：
 file=/dir1/dir2/dir3/my.file.txt
