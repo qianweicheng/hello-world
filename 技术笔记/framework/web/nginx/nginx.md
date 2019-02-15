@@ -1,6 +1,6 @@
 # Nginx(http://nginx.org/en/docs/)
 架设Nginx服务器(Docker)
-docker run -d --name web1 -p 80:80 nginx
+docker run -d --name web1 -p 8080:80 nginx
 /usr/share/nginx/html
 架设Nginx服务器(yum)
 yum -y install gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel

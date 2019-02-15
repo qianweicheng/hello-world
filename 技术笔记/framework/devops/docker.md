@@ -12,10 +12,11 @@ docker images #列出所有本机的镜像
 docker rm -f $(docker ps -a -q) #清理docker
 docker start 启动已经停止的docker
 docker stop 停止守护式docker
-docker exec 命令在容器内部额外启动新进程。
-docker exec -t -i aofo /bin/bash
 docker run --name myname -p 8080:80 -v 文件映射 -u root(用户) -d(后台模式) ubuntu:14.04 /bin/sh -c "xxxx" 
-docker attach 可以attach到一个已经运行的容器的stdin，然后进行命令执行的动作。 但是需要注意的是，如果从这个stdin中exit，会导致容器的停止
+docker exec -t -i aofo /bin/bash # 必须正在运行的
+docker attach 
+    可以attach到一个已经运行的容器的stdin，然后进行命令执行的动作。 但是需要注意的是，如果从这个stdin中exit，会导致容器的停止.
+    `docker attach xxx`
 docker inspect 获取容器内部信息
 docker port NAME 查看端口映射情况。
 docker logs NAME
@@ -71,9 +72,18 @@ docker run --name jenkins -d  -p 8080:8080 jenkins/jenkins:lts
 docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker --name jenkins -d  -p 8080:8080 jenkins/jenkins:lts
 > 映射/var/run/docker.sock可以利用宿主机的dockerd，docker内部本身可以自己安装docker client，或者映射宿主机的client
 
+## Docker network
+- docker network ls
+    默认有三个:
+    bridge:bridge(默认)
+    host:host
+    null:null
+- create network:
+`docker network create my_net`
+`docker network create --driver bridge my_net`
+- run within special network
+在一个局域网里启动， name相当于host，可以通过其相互连通
+`docker run --name xxx --network my_net xxxx`
+
 ## 坑
 运行在docker里面的程序新开启的文件会被docker缓存而得不到释放，从而造成内存泄漏
-## Docker network
-- docker network create my_net
-- docker network ls
-- docker run --name xxx --network my_net xxxx 在一个局域网里启动， name相当于host，可以通过起相互连通

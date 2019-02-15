@@ -1,4 +1,6 @@
 # Kong API Gateway
+基于openrestry的app
+
 官网: https://konghq.com/
 https://hub.docker.com/_/kong/
 https://github.com/PGBI/kong-dashboard
@@ -50,3 +52,33 @@ https://blog.csdn.net/li396864285/article/details/77371385
 ```
 ## Plugins
 https://docs.konghq.com/hub/
+
+## Source Code Compline
+- 编译pcre: ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
+    ./configure && make && make install
+- 编译openssl: https://www.openssl.org/source/openssl-1.1.1a.tar.gz
+    ./config && make && make install
+- 编译openresty: https://openresty.org/en/download.html
+    ```
+    ./configure \
+    --with-pcre-jit \
+    --with-http_ssl_module \
+    --with-http_realip_module \
+    --with-http_stub_status_module \
+    --with-http_v2_module
+    ```
+ - 编译luarocks: http://luarocks.github.io/luarocks/releases/luarocks-3.0.4.tar.gz
+    ```
+    ./configure \
+    --lua-suffix=jit \
+    --with-lua=/usr/local/openresty/luajit \
+    --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1
+   ```
+- Install Kong: 
+    `luarocks install kong 1.0.2-0`
+    or
+    ```
+        $ git clone https://github.com/Kong/kong.git
+        $ cd kong
+        $ make install # this simply runs the `luarocks make kong-*.rockspec` command
+    ```

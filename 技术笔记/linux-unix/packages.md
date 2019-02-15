@@ -40,7 +40,7 @@ Ubuntu系列依赖库：https://packages.ubuntu.com/xenial/devel/
     - apt-get purge / apt-get –purge remove 如软件包a，依赖软件包b，则执行该命令会删除a，而且不保留配置文件
     - apt-get autoremove 删除为了满足依赖而安装的，但现在不再需要的软件包（包括已安装包），保留配置文件。
 - 单纯安装:`apk add --no-cache curl perl`
-# Mac: HomeBrew
+## Mac: HomeBrew
 - brew tap 第三方包路径
     ```
         brew tap facebook/fb
@@ -54,3 +54,5 @@ Ubuntu系列依赖库：https://packages.ubuntu.com/xenial/devel/
 - Link:
     删除快捷方式：`brew unlink nginx`
     添加快捷方式：`brew link nginx-full`
+## Lua
+luarocks
