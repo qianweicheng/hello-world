@@ -32,7 +32,21 @@ sshfs dev-stag:/home/ec2-user ./dev-stag
     keep alive
     ServerAliveInterval 60 
     ServerAliveCountMax 3 
-    Host 194
+    Host alias(注意缩进)
             IdentityFile ~/.ssh/us-west-2.pem.pem
             User ec2-user
             HostName 52.43.115.194
+            Port            端口
+
+## 免登录
+把公钥拷贝到远程服务器：ssh-copy-id -i id_rsa.pub ec2-user@remote-server
+其实就是把公要拷贝到远程机器的~/.ssh/authorized_keys中
+
+## 登陆
+ssh -i private.key user@remote
+此处的private.key 可以是xxx.pem/id_rsa
+
+使用如下：
+ssh alias [cmd]
+scp alias src dst
+

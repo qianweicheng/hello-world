@@ -1,5 +1,6 @@
-#### http://www.layui.com/doc/
-1. layui使用三次控制table
+# LayUI
+http://www.layui.com/doc/
+- layui使用三次控制table
 <div class="layui-container">  
     常规布局（以中型屏幕桌面为例）：
     <div class="layui-row">
@@ -12,14 +13,14 @@
     </div>
 </div>
 
-3. 列间距
+- 列间距
 layui-col-space1	列之间间隔 1px
 layui-col-space3	列之间间隔 3px
 layui-col-space5	列之间间隔 5px
 layui-col-space8	列之间间隔 8px
 
-4. 动画class="layui-anim layui-anim-up"
-5. 控件
+- 动画class="layui-anim layui-anim-up"
+- 控件
 lay-ignore 使用系统
 <button class="layui-btn">一个标准的按钮</button>
 原始	class="layui-btn layui-btn-primary"
@@ -78,7 +79,7 @@ class="layui-input"：layui.css提供的通用CSS类
   </div>
 </form>
 
-6. CSS
+- CSS
 layui-main	用于设置一个宽度为 1140px 的水平居中块（无响应式）
 layui-inline	用于将标签设为内联块状元素
 layui-box	用于排除一些UI框架（如Bootstrap）强制将全部元素设为box-sizing: border-box所引发的尺寸偏差

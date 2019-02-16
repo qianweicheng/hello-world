@@ -5,9 +5,10 @@
 - ServerRoot
     Apache的安装路径
 - DocumentRoot
-    它的作用是指定网站文件在服务器存放路径。
+    它的作用是指定网站文件在服务器存放路径。DocumentRoot代表根目录
 - Document
     每个目录下的配置
+    代表该目录的基本属性
 - Options，参考[这里](http://www.clusting.com/Apache/ApacheManual/mod/core.html#options)
     命令|说明
     -|-
@@ -36,6 +37,27 @@
             Order allow,deny 
             Allow from all 
         </Directory>
+        # case 2 网站的根目录
+        DocumentRoot /www
+        <Directory / > 
+            Options FollowSymLinks 
+            AllowOverride All 
+            Order deny,allow
+            Allow from all 
+        </Directory> 
+        <Directory /admin > 
+            Options FollowSymLinks 
+            AllowOverride None 
+            Order allow,deny 
+            Allow from all 
+        </Directory> 
+        <IfModule prefork.c>
+            StartServers 5 #启动apache时启动的httpd进程个数。
+            MinSpareServers 5 #服务器保持的最小空闲进程数。
+            MaxSpareServers 10 #服务器保持的最大空闲进程数。
+            MaxClients 150 #最大并发连接数。
+            MaxRequestsPerChild 1000 #每个子进程被请求服务多少次后被kill掉。0表示不限制，推荐设置为1000。
+        </IfModule>
     ```
 - 个人主页的设置(主要在mac下开发)
     ```
@@ -60,28 +82,4 @@
 Apache默认的模块放置在:/usr/libexec/apache2,我们可以替换
 ```
     # LoadModule php7_module libexec/apache2/libphp7.so
-```
-## 实例
-```
-# 网站的根目录
-DocumentRoot /www
-<Directory / > 
-    Options FollowSymLinks 
-    AllowOverride All 
-    Order deny,allow
-    Allow from all 
-</Directory> 
-<Directory /admin > 
-    Options FollowSymLinks 
-    AllowOverride None 
-    Order allow,deny 
-    Allow from all 
-</Directory> 
-<IfModule prefork.c>
-    StartServers 5 #启动apache时启动的httpd进程个数。
-    MinSpareServers 5 #服务器保持的最小空闲进程数。
-    MaxSpareServers 10 #服务器保持的最大空闲进程数。
-    MaxClients 150 #最大并发连接数。
-    MaxRequestsPerChild 1000 #每个子进程被请求服务多少次后被kill掉。0表示不限制，推荐设置为1000。
-</IfModule>
 ```

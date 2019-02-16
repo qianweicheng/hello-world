@@ -1,4 +1,5 @@
-#### 总述
+# Spark
+## 总述
 从任务的角度来看分成：
 驱动器节点：负责一个做也内部计算的调度
 执行器节点：
@@ -6,11 +7,11 @@
 * 主节点，负责各个作业的调度
 * 工作节点
 
-#### pycharm
+## pycharm
 依赖两个环境变量：PYSPARK_PYTHON=python
 依赖两个环境变量：SPARK_HOME
 
-#### Transformations
+## Transformations
     map
     filter
     flatMap
@@ -31,7 +32,7 @@
     repartition
     repartitionAndSortWithinPartitions
 
-#### Actions
+## Actions
     reduce
     collect
     count
@@ -43,7 +44,7 @@
     countByKey
     foreach
 
-#### Spark SQL
+## Spark SQL
 |Property Name | Meaning|
 |-|-|
 |url|路径|
