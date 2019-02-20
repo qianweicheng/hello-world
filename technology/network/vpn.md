@@ -24,6 +24,7 @@ docker run \
 hwdsl2/ipsec-vpn-server
 ```
 ## AWS cloudformation
+模版: https://s3.amazonaws.com/webdigi/VPN/Unified-Cloud-Formation.json
 官网: https://us-west-2.console.aws.amazon.com/cloudformation/home
 教程: https://blog.csdn.net/uuihoo/article/details/80980628
 

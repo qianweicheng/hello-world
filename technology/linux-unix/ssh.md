@@ -46,7 +46,9 @@ sshfs dev-stag:/home/ec2-user ./dev-stag
 ssh -i private.key user@remote
 此处的private.key 可以是xxx.pem/id_rsa
 
-使用如下：
+## Tools使用如下：
 ssh alias [cmd]
 scp alias src dst
-
+## Log
+/var/log/secure
+/var/log/wtmp

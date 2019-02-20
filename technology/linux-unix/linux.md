@@ -1,7 +1,8 @@
 # Linux
 ## Linux服务
 启动停止服务：
-`service xxxxx start/stop/status` or `/etc/init.d/xxxx start`
+centos: `service xxxxx start/stop/status` or `/etc/init.d/xxxx start`
+ubuntu: `systemctl start/status/restart/enable/disable`
 自动启动停止服务:
 `chkconfig --add/del`
 `chkconfig –level 2345 nginx on`
@@ -57,10 +58,6 @@ tmux就是基于一个终端对应N个会话
 - ttys   串行终端，（/dev/ttySn）
     echo test > /dev/ttyS1 会把单词”test”发送到连接在ttyS1（COM2）端口的设备上
 - console控制台，相当于只读方式打开当前激活tty
-## Linux终端命令
-- 查看当前终端：tty
-- 查看当前登录终端：who
-- 查看当前登录终端，并且展示他们正在做什么：w
 ## Linux配置加载(bashrc,profile, rcX.d, rc, rc.local)
 [参考](https://www.jianshu.com/p/020f3d02f538)
  顺序：/etc/rc.sysinit（通过分析/etc/inittab文件来确定系统的启动级别，然后才去执行/etc/rc.d/rc*.d下的文件）->rc->rc.d(->init.d)->S99local(->rc.local)
@@ -87,12 +84,3 @@ localedef -i en_US -f UTF-8 en_US.UTF-8
 ##Etc
 source = .
 nohub xxx &
-
-## File System
-- `mount` `umount`
-- `df -h` `du -h`
-- `cat /proc/self/mountstats`
-- `resize2fs`
-- `lsblk --list block devices`
-
-

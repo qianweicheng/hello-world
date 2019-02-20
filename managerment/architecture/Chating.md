@@ -2,7 +2,7 @@
 ## 技术发展方向
     查看[这里](./技术发展方向.md)
 ## 算法
-    查看[这里](../../技术笔记/algorithm/algorithm.md)
+    查看[这里](../algorithm/algorithm.md)
 ## 多线程
 - 线程池
 - 线程模型，轻量级线程(纤程go routing), [这里](./并发模型.md)
@@ -32,4 +32,5 @@
 - shell/python
 - 灰度发布,版本控制
 - 监控（Prometheus/Nagios)
-
+## Github
+https://github.com/taizilongxu/interview_python

@@ -1,7 +1,9 @@
-### slf4j 和 commons-logging 都是日记接口
-#### slf4j:The Simple Logging Facade for Java
-#### commons-logging(JCL): 
-
+# Logging
+## 接口
+- slf4j
+The Simple Logging Facade for Java
+- commons-logging(JCL): 
+## 实现
 #### log4j logback
 log4j是apache实现的一个开源日志组件。
 logback同样是由log4j的作者设计完成的，拥有更好的特性，用来取代log4j的一个日志框架。是slf4j的原生实现。（Native implementations）
@@ -23,8 +25,7 @@ logback同样是由log4j的作者设计完成的，拥有更好的特性，用�
     2. log4j
     3. log4j.properties
 
-
-### 不同的获取logger的方式
+## 代码用法
 #### 直接log4j：
 import org.apache.log4j.Logger;
 Logger logger= Logger.getLogger(xx.class);
