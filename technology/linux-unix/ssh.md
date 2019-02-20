@@ -49,6 +49,12 @@ ssh -i private.key user@remote
 ## Tools使用如下：
 ssh alias [cmd]
 scp alias src dst
-## Log
-/var/log/secure
-/var/log/wtmp
+## Log(/var/log/secure)
+`sudo grep "Failed password for root" /var/log/secure | awk '{print $11}' | sort | uniq -c | sort -nr | more`
+## 安全
+- 禁止某个ip: /etc/hosts.deny
+    ```/etc/hosts.deny
+        sshd: 192.168.1.0/255.255.255.0
+        sshd: 192.168.0.1
+    ```
+- 运行某个ip: /etc/hosts.allow

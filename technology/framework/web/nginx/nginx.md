@@ -200,9 +200,6 @@ location /i/ {
 ## Nginx 内部11个阶段
 参考:
 https://www.cnblogs.com/lidabo/p/4171664.html
-
-https://www.cnblogs.com/lidabo/p/4171844.html
-
 - NGX_HTTP_POST_READ_PHASE = 0, // 接收到完整的HTTP头部后处理的阶段
 - NGX_HTTP_SERVER_REWRITE_PHASE, // URI与location匹配前，修改URI的阶段，用于重定向
 - NGX_HTTP_FIND_CONFIG_PHASE, // 根据URI寻找匹配的location块配置项
@@ -240,4 +237,14 @@ stub_status
 ## 其他网络配置
 - tcp_nopush sendfile
 - tcp_nodelay 反向代理的时候不缓存，直接发送
-- 
+## IF 
+- 没有else
+- ==:等值比较;
+- ~：与指定正则表达式模式匹配时返回“真”，判断匹配与否时区分字符大小写；
+- ~*：与指定正则表达式模式匹配时返回“真”，判断匹配与否时不区分字符大小写；
+- !~：与指定正则表达式模式不匹配时返回“真”，判断匹配与否时区分字符大小写；
+- !~*：与指定正则表达式模式不匹配时返回“真”，判断匹配与否时不区分字符大小写；
+- -f, !-f：判断指定的路径是否为存在且为文件；
+- -d, !-d：判断指定的路径是否为存在且为目录；
+- -e, !-e：判断指定的路径是否存在，文件或目录均可；
+- -x, !-x：判断指定路径的文件是否存在且可执行；

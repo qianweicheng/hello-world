@@ -5,6 +5,7 @@
 - 本地分支
 - 远程分支
 ## 常用命令
+文档: https://git-scm.com/docs
 清理工作区: `git clean -hfd`
 把文件从工作区提交到暂存区:`git add`
 把暂存区提交到本地分支: `git commit`
@@ -68,3 +69,6 @@ B       B     C    C     --soft   B       B     C
                             --merge  C       C     C
                             --keep   B       C     C
 ## Etc
+查看远程跟本地分支的差距
+`git rev-list --left-right --count master...origin/master`
+`git fetch && git branch -sb`
