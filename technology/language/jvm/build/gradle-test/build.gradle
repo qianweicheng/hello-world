@@ -1,0 +1,58 @@
+apply plugin: 'java'
+
+println 'This is executed during the configuration phase.'
+allprojects {
+    
+}
+task test1 {
+    println 'This is also executed during the configuration phase.'
+    doLast {
+        println "xxx:$project.name"
+        println "xxx:$project.allprojects"
+        println "xxx:$project.rootProject"
+        println "xxx:$project.status"
+        // println "$project.rootProject"
+    }
+    // doLast {
+    //   println 'This is executed last during the execution phase.'
+    //   exec {
+    //         executable 'sh'
+    //         args "-c",'pwd'
+    //     }
+    // }
+}
+
+task test2(type:Exec) {
+    // workingDir '~'
+    //on linux
+    // commandLine 'sh', 'ls'
+    // executable './test.sh'
+    // args 'ls'
+    executable 'sh'
+    args "-c",'ls'
+}
+
+task test3(dependsOn: assemble) {
+   doLast {
+       println '清除所有临时文件'
+   }
+}
+task test4 {
+    doLast {
+        tasks.eachWithIndex {task,index->
+            println "${index}     ${task.name}"
+        }
+    }
+}
+
+class GreetingTask extends DefaultTask {
+    String greeting = 'hello from GreetingTask'
+
+    @TaskAction
+    def greet() {
+        println greeting
+    }
+}
+
+task test5(type: GreetingTask)
+defaultTasks('test1')

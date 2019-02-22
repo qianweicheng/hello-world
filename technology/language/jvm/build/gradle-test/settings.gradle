@@ -1,0 +1,52 @@
+println 'This is executed during the initialization phase.'
+
+gradle.addBuildListener(new BuildListener() {
+  void buildStarted(Gradle var1) {
+    println '开始构建'
+  }
+  void settingsEvaluated(Settings var1) {
+    println 'settings评估完成（settins.gradle中代码执行完毕）'
+    // var1.gradle.rootProject 这里访问Project对象时会报错，还未完成Project的初始化
+  }
+
+  void projectsLoaded(Gradle var1) {
+    println '项目结构加载完成, 初始化阶段结束' + var1.gradle.rootProject
+  }
+
+  void projectsEvaluated(Gradle var1) {
+    println '所有项目评估完成（配置阶段结束）'
+  }
+
+  void buildFinished(BuildResult var1) {
+    println '构建结束 '
+  }
+})
+gradle.addListener(new TaskExecutionListener() {
+  void afterExecute(Task task, TaskState state) {
+    println '---afterExecute​' + task.name
+  }
+  void beforeExecute(Task task) {
+    println '---beforeExecute​' + task.name
+  }
+})
+
+import java.time.*
+gradle.taskGraph.beforeTask { Task task ->
+    task.ext.setProperty("startTime", Instant.now())
+}
+
+gradle.taskGraph.afterTask { Task task, TaskState state ->
+    println task.name + " took " + Duration.between(task.ext.startTime, Instant.now()).toSeconds() + " seconds"
+}
+
+gradle.beforeProject { project ->
+    println "---beforeProject:${project.name}"
+}
+gradle.afterProject { project ->
+    println "---afterProject:${project.name}"
+    // if (file('grammars').isDirectory()) {
+    //     println "'grammars' directory found"
+    // } else {
+    //     println "'grammars' directory not found"
+    // }
+}
