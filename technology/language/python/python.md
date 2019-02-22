@@ -15,8 +15,9 @@
     `pip install ./xxx.egg`
 ## virtualenv
 - 安装虚拟环境：`pip install virtualenv`
-- 创建虚拟环境: `virtualenv --no-site-packages venv [python=python3.6(version)]`
+- 创建虚拟环境: `virtualenv --no-site-packagesf -p python3.6 venv`
     --no-site-packages 表示不复制当前环境的包，可以创建个干净的环境
+    -p 表示使用的python版本
 - 进入虚拟环境: `source venv/bin/activate`
 - 退出虚拟环境: `deactivate`
 设置:PYTHONPATH环境变量
@@ -25,7 +26,8 @@ setup.py 帮助你纪录安装细节方便你卸载
     `python setup.py install`
     `python setup.py install --record log` #这时所有的安装细节都写到 log 里了
 想要卸载的时候 `cat log ｜ xagrs rm －rf` 就可以干净卸载了
-
+## Python Language
+https://github.com/taizilongxu/interview_python
 ## 子类调用父类
 - 直接调用法：Student.__init__(self,name)
 - 通过super方式：super(child_class, child_object).parent_attribute(arg)
