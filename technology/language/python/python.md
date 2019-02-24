@@ -1,4 +1,11 @@
 # Python
+## 安装
+`yum install python-setuptools`
+`brew install python3`
+Mac下三个版本:
+系统自带:`/System/Library/Frameworks/Python.framework`
+官网下载安装:`/Library/Frameworks/Python.framework/Versions`
+HomeBrew: `/usr/local/Cellar/python`(不自带pip)
 ## 源代码发布
 1. 可以用pip导出你的dependency:
     `pip freeze > requirements.txt`
@@ -15,7 +22,7 @@
     `pip install ./xxx.egg`
 ## virtualenv
 - 安装虚拟环境：`pip install virtualenv`
-- 创建虚拟环境: `virtualenv --no-site-packagesf -p python3.6 venv`
+- 创建虚拟环境: `virtualenv -p python3 venv`
     --no-site-packages 表示不复制当前环境的包，可以创建个干净的环境
     -p 表示使用的python版本
 - 进入虚拟环境: `source venv/bin/activate`

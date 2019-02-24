@@ -41,14 +41,21 @@ s    包含子进程
 l    多线程，克隆线程
 
 ## 文件重定向
+```
 0 STDIN
 1 STDOUT
 2 STDERR
-\>  重定向输出
+>  重定向输出
 &> 重定向所有输出
+>& 重定向所有输入
 tee 是T型输出:既可以输出到stdout，同时又可以输出到文件
 ex：date | tee [-a] out.log
-
+```
+## 管道
+1. pipe匿名管道
+    主要用于父进程与子进程之间，或者两个兄弟进程之间
+2. named pipe(FIFO)有名管道: `mkfifo /tmp/k.pipe`
+    命名管道是为了解决无名管道只能用于近亲进程之间通信的缺陷而设计的。命名管道是建立在实际的磁盘介质或文件系统（而不是只存在于内存中）上有自己名字的文件
 ## 终端
 对应关系：Linux 进程 N:1 进程组 N:1 会话 1:1 控制终端
 tmux就是基于一个终端对应N个会话
@@ -61,15 +68,13 @@ tmux就是基于一个终端对应N个会话
 ## Linux配置加载(bashrc,profile, rcX.d, rc, rc.local)
 [参考](https://www.jianshu.com/p/020f3d02f538)
  顺序：/etc/rc.sysinit（通过分析/etc/inittab文件来确定系统的启动级别，然后才去执行/etc/rc.d/rc*.d下的文件）->rc->rc.d(->init.d)->S99local(->rc.local)
-
-bashrc为交互式non-login，一般图形系统启动的shell和shell内部启动的shell
-profile为交互式login shell，一般为远程登录启动的shell
-Linux加载环境变量顺序
+- bashrc为交互式non-login，一般图形系统启动的shell和shell内部启动的shell
+- profile为交互式login shell，一般为远程登录启动的shell
+## Linux加载环境变量顺序
 /etc/profile
     /etc/profile.d等待配置文件
 /etc/paths
     /etc/paths.d
-    
     $HOME/.bash_profile
     $HOME/.bash_login
     $HOME/.profile

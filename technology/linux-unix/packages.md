@@ -54,5 +54,12 @@ Ubuntu系列依赖库：https://packages.ubuntu.com/xenial/devel/
 - Link:
     删除快捷方式：`brew unlink nginx`
     添加快捷方式：`brew link nginx-full`
+
+#### 清理
+```
+brew doctor 
+brew cleanup --prune-prefix
+brew update
+```
 ## Lua
 luarocks

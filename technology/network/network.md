@@ -22,28 +22,13 @@
 #### netcat(nc)
 启动服务端： nc -l [port]
 启动客户端： nc host port
-- 端口扫描：
-    nc -z hostname 80-90
-    tips：可以指定-w和发送一个通用消息探测服务器类型
-    Ex: echo "QUIT" | nc host.example.com 20-30
-- 指定客户端端口： 
-    -p xxx
-    -r 随机
-- 指定本机使用出口ip
-    -s addr
-- 指定udp协议： -u
-- 指定超时秒： -w xxx
-- 输出详情: -v
+详情在[这里](./netcat.md)
 #### 域名解析 host/nslookup/dig
->nslookup和dig需要安装额外包：bind-utils
-apt-get install -y bind-utils
-yum install -y bind-utils
-host domain 
- 
+安装参见[这里](../linux-unix/packages.md)
+host domain  
 dig [+short] domain
 nslookup domain
-
 #### telnet
-
+`telnet host port`
 ## 端口转发
 详情见ssh.md

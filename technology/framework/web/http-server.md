@@ -28,7 +28,7 @@
 - uWSGI(uwsgi,wsgi,http等协议):`pip install uwsgi`
     [文档](https://uwsgi-docs.readthedocs.io/en/latest/Nginx.html)
     [文档2](https://uwsgi-docs.readthedocs.io/en/latest/ThingsToKnow.html)
-    1. 在项目里面`uwsgi --ini xxx.ini`
+    1. 在项目里面运行:`uwsgi --ini xxx.ini`
     2. 在nginx配置反向代理
     ```
         uwsgi_pass unix:///tmp/uwsgi.sock;
@@ -39,7 +39,11 @@
     - 内置socket，通过TCP走http协议(前端有WebServer的情况下推荐)：`http-socket=:8000`
     - 通过第三方(内置)插件，直接走HTTP协议(当直接暴露给外部时使用)：`http=:8000`
 - gunicorn(wsgi协议)
-    `gunicorn mysite.wsgi:application --bind 0.0.0.0:8000`
+    ```
+        # 如果static直接使用gunicorn,则需要在urls.py里面做一个映射，参见django.md
+        (Django):python manage.py collectstatic;
+        gunicorn mysite.wsgi:application --bind 0.0.0.0:8000
+    ```
 - flup(FastCGI协议)
 - tornado(http协议)
 ## 为什么不直接使用反向代理
