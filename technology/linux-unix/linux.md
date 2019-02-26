@@ -71,17 +71,44 @@ tmux就是基于一个终端对应N个会话
 - bashrc为交互式non-login，一般图形系统启动的shell和shell内部启动的shell
 - profile为交互式login shell，一般为远程登录启动的shell
 ## Linux加载环境变量顺序
-/etc/profile
-    /etc/profile.d等待配置文件
-/etc/paths
-    /etc/paths.d
+#### Mac OS
+- unknown:
+    /etc/paths
+        /etc/paths.d
+- unknown:
+    /etc/profile
+        /etc/bashrc
+- unknown:
     $HOME/.bash_profile
-    $HOME/.bash_login
-    $HOME/.profile
-        ~/.bashrc
+#### Centos
+- unknown:
+    /usr/local/bin:
+    /bin:
+    /usr/bin:
+    /usr/local/sbin:
+    /usr/sbin:
+    /sbin:
+- unknown:
+    /etc/profile # startup programs, Environment stuff
+        /etc/profile.d/*.sh
+- unknown:
+    /etc/bashrc # login setup functions and aliases
+        /etc/profile.d/*.sh
+-  unknown
+    ~/.bash_profile
+        ~/.bash_rc
             /etc/bashrc
+                /etc/profile.d/*.sh
 
-
+#### Ubuntu
+- unknown:
+    /etc/environment
+    /etc/profile
+        /etc/bash.bashrc
+        /etc/profile.d/
+- unknown:
+    ~/.bashrc
+        ~/.bash_aliases
 ##LANG问题:locale
 1）对于CentOS，可以直接编辑/etc/sysconfig/i18n文件，将LANG="en_US.UTF-8"设置成LANG="zh_CN.UTF-8"
 localedef -i en_US -f UTF-8 en_US.UTF-8
