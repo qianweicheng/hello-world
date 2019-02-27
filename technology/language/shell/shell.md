@@ -64,19 +64,26 @@ ${string:position}	在$string中, 从位置$position开始提取子串
 %是去掉右边（键盘上% 在# 的右边）
 单一符号是最小匹配；两个符号是最大匹配
 利用${ } 还可针对不同的变数状态赋值(沒设定、空值、非空值)： 
-${file-my.file.txt} ：假如$file 沒有设定，則使用my.file.txt 作传回值。(空值及非空值時不作处理) 
-${file:-my.file.txt} ：假如$file 沒有設定或為空值，則使用my.file.txt 作傳回值。(非空值時不作处理)
-${file+my.file.txt} ：假如$file 設為空值或非空值，均使用my.file.txt 作傳回值。(沒設定時不作处理)
-${file:+my.file.txt} ：若$file 為非空值，則使用my.file.txt 作傳回值。(沒設定及空值時不作处理)
-${file=my.file.txt} ：若$file 沒設定，則使用my.file.txt 作傳回值，同時將$file 賦值為my.file.txt 。(空值及非空值時不作处理)
-${file:=my.file.txt} ：若$file 沒設定或為空值，則使用my.file.txt 作傳回值，同時將$file 賦值為my.file.txt 。(非空值時不作处理)
-${file?my.file.txt} ：若$file 沒設定，則將my.file.txt 輸出至STDERR。(空值及非空值時不作处理)
+${var}                                       变量var的值, 与$var相同
+${var-DEFAULT}                               如果var没有被声明, 那么就以$DEFAULT作为其值 *
+${var:-DEFAULT}                              如果var没有被声明, 或者其值为空, 那么就以$DEFAULT作为其值 *
+${var=DEFAULT}                               如果var没有被声明, 那么就以$DEFAULT作为其值 *
+${var:=DEFAULT}                              如果var没有被声明, 或者其值为空, 那么就以$DEFAULT作为其值 *
+${var+OTHER}                                 如果var声明了, 那么其值就是$OTHER, 否则就为null字符串
+${var:+OTHER}                                如果var被设置了, 那么其值就是$OTHER, 否则就为null字符串
+${var?ERR_MSG}                               如果var没被声明, 那么就打印$ERR_MSG *
+${var:?ERR_MSG}                              如果var没被设置, 那么就打印$ERR_MSG *
+${!varprefix*}                               匹配之前所有以varprefix开头进行声明的变量
+${!varprefix@}                               匹配之前所有以varprefix开头进行声明的变量
 
 ${file:?my.file.txt} ：若$file 没设定或为空值，则将my.file.txt 输出至STDERR。(非空值時不作处理)
 ${#var} 可计算出变量值的长度：
 ${#file} 可得到27 ，因为/dir1/dir2/dir3/my.file.txt 是27个字节
 ${!var} 动态变量名，变量名拼接
 ${!var@} 用于返回当前shell中，变量名以var开始的变量
+## 字符串正则
+[[ abc == a* ]];echo $?
+
 
 ## Shell快捷键
 cd -    返回到前一个目录(上一个cd命令的目录）

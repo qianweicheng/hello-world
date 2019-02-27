@@ -54,7 +54,11 @@ Ubuntu系列依赖库：https://packages.ubuntu.com/xenial/devel/
 - Link:
     删除快捷方式：`brew unlink nginx`
     添加快捷方式：`brew link nginx-full`
-
+## RPM
+`rpm -i xxx.rpm`
+`rpm -e xxx`
+`rpm -Uvh xxx.rpm`
+`rpm -q example`
 #### 清理
 ```
 brew doctor 

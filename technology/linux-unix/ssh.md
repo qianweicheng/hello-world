@@ -47,8 +47,10 @@ ssh -i private.key user@remote
 此处的private.key 可以是xxx.pem/id_rsa
 
 ## Tools使用如下：
-ssh alias [cmd]
-scp alias src dst
+- scp
+    `scp alias src dst`
+  -  -r 拷贝文件夹
+  
 ## Log(/var/log/secure)
 `sudo grep "Failed password for root" /var/log/secure | awk '{print $11}' | sort | uniq -c | sort -nr | more`
 ## 安全

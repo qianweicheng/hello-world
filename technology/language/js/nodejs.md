@@ -1,6 +1,6 @@
 # NodeJS
-## 三种主要包管理
-#### NPM：NodeJS自带的包管理器
+三种主要包管理: npm,yarn,pnpm
+## NPM：NodeJS自带的包管理器
 npm-shrinkwrap.json 记录确切的版本号，但不记录内容，存在安全风险。
 npm3 会采用扁平化的依赖目录结构，所有node_modules 都存放在顶层目录下
 npm5 开始使用了package-lock.json 基本抵消了yarn的优势
@@ -29,9 +29,9 @@ npm5 开始使用了package-lock.json 基本抵消了yarn的优势
     - http-server: 
         npm i -g http-server
         运行：hs->http-server
-#### Yarn [参考](https://yarnpkg.com/zh-Hans/docs/migrating-from-npm)
+## Yarn [参考](https://yarnpkg.com/zh-Hans/docs/migrating-from-npm)
     Facebook出品的一个类似npm的包管理器。[npm vs yarn](https://yarnpkg.com/zh-Hans/docs/migrating-from-npm)
-#### pnpm
+## pnpm
 ## 模块管理
 - [Webpack](https://github.com/ruanyf/webpack-demos)
     [参考](https://www.cnblogs.com/wangyingblog/p/7027540.html)
@@ -50,3 +50,9 @@ npm5 开始使用了package-lock.json 基本抵消了yarn的优势
     为模块的安装、升级和删除，提供一种统一的、可维护的管理模式。
 - Component
 - Duo
+## nvm
+https://github.com/creationix/nvm/blob/master/README.md
+- Install: `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash`
+- Source: `source ~/.bashrc`
+- Check:`command -v nvm`
+- Usage: `nvm install node`

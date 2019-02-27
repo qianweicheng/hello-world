@@ -1,7 +1,11 @@
 # Python
 ## 安装
+python3:
 `yum install python-setuptools`
 `brew install python3`
+pip: 
+    `wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py`
+    这种方法会将pip安装到对应python的site-packages中
 Mac下三个版本:
 系统自带:`/System/Library/Frameworks/Python.framework`
 官网下载安装:`/Library/Frameworks/Python.framework/Versions`

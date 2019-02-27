@@ -26,5 +26,7 @@
 当前tty设备:/dev/tty
 当前终端设备文件的别名: /dev/tty0
 /dev/console: 是个只输出的设备，功能很简单，只能在内核中访问；tty是char设备，可以被用户程序访问。
-
-
+##
+which
+whereis
+command

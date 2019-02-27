@@ -79,3 +79,5 @@ root ALL=(ALL) ALL
 第一个ALL：多个系统之间部署 sudo 环境时，该ALL代表所有主机。也可以换成相应的主机名，表示改规则只适用主机名对应的系统
 第二个ALL（即括号内的）：指出规定的 user 用户能够以何种身份来执行命令。该ALL表示user用户能够以任何用户的身份执行命令
 第三个ALL：表示能执行"命令表"，ALL表示用户能够执行系统中的所有命令。
+## Authorizatio
+`bash -r` or `ln -s bash rbash`

@@ -5,7 +5,7 @@
 - Openssl ASN格式：-----BEGIN RSA PRIVATE KEY-----  
 
 ## 生成证书
-1）ssh-keygen -t rsa -C "your_email@example.com"
+1）ssh-keygen -t rsa -C "cy-weicheng"
 2）openssl req -x509 -nodes -days 365 -sha256 -newkey rsa:2048 -keyout mycert.pem -out mycert.pem
 
 ## RSA私钥可以生成公钥
