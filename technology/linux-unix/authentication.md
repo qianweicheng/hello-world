@@ -31,6 +31,8 @@
     Ex: useradd normaluser -c "Common"
 - 删除: `userdel`
 - 修改: `usermod 改变用户所属组(usermod -a -G groupName userName)`
+    - 将用户添加到组: `usermod -a -G groupA userA`
+    - 将用户重置到组: `usermod -G groupA userA`
 #### 密码
 - 添加密码:`passwd normaluser`
 - 删除密码:`passwd -d` 无密码
