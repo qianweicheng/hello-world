@@ -37,7 +37,7 @@
 - newScheduledThreadPool
 
 #### 饱和策略
-- AbortPolicy(默认)
+- AbortPolicy(默认): 抛异常
 - CallerRunsPolicy
 - DiscardPolicy
 - DiscardOldestPolicy
