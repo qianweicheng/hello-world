@@ -16,5 +16,18 @@ http://www.runoob.com/tags/tag-link.html
 <style type="text/css">
 </style>
 ```
+## Form
+#### action
+提交地址
+#### method
+- POST
+- PUT
+#### enctype属性
+- application/x-www-form-urlencoded
+    在发送前编码所有字符(默认）
+- multipart/form-data
+    不对字符编码,上传二进制数据
+- text/plain
+    空格转换为 "+" 加号，但不对特殊字符编码
 ## 事件
 ## 画布

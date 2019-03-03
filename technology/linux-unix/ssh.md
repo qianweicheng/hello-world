@@ -59,4 +59,4 @@ ssh -i private.key user@remote
         sshd: 192.168.1.0/255.255.255.0
         sshd: 192.168.0.1
     ```
-- 运行某个ip: /etc/hosts.allow
+- 允许某个ip: /etc/hosts.allow

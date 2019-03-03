@@ -20,6 +20,12 @@ docker attach
 docker inspect 获取容器内部信息
 docker port NAME 查看端口映射情况。
 docker logs NAME
+## Docker 挂载目录权限问题
+在CentOS7中，挂载的本地目录在容器中没有执行权限，原因是CentOS7安全模块selinux把权限禁掉了，至少有以下三种方式解决挂载的目录没有权限的问题：
+1. 在运行容器的时候，给容器加特权
+    `--privileged=true`
+2. 临时关闭selinux: `su -c "setenforce 0"`
+3. 添加selinux规则，将要挂载的目录添加到白名单
 ## 镜像启动
 ENTRYPOINT 指令的两种格式：
 - ENTRYPOINT ["executable", "param1", "param2"] (the preferred exec form)
@@ -31,7 +37,7 @@ CMD 指令的三种格式：
 
 备注：不能通过rc.local文件设置自动启动
 
-Docker日记
+## Docker日记
 /var/lib/docker/containers/
 --log-opt max-size=10m --log-opt max-file=3
 
@@ -87,3 +93,8 @@ docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/
 
 ## 坑
 运行在docker里面的程序新开启的文件会被docker缓存而得不到释放，从而造成内存泄漏
+## Docker daemon
+daemon监听: /var/run/docker.sock
+docker client通过/var/run/docker.sock与daemon通讯
+通过监听docker.sock获取docker事件流
+`curl --unix-socket /var/run/docker.sock http://localhost/events`

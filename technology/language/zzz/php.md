@@ -1,14 +1,14 @@
 # PHP
+## 安装
+- Mac: `brew install php` or `brew install php56`
 ## 部署方式
 - 直接运行
-    `php -S 0.0.0.0:9000`
-    注意选择php的版本号
+    root path 为当前文件夹: `php -S 0.0.0.0:9000`
+    注意选择php的版本号,查看PHP加载的配置文件:`php --ini`,或`phpinfo()`
 - apache+php:
-    MacOS里面只能使用自带的php库，无法替换
-- nginx+php-fpm+php
-    可以自行安装任意版本，必须手动额外启动php-fpm(php自带)
-    如：`brew install php56`
-    查看PHP加载的配置文件:`php --ini`,或`phpinfo()`
+    * MacOS里面只能使用自带的php库，无法替换
+- nginx+php-fpm
+    * 可以自行安装任意版本php，必须手动额外启动php-fpm(php自带)
 - uWSGI
     [参考](https://uwsgi-docs-zh.readthedocs.io/zh_CN/latest/PHP.html)
     `UWSGICONFIG_PHPDIR=/opt/php51 python uwsgiconfig.py --plugin plugins/php default php56`
