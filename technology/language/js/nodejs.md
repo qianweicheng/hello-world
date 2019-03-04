@@ -4,19 +4,23 @@
 npm-shrinkwrap.json 记录确切的版本号，但不记录内容，存在安全风险。
 npm3 会采用扁平化的依赖目录结构，所有node_modules 都存放在顶层目录下
 npm5 开始使用了package-lock.json 基本抵消了yarn的优势
+    加快了npm install 的速度，因为 package-lock.json 文件中已经记录了整个node_modules文件的树状结构，甚至连模块的下载地址都记录了，再重新安装的时候只需要直接下载文件即可
 - npm 国内镜像: npm install cnpm（淘宝镜像）
 - 初始化
     npm init 创建package.json
     npm install 根据当前package.json 安装所有依赖(递归)
     npm install 
+        --save选项为默认行为
         -g 全局安装
-        -P 默认，安装到dependencies
+        -P 安装到dependencies
         -D devDependencies
         -O optionalDependencies
         --no-save 不保存到dependencies， 默认save会生成package-lock.json    
-- npm init, npm i,
+- 安装之后锁定包的版本(package-lock.json)
+    手动更改package.json文件安装将不会更新包，直接执行`npm install`**不会**安装新指定的版本,想要更新只能使用:`npm install xxx@1.0.0`这种方式来进行版本更新package-lock.json
 - npm start === npm run start, 类似的还有stop, test
-- 依赖查看 npm ls 查看package.json里面定义的，和node_modules里面安装的所有模块
+- 依赖查看
+    - `npm ls` 查看package.json和node_modules里面安装的所有模块, 
     -g 查看全局安装的模块
     --depth=0 查看顶级直接依赖模块
     当package.json 里面没有包含，但require里面引用了的话，就会报警。用于坚持本地安装但未放置到package.json的情况

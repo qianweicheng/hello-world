@@ -1,8 +1,15 @@
 # HTTP
-## GET方法URL长度限制, [参考这里](https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers)
-这个限制不是HTTP协议限制，而是大部分浏览器和HTTP服务器的限制。
+HTTP 1.1 定义的8种方法
+- OPTIONS:主要用做预请求, 不能缓存
+- GET
+    ## GET方法URL长度限制, [参考这里](https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers) 这个限制不是HTTP协议限制，而是大部分浏览器和HTTP服务器的限制。
 2000字节以内的长度是一个比较安全。
-
+- HEAD:没有BODY
+- POST:更新
+- PUT:新建
+- DELETE:删除
+- TRACE:主要用于诊断. 用于验证请求是否如愿穿过了请求/响应链,不能缓存
+- CONNECT:代理
 ## CROS
 所有CROS的Header
 * Origin(Client)

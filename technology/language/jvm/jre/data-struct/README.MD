@@ -1,4 +1,5 @@
-# Map
+# 基本数据机构
+## Map
 Map(I)
 ^
 |
@@ -14,10 +15,10 @@ NavigableMap    AbstractMap
                             LinkedHashMap
 
 
-# Set
+## Set
 HashSet 内部聚合一个HashMap
 TreeSet
-# List
+## List
 Iterable<-Collection
             |
     ---------------------------------
@@ -31,3 +32,5 @@ Iterable<-Collection
                       ---------------
                              |
                           LikedList
+## Array
+Arrays.copyOf,Arrays.copyOfRange 底层都是System.arraycopy

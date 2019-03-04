@@ -1,6 +1,13 @@
 # PHP
 ## 安装
-- Mac: `brew install php` or `brew install php56`
+Mac下目前并存了3个版本的PHP
+- PHP7.1：Mac自带，存放在`/usr/bin/php`,`/usr/sbin/php-fpm`，默认从`/etc/php.ini`和`/etc/php-fpm.conf`中读取配置信息
+- PHP5.6: 
+    brew安装，`brew install php56`.
+    存放在`/usr/local/Cellar/php@5.6/...`, 默认在`/usr/local/etc/`下读取配置信息
+- PHP7.3: 
+    brew安装，`brew install php`.
+    存放在`/usr/local/Cellar/php/...`
 ## 部署方式
 - 直接运行
     root path 为当前文件夹: `php -S 0.0.0.0:9000`
@@ -12,12 +19,6 @@
 - uWSGI
     [参考](https://uwsgi-docs-zh.readthedocs.io/zh_CN/latest/PHP.html)
     `UWSGICONFIG_PHPDIR=/opt/php51 python uwsgiconfig.py --plugin plugins/php default php56`
-
-## 运行
-Mac下目前并存了3个版本的PHP
-- PHP7.1：Mac自带，存放在`/usr/bin/php`,`/usr/sbin/php-fpm`，默认从`/etc/php.ini`和`/etc/php-fpm.conf`中读取配置信息
-- PHP5.6: brew安装，存放在`/usr/local/Cellar/php@5.6/...`, 快捷方式到`/usr/local/bin/php`,下同，可以使用脚本在各个版本间切换。默认在`/usr/local/etc/`下读取配置信息
-- PHP7.3: brew安装，存放在`/usr/local/Cellar/php/...`
 ## ThinkPHP URL Rewirte
 值为0   叫做普通模式。如：http://localhost/index.php?m=模块&a=方法
 值为1   叫做pathinfo模式。如：http://localhost/index.php/模块/方法
