@@ -33,3 +33,11 @@ https://shadowsocks.org/en/download/clients.html
 `docker run -e METHOD=aes-256-gcm -e PASSWORD=edison@bj -p 8388:8388 -p 8388:8388/udp -d shadowsocks/shadowsocks-libev`
 ## Shadowsocks Manager
 https://github.com/shadowsocks/shadowsocks-manager
+
+## Shadowsocks三种模式
+- PAC
+    PAC 是一套智能选择模式，会根据配置文件选择是否使用代理
+- 全局模式
+    所有指向本代理的模式均走代理服务器
+- 手动模式
+    Shadowsocks会在本地启动ss-local，但不会把它设置成系统代理，浏览器得手动配置。前两种方式会设置成系统代理，浏览器默认会使用系统代理，故无需额外配置

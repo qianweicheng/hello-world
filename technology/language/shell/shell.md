@@ -83,8 +83,7 @@ ${!var} 动态变量名，变量名拼接
 ${!var@} 用于返回当前shell中，变量名以var开始的变量
 ## 字符串正则
 [[ abc == a* ]];echo $?
-
-
+[[ abc =~ "^abc" ]];echo $?
 ## Shell快捷键
 cd -    返回到前一个目录(上一个cd命令的目录）
 open . 通过Finder 打开当前文件夹

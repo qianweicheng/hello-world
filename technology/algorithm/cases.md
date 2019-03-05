@@ -20,6 +20,10 @@
     }
 ```
 ## 斐波那契
+#### 案例
+青蛙跳的问题
+台阶问题
+#### 解决方法
 - 递归法
     ```
         def feb2(n):
@@ -38,3 +42,10 @@
         return b
     ```
 - 通项公式法
+## KMP
+    查找子字符串，[简易说明](http://jakeboxer.com/blog/2009/12/13/the-knuth-morris-pratt-algorithm-in-my-own-words/)
+## tire树(字典书/前缀树)
+## AC自动机
+## 后缀数组
+## 并查集
+    朋友圈问题。 [简易说明](https://blog.csdn.net/qq_31828515/article/details/60590370)
