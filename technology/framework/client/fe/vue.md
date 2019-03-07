@@ -1,0 +1,202 @@
+# VUE
+vue
+## Framework
+nuxt
+## Vue
+#### 选项
+- el：挂载root元素
+- data：可以是一个对象，也可以是一个函数
+- computed：计算属性
+- watch
+- methods：用于存储各种方法
+- components： 注册组件
+#### 生命周期
+- beforeCreate
+- created
+- beforeMount
+- mounted
+- beforeUpdate
+- updated
+- beforeDestory
+- destoryed
+## 模版
+- 双大括号会将数据解释为普通文本，而非 HTML 代码。为了输出真正的 HTML，你需要使用 v-html 指令
+- 双大括号: JavaScript 
+## 指令
+v-bind:
+v-on:
+## 组件
+#### 选项
+- data：一个组件的data选项通常是一个函数, 每个实例可以维护一份被返回对象的独立的拷贝，否则不同组件公用一个状态
+- props: 所有的 prop 都使得其父子 prop 之间形成了一个单向下行绑定，
+     数组形式:["a","b"]
+     字典格式:
+     ```
+        {
+            "title":String,
+            "count":{
+                type: Number,
+                required: true,
+                default: 100                
+            },
+            "prop1:{
+                type: String,
+                required: true
+                default: function () {
+                    return { message: 'hello' }
+                },
+                validator: function (value) {
+                    return ['success', 'warning', 'danger'].indexOf(value) !== -1
+                }
+            }
+        }
+     ```
+- computed
+- watch
+- methods
+- template
+#### 定义
+- method 1
+``` 
+Vue.component('button-counter', {
+  data: function () {
+    return {
+      count: 0
+    }
+  },
+  template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+})
+```
+- method 2:Single file component
+``` xxx.vue
+<template>
+  <div class="hello">
+    <h1>{{ msg }}</h1>
+  </div>
+</template>
+<script>
+export default {
+    name:"button-counter"
+    props: {
+        msg: String
+    }
+}
+// or 
+export default Vue.component('question', {
+    props: {
+        msg: String
+    }
+})
+</script>
+<style scoped>
+</style>
+```
+- method 3
+```
+<template src="./template.html"></template>
+<style src="./style.css"></style>
+<script src="./script.js"></script>
+```
+#### 组件注册
+- 全局注册
+    ```
+        Vue.component('my-component-name', {
+        // ... 选项 ...
+        })
+    ```
+- 局部注册
+    ```
+        new Vue({
+        el: '#app',
+        components: {
+            'component-a': ComponentA,
+            'component-b': ComponentB
+        }
+        })
+    ```
+- 基础组件的自动化全局注册
+```
+const requireComponent = require.context(
+  // 其组件目录的相对路径
+  './components',
+  // 是否查询其子目录
+  false,
+  // 匹配基础组件文件名的正则表达式
+  /Base[A-Z]\w+\.(vue|js)$/
+)
+```
+## 路由
+- 简单路由
+```
+const NotFound = { template: '<p>Page not found</p>' }
+const Home = { template: '<p>home page</p>' }
+const About = { template: '<p>about page</p>' }
+
+const routes = {
+  '/': Home,
+  '/about': About
+}
+
+new Vue({
+  el: '#app',
+  data: {
+    currentRoute: window.location.pathname
+  },
+  computed: {
+    ViewComponent () {
+      return routes[this.currentRoute] || NotFound
+    }
+  },
+  render (h) { return h(this.ViewComponent) }
+})
+```
+- vue-routers
+https://router.vuejs.org/
+    1. VueRouter 添加到Vue中
+    2. 配置路由
+    3. router-view
+容易遇到的错:
+    1. 拼写错误
+    2. xxx.vue只有模版，没有export default
+## 状态管理
+- simple store
+简单应用自己实现一个store
+```
+var store = {
+  debug: true,
+  state: {
+    message: 'Hello!'
+  },
+  setMessageAction (newValue) {
+    if (this.debug) console.log('setMessageAction triggered with', newValue)
+    this.state.message = newValue
+  },
+  clearMessageAction () {
+    if (this.debug) console.log('clearMessageAction triggered')
+    this.state.message = ''
+  }
+}
+
+var vmA = new Vue({
+  data: {
+    privateState: {},
+    sharedState: store.state
+  }
+})
+
+var vmB = new Vue({
+  data: {
+    privateState: {},
+    sharedState: store.state
+  }
+})
+```
+使用(必须通过方法)：
+```
+this.sharedState.setMessageAction()
+this.sharedState.getMessageAction()
+```
+- vuex
+  - 更改 Vuex 的 store 中的状态的唯一方法是提交 mutation: `store.commit('increment')`
+  - Action 提交的是 mutation，而不是直接变更状态。Action 可以包含任意异步操作。
+

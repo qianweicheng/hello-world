@@ -6,35 +6,40 @@ npm3 会采用扁平化的依赖目录结构，所有node_modules 都存放在�
 npm5 开始使用了package-lock.json 基本抵消了yarn的优势
     加快了npm install 的速度，因为 package-lock.json 文件中已经记录了整个node_modules文件的树状结构，甚至连模块的下载地址都记录了，再重新安装的时候只需要直接下载文件即可
 - npm 国内镜像: npm install cnpm（淘宝镜像）
-- 初始化
-    npm init 创建package.json
-    npm install 根据当前package.json 安装所有依赖(递归)
-    npm install 
-        --save选项为默认行为
-        -g 全局安装
-        -P 安装到dependencies
-        -D devDependencies
-        -O optionalDependencies
-        --no-save 不保存到dependencies， 默认save会生成package-lock.json    
 - 安装之后锁定包的版本(package-lock.json)
     手动更改package.json文件安装将不会更新包，直接执行`npm install`**不会**安装新指定的版本,想要更新只能使用:`npm install xxx@1.0.0`这种方式来进行版本更新package-lock.json
-- npm start === npm run start, 类似的还有stop, test
-- 依赖查看
-    - `npm ls` 查看package.json和node_modules里面安装的所有模块, 
-    -g 查看全局安装的模块
-    --depth=0 查看顶级直接依赖模块
-    当package.json 里面没有包含，但require里面引用了的话，就会报警。用于坚持本地安装但未放置到package.json的情况
-- 更新:`npm update xxx`
-- 运行
-    - npm run
-    - npm start 对象中没有定义 "start" 属性， 默认执行 node server.js 命令。
 - 开发测试的静态服务器
     - webpack-dev-server
     - http-server: 
         npm i -g http-server
         运行：hs->http-server
+- 安装路径: `/usr/local/lib/node_modules/`,软连接到`/usr/local/bin`
+#### 常用命令
+```
+npm init 创建package.json
+npm install 根据当前package.json 安装所有依赖(递归)
+npm install 
+        --save选项为默认行为
+        -g 全局安装
+        -P 安装到dependencies
+        -D devDependencies
+        -O optionalDependencies
+        --no-save 不保存到dependencies， 默认save会生成package-lock.json 
+npm uninstall
+npm update create-react-app        
+npm ls 
+    查看package.json和node_modules里面安装的所有模块, 
+    -g 查看全局安装的模块
+    --depth=0 查看顶级直接依赖模块
+npm update xxx
+npm run
+npm start 对象中没有定义 "start" 属性， 默认执行 node server.js 命令。
+npm start === npm run start, 类似的还有stop, test
+```    
 ## Yarn [参考](https://yarnpkg.com/zh-Hans/docs/migrating-from-npm)
     Facebook出品的一个类似npm的包管理器。[npm vs yarn](https://yarnpkg.com/zh-Hans/docs/migrating-from-npm)
+    安装路径:`~/.config/yarn/global/node_modules`
+    软连接到:`/usr/local/bin`
 ## pnpm
 ## 模块管理
 - [Webpack](https://github.com/ruanyf/webpack-demos)
