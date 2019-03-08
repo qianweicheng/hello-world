@@ -1,11 +1,20 @@
 # Kong API Gateway
-基于openrestry的app
-
+一个基于openrestry的app
 官网: https://konghq.com/
 https://hub.docker.com/_/kong/
 https://github.com/PGBI/kong-dashboard
 https://blog.csdn.net/li396864285/article/details/77371385
-
+## 核心概念
+- API(废弃)
+    upstream_url: 后端url(http://192.168.2.109:8080)
+    uris: 前端url(/abc)
+- Service
+- Router: service的入口
+    这里的配置都是关于前端的，通过service_id关联入口
+- Plugins: 可以关联API，Service或者Router
+- Consumers:
+    相当于一个账户组，里面可以有N个账户
+- Upstreams:
 ## Install 
 1. Create the network: `docker network create kong-net`
 2. Start your database
@@ -50,35 +59,60 @@ https://blog.csdn.net/li396864285/article/details/77371385
 ```
     docker run --name kong-dashboard --network=kong-net --rm -p 8080:8080 pgbi/kong-dashboard start --kong-url http://kong:8001
 ```
-## Plugins
-https://docs.konghq.com/hub/
-
-## Source Code Compline
-- 编译pcre: ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
-    ./configure && make && make install
-- 编译openssl: https://www.openssl.org/source/openssl-1.1.1a.tar.gz
-    ./config && make && make install
-- 编译openresty: https://openresty.org/en/download.html
+## 企业版安装
+URL: https://bintray.com/login?forwardedFrom=kong
+Username: edisontech_eval_weicheng-qian@kong
+Password: 712ade9a1f5ea018fdcddb571422b7531964890b
+Your software access and license is valid until 2019-03-26.
+- 登陆：
+    `docker login -u edisontech_eval_weicheng-qian@kong -p 712ade9a1f5ea018fdcddb571422b7531964890b kong-docker-kong-enterprise-edition-docker.bintray.io`
+- 下载image: 
+    `docker pull kong-docker-kong-enterprise-edition-docker.bintray.io/kong-enterprise-edition`
+- Tag:
+    `docker tag kong-docker-kong-enterprise-edition-docker.bintray.io/kong-enterprise-edition kong-ee`
+- database
     ```
-    ./configure \
-    --with-pcre-jit \
-    --with-http_ssl_module \
-    --with-http_realip_module \
-    --with-http_stub_status_module \
-    --with-http_v2_module
+    docker run -d --name kong-ee-database \
+    --network=kong-net \
+    -p 5432:5432 \
+    -e "POSTGRES_USER=kong" \
+    -e "POSTGRES_DB=kong" \
+    postgres:9.6
     ```
- - 编译luarocks: http://luarocks.github.io/luarocks/releases/luarocks-3.0.4.tar.gz
-    ```
-    ./configure \
-    --lua-suffix=jit \
-    --with-lua=/usr/local/openresty/luajit \
-    --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1
-   ```
-- Install Kong: 
-    `luarocks install kong 1.0.2-0`
-    or
-    ```
-        $ git clone https://github.com/Kong/kong.git
-        $ cd kong
-        $ make install # this simply runs the `luarocks make kong-*.rockspec` command
-    ```
+-  license key:
+```
+export KONG_LICENSE_DATA='{"license":{"signature":"c10a042a23fab3b6d39fd796df28792cfe8cbb8612652f1f951baab0e812b9341df563cc94be864a2e23dab5a49457ffd6f84e80ae5ab7d2168d5c2acd0739c2","payload":{"customer":"Edisontech_Eval","license_creation_date":"2019-02-25","product_subscription":"Kong Enterprise Edition","admin_seats":"5","support_plan":"None","license_expiration_date":"2019-03-26","license_key":"0011K000024n6xYQAQ_a1V1K000006SvBnUAK"},"version":1}}'
+```
+- Run kong migrations:
+```
+ docker run --rm --network=kong-net \
+   -e "KONG_DATABASE=postgres" -e "KONG_PG_HOST=kong-ee-database" \
+   -e "KONG_CASSANDRA_CONTACT_POINTS=kong-ee-database" \
+   -e "KONG_LICENSE_DATA=$KONG_LICENSE_DATA" \
+   kong-ee kong migrations up
+```
+- Run kong
+```
+docker run -d --name kong-ee --network=kong-net \
+  -e "KONG_DATABASE=postgres" \
+  -e "KONG_PG_HOST=kong-ee-database" \
+  -e "KONG_CASSANDRA_CONTACT_POINTS=kong-ee-database" \
+  -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
+  -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
+  -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
+  -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
+  -e "KONG_ADMIN_LISTEN=0.0.0.0:8001" \
+  -e "KONG_PORTAL=on" \
+  -e "KONG_PORTAL_GUI_PROTOCOL=http" \
+  -e "KONG_PORTAL_GUI_HOST=127.0.0.1:8003" \
+  -e "KONG_LICENSE_DATA=$KONG_LICENSE_DATA" \
+  -p 8000:8000 \
+  -p 8443:8443 \
+  -p 8001:8001 \
+  -p 8444:8444 \
+  -p 8002:8002 \
+  -p 8445:8445 \
+  -p 8003:8003 \
+  -p 8004:8004 \
+  kong-ee
+  ```

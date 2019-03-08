@@ -12,7 +12,17 @@ docker images #列出所有本机的镜像
 docker rm -f $(docker ps -a -q) #清理docker
 docker start 启动已经停止的docker
 docker stop 停止守护式docker
-docker run --name myname -p 8080:80 -v 文件映射 -u root(用户) -d(后台模式) ubuntu:14.04 /bin/sh -c "xxxx" 
+docker run 
+    --name myname 
+    -p 8080:80 
+    -v, --volume 文件映射 
+    -u root(用户) 
+    -d(后台模式)
+    -rm 停止后自动删除
+    --link: add link to another container(new-name:existing-container)
+    --network 选择网络，默认default
+    -w, --workdir string
+    ubuntu:14.04 /bin/sh -c "xxxx" 
 docker exec -t -i aofo /bin/bash # 必须正在运行的
 docker attach 
     可以attach到一个已经运行的容器的stdin，然后进行命令执行的动作。 但是需要注意的是，如果从这个stdin中exit，会导致容器的停止.

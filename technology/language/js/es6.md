@@ -31,3 +31,10 @@ import App from './app';
 ## lambda
 lambda 函数的this跟父类绑定
 function函数的this跟function绑定
+## 操作符(...)
+针对对象: 数组，对象
+- 展开操作
+let a = [1,2,3];
+let b = [0, ...a, 4]; // [0,1,2,3,4]
+- 剩余操作
+let [a,...b] = [0,1,2,3] //a=0,b=[1,2,3]
