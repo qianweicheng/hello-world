@@ -36,3 +36,22 @@
 - Mezzanine
 - django-cms: 需要开发者二次开发
 - Wagtail: 需要开发者二次开发
+## admin
+一行就够了 `admin.site.register(Article)`
+增强:
+```
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ('title','pub_date','update_time',)
+admin.site.register(Article,ArticleAdmin)
+```
+## Manager
+django中的Manager类是我们通过模型类去操作数据库的工具，django给每个定义的模型默认添加一个名为objects的manager类的对象, 增加额外的manager方法是为模块添加表级功能的首选办法。
+```
+class BookManager(models.Manager):
+  def title_count(self, keyword):
+    return self.filter(title__icontains=keyword).count()
+class Book(models.Model):
+    xxx
+# 使用
+Book.objects.title_count('django')
+```

@@ -1,11 +1,11 @@
 # git 
+文档: https://git-scm.com/docs
 ## 概念
 - 工作区：就是物理目录看到的
 - index暂存区,还有个叫stage的区
 - 本地分支
 - 远程分支
 ## 常用命令
-文档: https://git-scm.com/docs
 清理工作区: `git clean -hfd`
 把文件从工作区提交到暂存区:`git add`
 把暂存区提交到本地分支: `git commit`
@@ -28,6 +28,17 @@
 添加新远程仓库: `git remote add origin url`
 删除现有远程仓库: `git remote rm origin`
 查看远程仓库的地址: `git remote -v`
+查看本地分支和远程分支对应关系: `git branch -vv`
+查看本地分支: `git symbolic-ref --short -q HEAD`
+查看当前提交号: `git rev-list @`
+查看是否有更新: 
+    ```
+    current_branch=$(git branch | awk '/\*/{print $2}'); \
+    LOCAL=$(git rev-parse @); \
+    REMOTE=$(git rev-parse origin/$current_branch); \
+    [[ "$LOCAL" != "$REMOTE" ]] && echo "HAS UPDATE"
+    ```
+"local is behind" and "local has diverged"
 ## Merge
 合并某次提交: `git cherry-pick commit-id`
 合并: `git merge`

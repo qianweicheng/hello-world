@@ -1,4 +1,7 @@
 # Docker
+## Docker Daemon
+- systemctl enable docker
+- systemctl start docker
 ## 配置
 /etc/sysconfig
 .docker 私有库用户名密码

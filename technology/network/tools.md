@@ -14,9 +14,11 @@
     -x/--proxy: <host[:port]>  在给定的端口上使用HTTP代理
     -c: 存cookie到文件cookie-jar
     -b: 取cookie-jar, 一般配合`-c`使用；如果有等号就当纯文本提交
+#### 案例
 `curl -H 'Content-Type: application/json' --data-raw '{xxx:yyy}' "http://xxxx"`
 `curl -H 'Content-Type: application/json' -d '{xxx:yyy}' "http://xxxx"`
-`curl -LO http://xxxx.zip`
+下载文件: `curl -LO http://xxxx.zip`
+Basic Auth: `curl -u username:password https://xxx/`
 ## Wget
 - 参数
  -O: 手动指定文件名
