@@ -202,3 +202,9 @@ this.sharedState.getMessageAction()
 - vuex
   - 更改 Vuex 的 store 中的状态的唯一方法是提交 mutation: `store.commit('increment')`
   - Action 提交的是 mutation，而不是直接变更状态。Action 可以包含任意异步操作。
+
+## 帮助
+- 查看编译配置: `vue inspect`
+- chainWebpack vs configWebpack
+  chainWebpack会覆盖configWebpack的内容, 一般配置一些chainWebpack里面没有的东西
+
