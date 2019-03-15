@@ -248,3 +248,18 @@ stub_status
 - -d, !-d：判断指定的路径是否为存在且为目录；
 - -e, !-e：判断指定的路径是否存在，文件或目录均可；
 - -x, !-x：判断指定路径的文件是否存在且可执行；
+## 正向代理
+1. 增加dns解析resolver
+2. 增加无server_name名的server
+3. proxy_pass指令
+4. nginx代理服务不支持正向代理HTTPS站点。
+```
+server {
+  resolver 192.168.1.1; #指定DNS服务器IP地址
+	listen 8080;
+	location / {
+		proxy_pass http://$http_host$request_uri; #设定代理服务器的协议和地址
+  }
+}
+```
+

@@ -1,20 +1,4 @@
 # Kong API Gateway
-一个基于openrestry的app
-官网: https://konghq.com/
-https://hub.docker.com/_/kong/
-https://github.com/PGBI/kong-dashboard
-https://blog.csdn.net/li396864285/article/details/77371385
-## 核心概念
-- API(废弃)
-    upstream_url: 后端url(http://192.168.2.109:8080)
-    uris: 前端url(/abc)
-- Service
-- Router: service的入口
-    这里的配置都是关于前端的，通过service_id关联入口
-- Plugins: 可以关联API，Service或者Router
-- Consumers:
-    相当于一个账户组，里面可以有N个账户
-- Upstreams:
 ## Install 
 1. Create the network: `docker network create kong-net`
 2. Start your database
@@ -53,11 +37,9 @@ https://blog.csdn.net/li396864285/article/details/77371385
      -p 8444:8444 \
      kong:latest
      ```
-
-
 5. Start Dashboard
 ```
-    docker run --name kong-dashboard --network=kong-net --rm -p 8080:8080 pgbi/kong-dashboard start --kong-url http://kong:8001
+    docker run -d --name kong-dashboard --network=kong-net --rm -p 8080:8080 pgbi/kong-dashboard start --kong-url http://kong:8001
 ```
 ## 企业版安装
 URL: https://bintray.com/login?forwardedFrom=kong
