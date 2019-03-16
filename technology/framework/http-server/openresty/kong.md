@@ -42,6 +42,8 @@ kong也是个helper：`/usr/local/openresty/bin/resty xxx`
 - 工作目录:`./?.lua;`
 - Kong plugins:`/usr/local/share/lua/5.1/kong/plugins/`
 ## 其他目录
-包管理器: `opm,luarocks`
-luarocks-admin
+包管理器: 
+- opm: openresty自带
+- luarocks: 通用的lua包管理器
 ## 插件开发
+https://docs.konghq.com/1.0.x/pdk/

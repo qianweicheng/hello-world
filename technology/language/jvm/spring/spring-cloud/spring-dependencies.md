@@ -93,7 +93,7 @@ spring-boot-starter-web
 - spring-webmvc
 spring-cloud-starter-feign
 - spring-cloud-starter-openfeign
-======
+```
  <dependencyManagement>
     <dependencies>
          <dependency>
@@ -105,6 +105,7 @@ spring-cloud-starter-feign
         </dependency>
     </dependencies>
  </dependencyManagement>
+ ```
 #### 服务注册中心
     @EnableEurekaServer
     spring-cloud-starter-eureka-server:1.4.5.RELEASE

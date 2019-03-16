@@ -1,4 +1,4 @@
-# Zuul
+# Zuul(废弃)
 ## 初始化
 - ZuulServerAutoConfiguration
     > 注册个Servlet:ZuulController包含ZuulServlet,里面通过ZuulRunner调用Filter

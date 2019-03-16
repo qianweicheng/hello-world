@@ -8,7 +8,7 @@ pom依赖
     </dependency>
 ```
 ## 底层封装了Hystrix和Ribbon
->对Ribbon的依赖比较少，只是使用了其负载均衡器
+对Ribbon的依赖比较少，只是使用了其负载均衡器
 ## Fallback
 - @EnableCircuitBreaker+@HystrixCommand(fallbackMethod) 基于原始API，使用restTemplate
 - FeignClient(fallback)

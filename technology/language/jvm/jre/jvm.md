@@ -9,7 +9,23 @@ JVM优化：常见的jvm 参数，-Xms -Xmx -Xss等
 - 方法区中静态属性引用的对象(可以理解为:引用方法区该静态属性的所有对象)
 - 方法区中常量引用的对象(可以理解为:引用方法区中常量的所有对象)
 - 本地方法栈中(Native方法)引用的对象(可以理解为:引用Native方法的所有对象)
-
+## Reference
+- StrongReference
+- SoftReference
+    内存紧张时回收
+- WeakReference
+    GC时回收
+- PhantomReference
+    跟WeakReference的区别时，它必须结合ReferenceQueue，手动从Queue中清除poll/remove。
+    PhantomReference对象插入ReferenceQueue队列，而此时PhantomReference对象并没有被垃圾回收器回收，而是要等到ReferenceQueue被你真正的处理后才会被回收。
+- ReferenceQueue
+    在构造Reference的时候，传入ReferenceQueue， 则再回收Reference的时候，会把其放入ReferenceQueue
+## ThreadLocal
+每个Thread都有个ThreadLocal.ThreadLocalMap，用来存储ThreadLocal的值
+```
+Entry extends WeakReference<ThreadLocal<?>>
+- value
+```
 ## 垃圾回收算法
 - 标记清除：容易产生碎片，很少用
 - 复制算法：一般用在新生带，Survivor，Eden * 2

@@ -45,15 +45,17 @@
 wait
 notify/notifyAll
 ## 同步工具类
-- CountDownLatch
-- CyclicBarrier
-- Semaphore
+- CountDownLatch（闭锁，一次性）
+- CyclicBarrier: new CyclicBarrier(N, new Runnable()), x.await() N 次
+- Semaphore:  计数信号量，主要用于控制同时并发某个特定资源
+- Exchanger:（栅栏,可多次使用）
 - AtomicLong/AtomicReference
 - ConcurrencyHashMap
 - ConcurrentSkipListMap
 - CopyOnWriteArrayList
-- LinkedBlockingQueue
-- ArayBlockingQueue
+- BlockingQueue/Deque 
+    - LinkedBlockingQueue
+    - ArayBlockingQueue
 - ReentrantReadWriteLock
 - ReentrantLock(广义的内置条件队列)
     ```
@@ -61,6 +63,8 @@ notify/notifyAll
         Condition notFull = lock.newCondition();
         Condition notEmpty = lock.newCondition();
     ```
+- Runnable, Callable, Future
+    FutureTask： Runnabe,Future<-RunnabeFuture<-FutureTask
 ## 自定义同步工具
 AQS
 CAS

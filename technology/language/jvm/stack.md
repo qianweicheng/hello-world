@@ -7,6 +7,5 @@
 ## 权限管理:Apache Shiro
 ## 工作流引擎：Activiti,Shark,OSWorkflow,...
 ## Swagger2
-## 前端: VUE/React
 ## Jenkins
 
