@@ -38,9 +38,28 @@
      kong:latest
      ```
 5. Start Dashboard
+- Konga
+```
+docker run -p 1337:1337 \
+             --network kong-net \
+             --name konga \
+             -e "NODE_ENV=development" \
+             -e "TOKEN_SECRET=1234567890" \
+             pantsel/konga
+```
+- PGBI/kong-dashboard
 ```
     docker run -d --name kong-dashboard --network=kong-net --rm -p 8080:8080 pgbi/kong-dashboard start --kong-url http://kong:8001
 ```
+Dashboard|Kong|Node
+-|-|-
+3.3.x, 3.4.x|>= 0.9, <0.14|>= 6.0.0
+3.5.x|>= 0.9, <0.15|>= 6.0.0
+3.6.x|>= 0.9, <2.0.0|>= 6.0.0
+Case|Result
+-|-
+Kong: 0.14.1 Dashboard: 3.5.0| OK
+Kong: 1.0.3  Dashboard: 3.6.0| Failed
 ## 企业版安装
 URL: https://bintray.com/login?forwardedFrom=kong
 Username: edisontech_eval_weicheng-qian@kong

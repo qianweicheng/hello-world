@@ -91,7 +91,7 @@ rest framework中的
     process_request
     process_response
 #### 调用
-# middleware
+- middleware
 WSGIHandler.get_response
     self._middleware_chain
     self._get_response
@@ -101,4 +101,10 @@ WSGIHandler.get_response
             self.check_permissions(request)
             self.check_throttles(request)
             View.dispatch
+- rest framework
+    View.dispatch
+        self.initial(request, *args, **kwargs)
+            self.perform_authentication(request)
+            self.check_permissions(request)
+            self.check_throttles(request)
 # Apply view middleware

@@ -47,3 +47,14 @@ kong也是个helper：`/usr/local/openresty/bin/resty xxx`
 - luarocks: 通用的lua包管理器
 ## 插件开发
 https://docs.konghq.com/1.0.x/pdk/
+文件结构:
+handler.lua: 必须，定义回调函数
+scheme.lua: 必须，定义配置的样式
+api.lua: 定义接口
+daos.lua: Database Access Objects
+migrations/*.lua: 跟daos配合使用
+开发的plugin如果需要新建数据库，必须再次运行:
+`kong migration up`
+## API
+kong.log vs ngx.log
+kong.log("hello ", "world") -- alias to kong.log.notice()

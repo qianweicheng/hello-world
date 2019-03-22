@@ -55,3 +55,18 @@ class Book(models.Model):
 # 使用
 Book.objects.title_count('django')
 ```
+## 序列化器
+嵌套的序列化方式主要有如下几种:
+- StringRelatedField
+- PrimaryKeyRelatedField
+- HyperlinkedRelatedField
+- SlugRelatedField
+- HyperlinkedIdentityField
+- 嵌套序列化关系模型（直接使用Model的序列化器）
+## Filter
+- 使用FilterSet
+- 使用`Q`,`F`语句
+Poll.objects.get(
+    Q(question__startswith='Who'),
+    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6))
+)

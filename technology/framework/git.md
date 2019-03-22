@@ -32,7 +32,10 @@
 查看本地分支: `git symbolic-ref --short -q HEAD`
 查看当前提交号: `git rev-list @`
 查看是否有更新: 
+    `git remote -v update; git rev-list HEAD...origin/master --count`
+    or 
     ```
+    git remote -v update; \
     current_branch=$(git branch | awk '/\*/{print $2}'); \
     LOCAL=$(git rev-parse @); \
     REMOTE=$(git rev-parse origin/$current_branch); \
