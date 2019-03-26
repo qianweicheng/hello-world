@@ -96,3 +96,8 @@ HTTP 1.1 定义的8种方法
     xml mime type（除了 image/svg+xml）, 并且探测结果是 xml 内容格式，response 受 CORB 保护
     json mime type，并且探测结果是 json 内容格式，response 受 CORB 保护
     text/plain，并且探测结果是 json、html 或者 xml 内容格式，response 受 CORB 保护任何以 JSON security prefix 开头的 response（除了 text/css）受 CORB 保护
+## 缓存
+- 强制缓存
+    如果本地缓存没有过期，则直接使用,浏览器返回200
+- 协商缓存
+    在本地数据库拿到资源的ETAG/Last-Modified-Since,去服务器比较一次，如果没有改变则返回304
