@@ -18,10 +18,10 @@ http://www.runoob.com/tags/tag-link.html
 ```
 ## Form
 #### action
-提交地址
+提交地址, 可以跨域
 #### method
 - POST
-- PUT
+- GET
 #### enctype属性
 - application/x-www-form-urlencoded
     在发送前编码所有字符(默认）
@@ -29,5 +29,14 @@ http://www.runoob.com/tags/tag-link.html
     不对字符编码,上传二进制数据
 - text/plain
     空格转换为 "+" 加号，但不对特殊字符编码
+## iframe
+```
+    frameName.document.forms[0].xxx
+    frameName.document.getElementById('xxx')
+```
+X-Frame-Options 静止本页面被嵌套到iframe中
+- DENY
+- SAMEORIGIN
+- ALLOW-FROM uri
 ## 事件
 ## 画布

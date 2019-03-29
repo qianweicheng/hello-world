@@ -74,7 +74,9 @@ HTTP 1.1 定义的8种方法
     Access-Control-Allow-Origin: http://api.bob.com
     Content-Type: text/html; charset=utf-8
     ```
-* 客户端代码:
+#### 客户端代码:
+1. 首先服务器需要打开`Access-Control-Allow-Credentials:true`
+2. 客户端必须打开`xhr.withCredentials = true;`
     ```
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://example.com/', true); 

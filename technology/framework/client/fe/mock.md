@@ -39,11 +39,18 @@ var em3 = Mock.mock({
     email:'@email'
 })
 ```
-## 数据占位符DPD
+## Mock.js 的语法规范包括两部分：
+数据占位符定义规范（Data Placeholder Definition，DPD）
+数据模板定义规范（Data Template Definition，DTD）
+#### 数据占位符DPD
 - 用@标识符标识后面的字符串是占位符
 - 占位符的值是从Mock.Random方法中引用的
 - 可以通过Mock.Random.extend()来扩展自定义占位符
 - 占位符可以引用数据模板中的属性
 - 占位符优先引用数据模板中的属性
 - 占位符支持相对路径和绝对路径
-
+#### 数据模板定义规范
+// 属性名   name
+// 生成规则 rule
+// 属性值   value
+'name|rule': value
