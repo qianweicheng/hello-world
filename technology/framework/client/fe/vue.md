@@ -26,12 +26,25 @@ nuxt
 - 双大括号会将数据解释为普通文本，而非 HTML 代码。为了输出真正的 HTML，你需要使用 v-html 指令
 - 双大括号: JavaScript 
 ## 指令
-v-bind:
-v-on:
+- v-bind:[attr]='value', 缩写`:attr`: 表示attr与value绑定 
+- v-on (@缩写)
+    `<form v-on:submit.prevent="onSubmit">...</form>`
+- v-if
+- v-for
+  `(item, index) in items` or `item in items` 
+  排序：`:key="item.id"`
+  自定监控如下方法
+    push()
+    pop()
+    shift()
+    unshift()
+    splice()
+    sort()
+    reverse()
 ## 组件
 #### 选项
 - data：一个组件的data选项通常是一个函数, 每个实例可以维护一份被返回对象的独立的拷贝，否则不同组件公用一个状态
-- props: 所有的 prop 都使得其父子 prop 之间形成了一个单向下行绑定，
+- 属性(props)不可变: 所有的 prop 都使得其父子 prop 之间形成了一个单向下行绑定，
      数组形式:["a","b"]
      字典格式:
      ```
@@ -54,10 +67,17 @@ v-on:
             }
         }
      ```
-- computed
-- watch
+- 计算属性(computed)
+    计算属性是基于它们的响应式依赖进行缓存的。只在相关响应式依赖发生改变时它们才会重新求值
+- 侦听属性(watch),慎用
 - methods
 - template
+- 自定义事件:
+  大小写敏感
+  <my-component v-on:myevent="doSomething"></my-component>
+  this.$emit('myevent')
+  - 将原生事件绑定到组件: `<base-input v-on:focus.native="onFocus"></base-input>
+`
 #### 定义
 - method 1
 ``` 

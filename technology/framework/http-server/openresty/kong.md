@@ -28,6 +28,8 @@ kong也是个helper：`/usr/local/openresty/bin/resty xxx`
 1. `/usr/local/kong`读取配置`/etc/kong/kong.conf`通过模版生成`/usr/local/kong/nginx.conf`
 1. 启动openresty：`/usr/local/openresty/nginx/sbin/nginx -p /usr/local/kong -c nginx.conf`
 ## 插件加载路径
+- luarocks包安装路径：`/usr/local/share/lua/5.1/`
+    kong等第三方插件安装在此
 - Openresty核心库:
     `/usr/local/openresty/lualib/resty/`
 - Openresty插件
@@ -48,15 +50,7 @@ kong也是个helper：`/usr/local/openresty/bin/resty xxx`
 - opm: openresty自带
 - luarocks: 通用的lua包管理器
 ## 插件开发
-https://docs.konghq.com/1.0.x/pdk/
-文件结构:
-handler.lua: 必须，定义回调函数
-scheme.lua: 必须，定义配置的样式
-api.lua: 定义接口
-daos.lua: Database Access Objects
-migrations/*.lua: 跟daos配合使用
-开发的plugin如果需要新建数据库，必须再次运行:
-`kong migration up`
+参考: https://github.com/qianweicheng/kong-redirect
 ## API
 kong.log vs ngx.log
 kong.log("hello ", "world") -- alias to kong.log.notice()
