@@ -1,4 +1,6 @@
 # SSH
+## 生成密钥对
+`ssh-keygen -t rsa -C "weicheng.andy"`
 ## 服务端（/etc/ssh/sshd_config）
 #### 开启密码登录
 - PasswordAuthentication 改为 yes

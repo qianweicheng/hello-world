@@ -13,9 +13,9 @@ https://github.com/luarocks/luarocks/wiki/Creating-a-rock
 - build指定src包含的文件等编译信息
 #### Building(本地安装)
 `luarocks make # like make in c/c++`
-将当前文件夹的rockspec编译打包放到本地的rock tree  
+根据当前文件夹的rockspec编译打包放到本地的rock tree  
 #### 手动打包
 - `luarocks pack luafruits-1.0-1.rockspec` 生成 `luafruits-1.0-1.src.rock`
-- `luarocks pack luafruits`生成包含二进制的`luafruits-1.0-1.linux-x86.rock`
+- `luarocks pack <plugin-name> <version>`生成包含二进制的`luafruits-1.0-1.linux-x86.rock`
 #### 上传,rock server自动生成rock文件。
 `luarocks upload your-rockspec-name.rockspec --api-key=xxxx`
