@@ -1,4 +1,4 @@
-# CERT
+# Certificate(CERT)
 ## Public-Key Cryptography Standards(PKCS)标准).
 PKCS目前共发布过15个标准。常用的有：
 PKCS#1
@@ -9,7 +9,7 @@ PKCS#12     这种含有私钥，同时也含有公钥，但是有口令保护
 X509,pfx/p12
 #### x509
 X.509是常见通用的证书格式
-X.509 DER 编码(ASCII/二进制)的后缀是： .DER .CER .CRT
+X.509 DER 编码(ASCII/二进制)的后缀是： .DER .CER .CRT(选择何种系平台风格)
 X.509 PAM 编码(Base64)的后缀是： .PEM .CER .CRT
 这种证书只有公钥，不包含私钥。X.509证书包含三个文件：key，csr，crt。
 - key是服务器上的私钥文件，用于对发送给客户端数据的加密，以及对从客户端接收到数据的解密

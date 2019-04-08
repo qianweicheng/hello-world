@@ -60,15 +60,16 @@ AES256加密:`openssl genrsa -aes256 -passout pass:123456 -out rsa_aes_private.k
 -key 指定私钥文件
 -pass:12345直接注入密码，否则提示输入
 - 直接生成Key和根证书: 
-    `openssl req -x509 rsa:2048 -nodes -newkey -keyout server.key -out cert.crt -subj "/C=CN/ST=GD/L=SZ/O=vihoo/OU=dev/CN=vivo.com/emailAddress=qweic@126.com"`
+    `openssl req -x509 rsa:2048 -nodes -newkey -keyout server.key -out cert.crt -subj "/C=CN/ST=GD/L=SZ/O=devops/OU=dev/CN=edison.tech/emailAddress=qweic@126.com"`
 - 用现有Key生成根证书
     `openssl req -x509 rsa:2048 -in server.csr -signkey server.key -out cert.crt -days 365`
-## 生成签名请求以及CA签名
+## 生成签名请求
 -new 指生成证书请求
-`openssl req -new -key server.key -out server.csr` or
-`openssl req –new rsa:2048 –nodes –newkey –keyout server.key –out server.csr -days 365`
-> 需要依次输入国家，地区，城市，组织，组织单位，Common Name和Email。其中Common Name，可以写自己的名字或者域名, 如果要支持https，Common Name应该与域名保持一致，否则会引起浏览器警告
-
+- 根据现有key生成csr
+    `openssl req -new -key server.key -out server.csr` 
+- 一键生成key和csr
+    `openssl req –new rsa:2048 –nodes –newkey –keyout server.key –out server.csr -days 365`
+    > 需要依次输入国家，地区，城市，组织，组织单位，Common Name和Email。其中Common Name，可以写自己的名字或者域名, 如果要支持https，Common Name应该与域名保持一致，否则会引起浏览器警告
 ## 格式转换
 注解: -inform和-outform 参数制定输入输出格式，由der转pem格式同理
 - 私钥PEM转DER: `openssl rsa -in rsa_private.key -outform der-out rsa_aes_private.der`
