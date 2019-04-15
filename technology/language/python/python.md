@@ -8,6 +8,7 @@ pip:
     这种方法会将pip安装到对应python的site-packages中
 Mac下三个版本:
 系统自带:`/System/Library/Frameworks/Python.framework`
+site-packages: `/Library/Python`
 官网下载安装:`/Library/Frameworks/Python.framework/Versions`
 HomeBrew: `/usr/local/Cellar/python`(不自带pip)
 ## 源代码发布

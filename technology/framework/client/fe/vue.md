@@ -22,13 +22,27 @@ nuxt
 - updated
 - beforeDestory
 - destoryed
+![vue lifecycle](./vue-lifecycle.png)
 ## 模版
 - 双大括号会将数据解释为普通文本，而非 HTML 代码。为了输出真正的 HTML，你需要使用 v-html 指令
 - 双大括号: JavaScript 
 ## 指令
 - v-bind:[attr]='value', 缩写`:attr`: 表示attr与value绑定 
+  - 动态参数`<a v-bind:[attributeName]="url"> ... </a>`
+```
+    <!-- 必须控件底层发射事件update:myPropName，比如此处的update:title -->
+    <text-document
+      v-bind:title="doc.title"
+      v-on:update:title="doc.title = $event">
+    </text-document>
+```
+等价`<text-document v-bind:title.sync="doc.title"></text-document>`
+- v-model 创建双向数据绑定，<input>、<textarea> 及 <select>
+  - 修饰符`.lazy`,`.number`,`.trim`
+  - v-model 默认会利用名为 value 的 prop 和名为 input 的事件
 - v-on (@缩写)
-    `<form v-on:submit.prevent="onSubmit">...</form>`
+    - 修饰符:`<form v-on:submit.prevent="onSubmit">...</form>`
+    - 动态参数:`<a v-on:[eventName]="doSomething"> ... </a>` eventName可以是一个动态绑定的
 - v-if
 - v-for
   `(item, index) in items` or `item in items` 
@@ -78,6 +92,10 @@ nuxt
   this.$emit('myevent')
   - 将原生事件绑定到组件: `<base-input v-on:focus.native="onFocus"></base-input>
 `
+#### 查找控件
+- <div ref='a1' /> => this.$refs.a1
+- this.$parent
+- this.$root
 #### 定义
 - method 1
 ``` 
