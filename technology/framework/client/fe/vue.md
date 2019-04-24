@@ -37,9 +37,15 @@ nuxt
     </text-document>
 ```
 等价`<text-document v-bind:title.sync="doc.title"></text-document>`
-- v-model 创建双向数据绑定，<input>、<textarea> 及 <select>
+- v-model(只是语法糖) 创建双向数据绑定，<input>、<textarea> 及 <select>
   - 修饰符`.lazy`,`.number`,`.trim`
   - v-model 默认会利用名为 value 的 prop 和名为 input 的事件
+  `<input v-model="message">`
+  等价
+  ```
+  <input v-bind:value="message" v-on:input="message = $event.target.value" />
+  <input :value="message" @input="message = $event.target.value" />
+  ```
 - v-on (@缩写)
     - 修饰符:`<form v-on:submit.prevent="onSubmit">...</form>`
     - 动态参数:`<a v-on:[eventName]="doSomething"> ... </a>` eventName可以是一个动态绑定的

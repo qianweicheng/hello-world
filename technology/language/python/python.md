@@ -1,7 +1,7 @@
 # Python
 ## 安装
 python3:
-`yum install python-setuptools`
+`yum install python3` or `yum install python-setuptools`
 `brew install python3`
 pip: 
     `wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py`
