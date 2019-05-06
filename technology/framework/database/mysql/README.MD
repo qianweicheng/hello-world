@@ -23,4 +23,11 @@ https://dev.mysql.com/doc/refman/5.7/en/user-account-management.html
 ## 绑定端口
 netstat -tulpen
 bind-address = 0.0.0.0
+## 复制数据库
+#### 表结构
+`CREATE TABLE 新表 SELECT * FROM 旧表 WHERE 1=2;`
+#### 表数据
+`INSERT INTO 新表 SELECT * FROM 旧表`
+#### 表结构和数据
+`CREATE TABLE 新表 SELECT * FROM 旧表`
 

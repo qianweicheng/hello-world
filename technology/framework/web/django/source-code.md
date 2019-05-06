@@ -108,3 +108,5 @@ WSGIHandler.get_response
             self.check_permissions(request)
             self.check_throttles(request)
 # Apply view middleware
+HTTP Method 是在Router通过setattr动态配置的
+

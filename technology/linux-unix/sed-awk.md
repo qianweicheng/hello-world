@@ -70,3 +70,7 @@ ORS   输出记录分隔符
 `cat xxx.txt | awk '$1~/^abc/{print $0}'`=`awk -F: '{if($1~/^abc/) print $1}' xxx.txt`
 逻辑&&: `awk -F ":" '$1~/mail/ && $3>8 {print }' xxx.txt`
 `awk -F":" '$1=="mysql"{print $3}'` = `awk -F":" '{if($1=="mysql") print $3}'`
+#### 输出格式化
+printf 必须显式的使用`\n`换行
+单引号:`awk 'BEGIN {printf "单引号 \47"}'`
+双引号:`awk 'BEGIN {printf "\""}'`

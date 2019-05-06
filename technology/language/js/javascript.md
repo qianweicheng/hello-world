@@ -1,49 +1,99 @@
 # Javascript
-## ES6(ES2015/ES2016)
-  ES5: 传统JS，几乎所有浏览器都支持
-  ES6: 最新版本的浏览器支持大部分标准，但兼容性差
-## CommonJS
->   CommonJS是同步加载模块. CommonJS是一个更偏向于服务器端的规范。NodeJS采用了这个规范。CommonJS的一个模块就是一个脚本文件。require命令第一次加载该脚本时就会执行整个脚本，然后在内存中
-生成一个对象。注意上面用require加载时写的是相对路径，让Nodejs去指定路径下加载模块。如果省略相对路径，默认就会在node_modules文件夹下找hi模块
-``` a.js
-var str = 'Hi';
-function sayHi(name) {
-  console.log(str + ', ' + name + '!');
+基础:http://www.w3school.com.cn/jsref/index.asp
+高级:http://www.w3school.com.cn/js/index_pro.asp
+## 数据类型
+- 字符串
+- 数字: JavaScript 数字均为 64 位, 转换： Number(value)
+- 布尔: Boolean(value);	Boolean.valueOf() 返回原始值
+- 数组: http://www.w3school.com.cn/jsref/jsref_obj_array.asp
+- 对象:
+- Null
+- Undefined
+#### 其他内置数据类型
+Date: http://www.w3school.com.cn/js/js_obj_date.asp
+Math: http://www.w3school.com.cn/jsref/jsref_obj_date.asp
+RegExp: 
+顶层函数: http://www.w3school.com.cn/jsref/jsref_obj_global.asp
+## var let const
+## import、export
+## class、extends、super
+## arrow functions 
+- 箭头函数会捕获其所在上下文的 this 值，作为自己的 this 值
+- 也就是可以理解为: 箭头函数没有自己的this, 如果上下文没有this, 则this指向Window对象
+## template string
+```
+    `Hello, ${var1}`
+```
+## destructuring
+```
+let people2 = {
+name: 'ming',
+age: 20,
+color: ['red', 'blue']
 }
-module.exports = sayHi;
+ 
+// 变量必须与属性重名
+let { name, age } = people2;
+let [first, second] = people2.color;
+let [a, b, c] = [1, 2, 3];
 ```
-``` b.js
-var Hi = require('./hi');
-Hi('Jack');     // Hi, Jack!
+## default 函数默认参数
 ```
-## AMD
->   AMD是”Asynchronous Module Definition”的缩写，即”异步模块定义”
-define(id, [depends], factory);  
-require([module], callback);
+// ES6
+function foo(num = 200) {
+return num;
+}
 ```
-a.js
-define(['dependenceModule'], function() {
-  var add = function(x, y) {
-    return x + y;
+## rest arguments （rest参数）
+```
+function foo(x, y, ...rest) {
+return ((x + y) * rest.length);
+}
+foo(1, 2, 'hello', true, 7); // 9
+```
+## Spread Operator （展开运算符）
+```
+let color = ['red', 'yellow'];
+let colorful = [...color, 'green', 'blue'];
+```
+## 对象
+对象初始化简写
+## Promise
+## Generators
+## 判断字符串里是否包含其他字符串
+传统上，JavaScript只有indexOf方法，
+新增:
+includes : https://developer.mozilla.org...
+startsWith : https://developer.mozilla.org...
+endsWith : https://developer.mozilla.org...
+includes()：返回布尔值，表示是否找到了参数字符串。
+## for..of
+- Object.keys() - 返回对象可枚举的键
+- for(let key in obj)
+## Classes - 类
+#### 
+```
+class Rectangle {
+    constructor(height, width) {
+        this.height = height;
+        this.width = width;
+    }
+    get menu(){
+        return this.dishs;
+    }
+    set menu(dishs){
+        this.dishs.push(dish)
+    }
+    static cook(food){
+        console.log(food)
+    }
+
+}
+let Rectangle = class {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
   }
-  return  {
-    add: add
-  }
-})
+};
 ```
-```
-b.js
-require(['math'], function(math) {
-  math.add(2, 3);
-})
-```
-## CMD
->  CMD 推崇依赖就近，AMD 推崇依赖前置。AMD 是提前执行，CMD 是延迟执行
-```
-define(function(require, exports, module) {
-  var a = require('./a');
-  a.doSomething();
-  var b = require('./b');
-  b.doSomething();
-})
-```
+## Map, Array, Set, Date
