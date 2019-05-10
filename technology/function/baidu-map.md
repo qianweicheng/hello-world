@@ -1,6 +1,7 @@
 # 百度地图
 ## API参考手册
 http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference.html
+http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html
 ## 绘制地图
 开放文档->Web开发->Javascript API
 http://lbsyun.baidu.com/index.php?title=jspopular

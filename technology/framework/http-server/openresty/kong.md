@@ -50,7 +50,11 @@ kong也是个helper：`/usr/local/openresty/bin/resty xxx`
 - opm: openresty自带
 - luarocks: 通用的lua包管理器
 ## 插件开发
-参考: https://github.com/qianweicheng/kong-redirect
-## API
+#### 参考文档
+- kong 插件开发: https://docs.konghq.com/1.1.x/plugin-development/distribution/
+- kong demo: https://github.com/Kong/kong-plugin
+- 我的插件: https://github.com/qianweicheng/kong-redirect
+- rock: https://github.com/luarocks/luarocks/wiki/Creating-a-rock
+#### API
 kong.log vs ngx.log
 kong.log("hello ", "world") -- alias to kong.log.notice()

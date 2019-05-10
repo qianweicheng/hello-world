@@ -17,4 +17,4 @@ kind: APIResourceList
 
 # 访问服务
 http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy
-https:: http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/https:service_name:[port_name]/proxy
+http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/https:service_name:[port_name]/proxy
