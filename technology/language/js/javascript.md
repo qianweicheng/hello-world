@@ -9,91 +9,25 @@
 - 对象:
 - Null
 - Undefined
-#### 其他内置数据类型
+## 其他内置数据类型
 Date: http://www.w3school.com.cn/js/js_obj_date.asp
 Math: http://www.w3school.com.cn/jsref/jsref_obj_date.asp
 RegExp: 
 顶层函数: http://www.w3school.com.cn/jsref/jsref_obj_global.asp
-## var let const
-## import、export
-## class、extends、super
-## arrow functions 
-- 箭头函数会捕获其所在上下文的 this 值，作为自己的 this 值
-- 也就是可以理解为: 箭头函数没有自己的this, 如果上下文没有this, 则this指向Window对象
-## template string
+## apply vs call vs bind
+call和apply可以用来重新定义函数的执行环境，也就是this的指向；call和apply都是为了改变某个函数运行时的context，即上下文而存在的，换句话说，就是为了改变函数体内部this的指向。
+语法：foo.call(this, arg1,arg2,arg3) == foo.apply(this, arguments) == this.foo(arg1, arg2, arg3);
+#### bind
 ```
-    `Hello, ${var1}`
-```
-## destructuring
-```
-let people2 = {
-name: 'ming',
-age: 20,
-color: ['red', 'blue']
+var test=function(a,b,c){
+    console.log("a="+a,"b="+b,"c="+c);
 }
- 
-// 变量必须与属性重名
-let { name, age } = people2;
-let [first, second] = people2.color;
-let [a, b, c] = [1, 2, 3];
-```
-## default 函数默认参数
-```
-// ES6
-function foo(num = 200) {
-return num;
+var o={
+    x:1
 }
+test.bind(o)(1,2,3) //a=1 b=2 c=3
+test.bind(o,1)(2,3) //a=1 b=2 c=3
+test.bind(o,1)(); //a=1 b=undefined c=undefined
+test.bind(o,1,2)();//a=1 b=2 c=undefined
+test.bind(o,1,2,3)(); //相当于调用test(1,2,3)   a=1 b=2 c=3
 ```
-## rest arguments （rest参数）
-```
-function foo(x, y, ...rest) {
-return ((x + y) * rest.length);
-}
-foo(1, 2, 'hello', true, 7); // 9
-```
-## Spread Operator （展开运算符）
-```
-let color = ['red', 'yellow'];
-let colorful = [...color, 'green', 'blue'];
-```
-## 对象
-对象初始化简写
-## Promise
-## Generators
-## 判断字符串里是否包含其他字符串
-传统上，JavaScript只有indexOf方法，
-新增:
-includes : https://developer.mozilla.org...
-startsWith : https://developer.mozilla.org...
-endsWith : https://developer.mozilla.org...
-includes()：返回布尔值，表示是否找到了参数字符串。
-## for..of
-- Object.keys() - 返回对象可枚举的键
-- for(let key in obj)
-## Classes - 类
-#### 
-```
-class Rectangle {
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
-    }
-    get menu(){
-        return this.dishs;
-    }
-    set menu(dishs){
-        this.dishs.push(dish)
-    }
-    static cook(food){
-        console.log(food)
-    }
-
-}
-let Rectangle = class {
-  constructor(height, width) {
-    this.height = height;
-    this.width = width;
-  }
-};
-```
-## Map, Array, Set, Date

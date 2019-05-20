@@ -1,5 +1,7 @@
 # NodeJS
-三种主要包管理: npm,yarn,pnpm
+
+## 三种主要包管理
+npm,yarn,pnpm
 ## NPM：NodeJS自带的包管理器
 npm-shrinkwrap.json 记录确切的版本号，但不记录内容，存在安全风险。
 npm3 会采用扁平化的依赖目录结构，所有node_modules 都存放在顶层目录下
@@ -41,6 +43,7 @@ npm start === npm run start, 类似的还有stop, test
     安装路径:`~/.config/yarn/global/node_modules`
     软连接到:`/usr/local/bin`
 ## pnpm
+
 ## 模块管理
 - [Webpack](https://github.com/ruanyf/webpack-demos)
     [参考](https://www.cnblogs.com/wangyingblog/p/7027540.html)

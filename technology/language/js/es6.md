@@ -1,6 +1,6 @@
 # ES6
-ES2015,ES2016
-## export import
+## var let const
+## export
 1、export与export default均可用于导出常量、函数、文件、模块等
 2、你可以在其它文件或模块中通过import+(常量 | 函数 | 文件 | 模块)名的方式，将其导入，以便能够对其进行使用
 3、在一个文件或模块中，export、import可以有多个，export default仅有一个
@@ -28,19 +28,59 @@ export default class App extends React.Componet {
 // 此时import命令可以为引入的类指定任意名字。
 import App from './app';
 ```
-## lambda
+## import vs require
+- require: 运行时加载	CommonJS/AMD 社区方案，提供了服务器/浏览器的模块加载方案。非语言层面的标准。只能在运行时确定模块的依赖关系及输入/输出的变量，无法进行静态优化。
+- import: 编译时加载	ESMAScript6+	语言规格层面支持模块功能。支持编译时静态分析，便于JS引入宏和类型检验。动态绑定。
+## class、extends、super
+## arrow functions 
+箭头函数会捕获其所在上下文的 this 值，作为自己的 this 值
+也就是可以理解为: 箭头函数没有自己的this, 如果上下文没有this, 则this指向Window对象
 lambda 函数的this跟父类绑定
 function函数的this跟function绑定
-## 操作符(...)
+## template string
+```
+    `Hello, ${var1}`
+```
+## destructuring
+```
+let people2 = {
+name: 'ming',
+age: 20,
+color: ['red', 'blue']
+}
+ 
+// 变量必须与属性重名
+let { name, age } = people2;
+let [first, second] = people2.color;
+let [a, b, c] = [1, 2, 3];
+```
+## default 函数默认参数
+```
+// ES6
+function foo(num = 200) {
+return num;
+}
+```
+## rest arguments （rest参数）
+```
+function foo(x, y, ...rest) {
+return ((x + y) * rest.length);
+}
+foo(1, 2, 'hello', true, 7); // 9
+```
+## Spread Operator （展开运算符）
 针对对象: 数组，对象
 - 展开操作
 let a = [1,2,3];
 let b = [0, ...a, 4]; // [0,1,2,3,4]
 - 剩余操作
 let [a,...b] = [0,1,2,3] //a=0,b=[1,2,3]
-## import vs require
-- require: 运行时加载	CommonJS/AMD 社区方案，提供了服务器/浏览器的模块加载方案。非语言层面的标准。只能在运行时确定模块的依赖关系及输入/输出的变量，无法进行静态优化。
-- import: 编译时加载	ESMAScript6+	语言规格层面支持模块功能。支持编译时静态分析，便于JS引入宏和类型检验。动态绑定。
+```
+let color = ['red', 'yellow'];
+let colorful = [...color, 'green', 'blue'];
+```
+## 对象
+对象初始化简写
 ## Promise
 - 传统的callback模式存在回调地狱的问题
 - then可以多次调用形成一个调用链。每个then返回的都必须是一个promise
@@ -94,4 +134,41 @@ r.then(res=>{
     console.err(err)
 })
 ```
+## Generators
+## 判断字符串里是否包含其他字符串
+传统上，JavaScript只有indexOf方法，
+新增:
+includes : https://developer.mozilla.org...
+startsWith : https://developer.mozilla.org...
+endsWith : https://developer.mozilla.org...
+includes()：返回布尔值，表示是否找到了参数字符串。
+## for..of
+- Object.keys() - 返回对象可枚举的键
+- for(let key in obj)
+## Classes - 类
+#### 
+```
+class Rectangle {
+    constructor(height, width) {
+        this.height = height;
+        this.width = width;
+    }
+    get menu(){
+        return this.dishs;
+    }
+    set menu(dishs){
+        this.dishs.push(dish)
+    }
+    static cook(food){
+        console.log(food)
+    }
 
+}
+let Rectangle = class {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+};
+```
+## Map, Array, Set, Date
