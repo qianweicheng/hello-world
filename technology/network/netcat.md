@@ -19,6 +19,9 @@ BSD版的不支技-c -e参数，而GNU版的有-e参数
 - -c shell commands       as `-e'; use /bin/sh to exec [dangerous!!]
 - -e filename             program to exec after connect [dangerous!!]
 ## 场景
+- 端口转发
+  - 单向: `ncat -l 8080 | ncat target-ip 80`
+  - 双向: `mkfifo 2way;ncat -l 2182 0<2way | ncat 127.0.0.1 2181 1>2way`
 - 端口扫描:
     `nc -z -v -n 172.31.100.7 21-25`
 - Chat Server:

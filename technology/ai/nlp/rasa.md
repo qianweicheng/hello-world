@@ -20,8 +20,20 @@ http://rasa.com/docs/rasa/user-guide/installation/
 https://github.com/RasaHQ/rasa
 ```
 pip install rasa-x --extra-index-url https://pypi.rasa.com/simple
-pip rasa
 rasa init --no-prompt
+
+# Solution 1
+pip install rasa
+# Solution 2
+pip install rasa[spacy]
+python -m spacy download en_core_web_md
+python -m spacy link en_core_web_md en
+```
+## 文档
+```
+brew install sphinx
+pip3 install -r requirements-dev.txt
+make livedocs
 ```
 ## 文件结构
 data/nlu.md contains training examples for the NLU model
@@ -32,3 +44,12 @@ domain.yml contains the domain of the assistant
 endpoints.yml contains the webhook configuration for the custom action
 policy.py contains a custom policy
 run.py contains code to train a Rasa model and use it to parse some text
+## RESTful API
+/webhooks/rest/webhook
+{
+    "message": "hi"
+}
+/model/parse 
+{
+    "text": "hello"
+}
