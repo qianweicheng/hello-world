@@ -16,6 +16,7 @@
     |entities|实体|
     |slots|词槽|词槽是机器人的记忆力
 ## Install(rasa & rasax)
+- Mac(Linux 没有成功)
 http://rasa.com/docs/rasa/user-guide/installation/
 https://github.com/RasaHQ/rasa
 ```
@@ -29,6 +30,8 @@ pip install rasa[spacy]
 python -m spacy download en_core_web_md
 python -m spacy link en_core_web_md en
 ```
+- Using Docker
+  `docker run -v $(pwd):/app rasa/rasa init --no-prompt`
 ## 文档
 ```
 brew install sphinx
@@ -44,6 +47,9 @@ domain.yml contains the domain of the assistant
 endpoints.yml contains the webhook configuration for the custom action
 policy.py contains a custom policy
 run.py contains code to train a Rasa model and use it to parse some text
+## 启动
+`rasa run -m models --enable-api --endpoint endpoints.yml --credentials credentials.yml
+`
 ## RESTful API
 /webhooks/rest/webhook
 {
