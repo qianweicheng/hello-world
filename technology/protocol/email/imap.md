@@ -1,6 +1,4 @@
 # IMAP
-- RFC822
-- RFC2822
 ## 命令行登录IMAP邮箱
 #### 非TLS使用`telnet`
 > telnet imap.126.com 143

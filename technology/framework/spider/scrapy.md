@@ -1,37 +1,22 @@
 # 爬虫
+分类|	名称|	简介
+-|-|-
+爬虫框架|	Scrapy|	爬虫程序
+服务端|	Scrapyd|	Scrapy爬虫管理程序
+服务端|	ScrapydArt|	增强版的 Scrapyd
+客户端|	ScrapydAPI|	对Scrapyd API的封装
+客户端|	ScrapydWeb|	管理调度 Scrapyd
+客户端|	Gerapy|	管理调度 Scrapyd
+客户端|	SpiderKeeper|	管理调度 Scrapyd
 ## 安装
-#### selenium
-    `pip install selenium` or `http://www.seleniumhq.org/download/`
-#### Headless
-常用Headless browser
-- Phantomjs（项目暂封存，慎用）
-    `http://phantomjs.org/download.html`
-- Chrome
-    Downloads: https://sites.google.com/a/chromium.org/chromedriver/downloads
-    `alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"`
-    ```
-        chrome \
-        --headless \                   # Runs Chrome in headless mode.
-        --disable-gpu \                # Temporarily needed if running on Windows.
-        --remote-debugging-port=9222 \
-        https://www.chromestatus.com   # URL to open. Defaults to about:blank.
-    ```
-- FireFox
-## 使用
-```
-    from selenium import webdriver
-    # Method 1
-    browser = webdriver.PhantomJS(executable_path='/path/to/phantomjs')
-    # Method 2
-    # options = Options()
-    # options.add_argument("--headless")
-    # options.add_argument("--disable-gpu")
-    # browser = webdriver.Chrome(options=options)
-    browser.get("http://www.eshow365.com/zhanhui/html/120062_0.html")
-    print (browser.page_source)
-    body = browser.find_element_by_tag_name('body')
-    body_text = body.get_attribute('innerHTML')
-```
+- 启动爬虫调度器:`scrapyd`
+- 运行UI:`spiderkeeper --server=http://localhost:6800`
+- 部署爬虫:
+    Scrapyd-Client: `scrapyd-deploy 部署名 -p 项目名称` or `scrapyd-deploy <target> -p <project> --version <version>`
+    等效:`curl http://localhost:6800/addversion.json -F project=myproject -F version=r23 -F egg=@myproject.egg`
+- 也可以打包爬虫，让SpiderKeeper使用: 
+    Scrapyd-Client: `scrapyd-deploy --build-egg output.egg`
+    手动打包: `python setup.py bdist.egg`
 ## 框架scrapy
 ```
 scrapy startproject tutorial
