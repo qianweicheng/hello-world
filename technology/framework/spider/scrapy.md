@@ -9,8 +9,8 @@
 客户端|	Gerapy|	管理调度 Scrapyd
 客户端|	SpiderKeeper|	管理调度 Scrapyd
 ## 安装
-- 启动爬虫调度器:`scrapyd`
-- 运行UI:`spiderkeeper --server=http://localhost:6800`
+- 启动爬虫调度器:`scrapyd`,新建文件: `dbs & twistd.pid`
+- 运行UI:`spiderkeeper --server=http://localhost:6800` 新建`SpiderKeeper.db`
 - 部署爬虫:
     Scrapyd-Client: `scrapyd-deploy 部署名 -p 项目名称` or `scrapyd-deploy <target> -p <project> --version <version>`
     等效:`curl http://localhost:6800/addversion.json -F project=myproject -F version=r23 -F egg=@myproject.egg`

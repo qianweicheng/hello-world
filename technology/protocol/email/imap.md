@@ -8,7 +8,7 @@
 - 部分邮件服务商必须在使用`ID`命令
 ```
 C1 ID ("name" "Edison")
-C2 LOGIN username@126.com password
+C2 LOGIN edotest1@126.com A1234567
 C3 CAPABILITY
 C4 LIST "" *
 C5 STATUS "INBOX" (MESSAGES RECENT UIDVALIDITY)

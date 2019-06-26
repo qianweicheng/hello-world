@@ -11,7 +11,7 @@ http://deepdive.stanford.edu/quickstart
                 -e "POSTGRES_DB=deepdive" \
                 postgres:latest
 ```
-- Load input: `deepdive compile`
-- `deepdive load articles input/articles-1000.tsv.bz2`
+- Compile the DeepDive application : `deepdive compile`
+- Load input:`deepdive load articles input/articles-1000.tsv.bz2`
 - Adds some useful NLP markups to the English text:`deepdive do sentences` and `deepdive do spouse_candidate`
 - Run the model: `deepdive do probabilities`
