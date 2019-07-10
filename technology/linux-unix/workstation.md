@@ -11,10 +11,26 @@ chsh [-s 修改默认] /bin/zsh
 oh-my-zsh安装文件在$ZSH所指代的目录下
 - 强大的插件主题
 3. mosh:新的ssh
+- Client本地可以使用
+  - `brew install mosh`
+  - chrome mosh插件
+- 服务器
+    ```
+    # 准备编译环境
+    yum groupinstall "Development Tools"
+    yum install protobuf-devel
+    cd mosh-1.3.2
+    ./configure
+    make
+    make install
+    ```
+    ```
+    yum install -y mosh
+    ```
 使用UDP协议，在弱网络环境下优势明显
 - server side: mosh-server
 - client side: mosh 
-4. Tmux: Terminal Multiplexer，一个多终端进程管理器
+1. Tmux: Terminal Multiplexer，一个多终端进程管理器
 - 分屏功能
 - session保持: 退出了终端，但session可以继续
 ## iTerm2

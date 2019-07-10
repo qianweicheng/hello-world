@@ -20,7 +20,7 @@ Ubuntu系列依赖库：https://packages.ubuntu.com/xenial/devel/
 - 单纯安装:`apk add --no-cache curl perl`
 ## Redhat/Centos:yum
 Redhat系列依赖库:https://rpmfind.net/linux/RPM/index.html
-- 方法1: yum -y install epel-release
+- 方法1: `yum -y install epel-release`
 - 方法2: 安装EPEL:http://mirrors.kernel.org/fedora-epel/
     `rpm -Uvh http://mirrors.kernel.org/fedora-epel/epel-release-latest-7.noarch.rpm`
     或者

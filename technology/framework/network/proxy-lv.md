@@ -1,7 +1,7 @@
 # Proxy&LV
 ## 四种种代理方案
 - Nginx
-    工作在第7层，主要是Web Proxy，支持Web Cache； 新版本支持Stream Proxy，工作在第4层.
+    工作在第7层，主要是Web Proxy, 支持Web Cache, 新版本支持Stream Proxy, 工作在第4层.
     Nginx 单位时间处理的最大请求数为10000个
     升级方案: Openresty
 - HAProxy

@@ -1,3 +1,4 @@
+# Mongodb
 #### 在config机器，shard机器
     configserver={_id:'configReplSet',members:[
     {_id:0,host:'host1:port',priority:2},
@@ -9,15 +10,16 @@
 
 #### 添加Shard（在router机器）：
 >此处只需要指向shard里面其中一台机器
+```
 use admin
 db.runCommand({addshard:"rs1/host1:port,host2:port"})
 db.runCommand({addshard:"rs2/host1:port,host2:port"})
 db.runCommand({addshard:"rs3/host1:port,host2:port"})
 sh.addShard("rs3/host1:port,host2:port")
 Ex: db.runCommand({addshard:"rs1/mongodb-shad-a-0.mongodb-shad.default.svc.cluster.local:27018"})
-
+```
 #### 建立索引有两种:一种是升序，一种是hash
-db.collection.createindex/ensureIndex({_id:1/"hashed"})
+`db.collection.createindex/ensureIndex({_id:1/"hashed"})`
 
 use tigase
 db.edi_contact.createIndex({ownerId:"hashed"})
@@ -89,12 +91,12 @@ db.system.profile.find().sort({$natural:-1})
 或者 db.system.profile.find()
 
 导出数据到当前文件夹
-1）mongodump -h localhost -p 27018 [--out /data/backup/]
-   部分备份  mongodump --collection myCollection --db test
-2）直接拷贝文件，不要启动服务器：mongodump --dbpath /data/db/
-
-#### 导入数据
-mongorestore -d tigase -c tig_users dump/tigase/tig_users.bson
+1）`mongodump -h localhost -p 27018 [--out /data/backup/]`
+   部分备份  `mongodump --collection myCollection --db test`
+2）直接拷贝文件，不要启动服务器：`mongodump --dbpath /data/db/`
+#### 数据导入导出
+`mongorestore -d tigase -c tig_users dump/tigase/tig_users.bson`
+`mongoexport --host localhost --port 27017 --collection wq --db tigase --out tigase.json`
 #### 运行命令
 mongo mongodb-shad-a-0.mongodb-shad:27018 --eval "printjson(rs.status())"
 
@@ -115,3 +117,12 @@ Error in heartbeat request to mongodb-shad-b-1.mongodb-shad.default.svc.cluster.
 错误：
 Cannot allocate memory at src/mongo/db/storage/wiredtiger/wiredtiger_record_store.cpp 459
 MongoDB starting memory
+## Mongodb使用注意事项
+- 唯一索引必须建在分片键上(如果有), 不能建立在hash索引上
+    可以对已有的表建，但必须是无冲突
+- db.collection.count() 不准确
+- 分片键建立之后不能修改
+- upset 查询必须用在unique index上，否则可能重复
+- Create an Index on Embedded Document
+    在内嵌的文档整体上建索引的话，查询的时候必须严格字节匹配
+- Hash 索引在float的字段上会做截断处理，[参考](https://docs.mongodb.com/manual/core/index-hashed/)

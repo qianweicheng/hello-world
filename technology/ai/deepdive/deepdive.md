@@ -12,6 +12,51 @@ http://deepdive.stanford.edu/quickstart
                 postgres:latest
 ```
 - Compile the DeepDive application : `deepdive compile`
-- Load input:`deepdive load articles input/articles-1000.tsv.bz2`
+- Load input: `deepdive load articles input/articles-1000.tsv.bz2` or 全量`deepdive do articles`
 - Adds some useful NLP markups to the English text:`deepdive do sentences` and `deepdive do spouse_candidate`
 - Run the model: `deepdive do probabilities`
+- Start the UI: `mindbender search update` and `mindbender search gui`
+  
+## 加速
+- copy `udf/bazaar` folder and run `sbt/sbt stage`
+## DDlog
+文档: `http://deepdive.stanford.edu/writing-dataflow-ddlog`
+- Normal
+    `Q(x, y) :- R(x, y), S(y).`表示`R`和`S` 通过`inner join`产生结果返回给`Q`
+- Expressions
+    ```
+        a(k int).
+        b(k int, p text, q text, r int).
+        c(s text, n int, t text).
+
+        Q("test", f(123), id) :- a(id), b(id, x,y,z), c(x || y,10,"foo").
+
+        R(TRUE, power(abs(x-z), 2)) :- a(x), b(y, _, _, _).
+
+        S(if l > 10 then TRUE
+        else if l < 10 then FALSE
+        else NULL end) :- R ( _, l).
+    ```
+- Constant literals
+
+- Disjunctions
+    ```
+        Q(x, y) :- R(x, y), S(y).
+        Q(x, y) :- T(x, y).
+    ```
+    ```
+        Q(x, y) :- R(x, y), S(y); T(x, y).
+    ```
+- Aggregation: 只返回一行
+    `Q(a,b,MAX(c)) :- R(a,b,c).`
+- Select distinct
+    `Q(x,y) *:- R(x, y).`
+- Quantifiers
+    ```
+        P(a) :- R(a, _), EXISTS[S(a, _)].
+        Q(a) :- R(a, b),    ALL[S(a, c), c > b].
+    ```
+- Optional
+    ```
+        Q(a, c) :- R(a, b), OPTIONAL[S(a, c), c > b].
+    ```
