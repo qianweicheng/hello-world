@@ -19,6 +19,9 @@ http://deepdive.stanford.edu/quickstart
   
 ## 加速
 - copy `udf/bazaar` folder and run `sbt/sbt stage`
+## 其他概念
+- 实体抽取(Relation extraction)
+- factor graph(variables, factors)
 ## DDlog
 文档: `http://deepdive.stanford.edu/writing-dataflow-ddlog`
 - Normal
@@ -60,3 +63,8 @@ http://deepdive.stanford.edu/quickstart
     ```
         Q(a, c) :- R(a, b), OPTIONAL[S(a, c), c > b].
     ```
+- Select distinct
+    `*:=`
+- Quantifiers
+- A question mark after the relation name indicates that it is a variable relation containing random variables rather than a normal relation used for loading or processing data to be later used by the model. 
+    `has_spouse?(p1_id text, p2_id text).`
