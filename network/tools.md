@@ -17,6 +17,7 @@
 #### 案例
 `curl -H 'Content-Type: application/json' --data-raw '{xxx:yyy}' "http://xxxx"`
 `curl -H 'Content-Type: application/json' -d '{xxx:yyy}' "http://xxxx"`
+Multipart: `curl -F "file=@nohup.out" -F "a=b" "http://192.168.0.2/aaaa"`
 下载文件: `curl -LO http://xxxx.zip`
 Basic Auth: `curl -u username:password https://xxx/`
 ## Wget

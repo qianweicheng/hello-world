@@ -11,8 +11,14 @@ C1 ID ("name" "Edison")
 C2 LOGIN edotest1@126.com A1234567
 C3 CAPABILITY
 C4 LIST "" *
+* LIST (\HasNoChildren) "/" "A002_updated"
+* LIST (\HasNoChildren) "/" "A003"
+* LIST (\Archive \HasNoChildren) "/" "Archive"
+* LIST (\Junk \HasNoChildren) "/" "Bulk Mail"
+* LIST (\Drafts \HasNoChildren) "/" "Draft"
 C5 STATUS "INBOX" (MESSAGES RECENT UIDVALIDITY)
 C6 SELECT "INBOX"
 C7 FETCH 1:32 (UID)
+* BYE IMAP4rev1 Server logging out
 ```
 #### CAPABILITY
