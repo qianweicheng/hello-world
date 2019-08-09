@@ -51,14 +51,16 @@ run.py contains code to train a Rasa model and use it to parse some text
 `rasa run -m models --enable-api --endpoint endpoints.yml --credentials credentials.yml
 `
 ## RESTful API
+```
 /webhooks/rest/webhook
 {
-    "message": "hi"
+    "message": "Please delete my account."
 }
 /model/parse 
 {
     "text": "hello"
 }
+```
 ## 其他
 Rasa
 https://www.jianshu.com/p/7f8ca4ac16e7
