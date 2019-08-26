@@ -1,9 +1,4 @@
-# RFC
-## IMAP
-TODO
-## SMTP
-RFC5321(2008) 
-## Internet Message Format
+# Internet Message Format
 [HTTP Protocol](https://www.w3.org/Protocols/)  
 - Internet Message Format
     - RFC561(1973): Standardizing Network Mail Headers

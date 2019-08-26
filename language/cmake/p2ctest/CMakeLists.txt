@@ -1,0 +1,16 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+PROJECT(mymath)
+
+# gcc -o pcallc.so -shared -fPIC pcallc.c
+# -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+# -DANDROID_ABI=x86
+# -DANDROID_PLATFORM=android-19
+
+SET(CMAKE_TOOLCHAIN_FILE "$ENV{ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+SET(ANDROID_ABI x86)
+SET(ANDROID_PLATFORM android-19)
+
+MESSAGE(STATUS "=====${CMAKE_TOOLCHAIN_FILE}")
+INCLUDE_DIRECTORIES(./)
+LINK_DIRECTORIES(.)
+ADD_LIBRARY(pcallc SHARED pcallc.c)

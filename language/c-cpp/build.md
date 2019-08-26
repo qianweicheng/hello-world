@@ -1,5 +1,6 @@
 # Build
 - gcc/g++: 基础编译工具
+    `gcc xxx.c -I(the-include-path) -L(the-lib-path) -l(the-lib-name)`
 - Makefile(make): 一个批处理编译源文件的工具
 - CMake: 一个可以更加简单的生成makefile文件给上面那个make用
     `brew install cmake`
@@ -8,3 +9,13 @@
 - ./configure
 - make
 - make install
+## Cmake
+- `cmake -Dxxx=yyy the-CMakeLists.txt-file-path`
+- make
+## Building dynamic library
+`gcc test.c -fPIC -shared -o libtest.so`
+## Using dynamic library
+```
+gcc main.c ccallp.c -o main -I./include -L ./lib -lpython3.6m
+export LD_LIBRARY_PATH=`pwd`;./main
+```
