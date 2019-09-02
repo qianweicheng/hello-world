@@ -26,3 +26,12 @@ https://docs.python.org/3.7/extending/embedding.html
 - ctypes（内置）
 - swig（第三方）
 - cython（功能强大）
+## ssl错误
+```
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+```

@@ -1,0 +1,86 @@
+# IMAP
+- RFC1730: INTERNET MESSAGE ACCESS PROTOCOL - VERSION 4
+- RFC1733: DISTRIBUTED ELECTRONIC MAIL MODELS IN IMAP4
+- RFC2060: INTERNET MESSAGE ACCESS PROTOCOL - VERSION 4rev1（废弃前者）
+- RFC2061: IMAP4 COMPATIBILITY WITH IMAP2BIS
+- RFC2062: Internet Message Access Protocol - Obsolete Syntax: Obsolete Syntax M
+- RFC2086: IMAP4 ACL extension
+- RFC2087: IMAP4 QUOTA extension
+- RFC2088: IMAP4 non-synchronizing literals
+- RFC2095: IMAP/POP AUTHorize Extension for Simple Challenge/Response
+- RFC2177: IMAP4 IDLE command
+- RFC2180: IMAP4 Multi-Accessed Mailbox Practice
+- RFC2192: IMAP URL Scheme
+- RFC2193: IMAP4 Mailbox Referrals 
+- RFC2221: IMAP4 Login Referrals
+- RFC2222: Simple Authentication and Security Layer (SASL)
+- RFC2245: Anonymous SASL Mechanism.
+- RFC2342: IMAP4 Namespace
+- RFC2359: IMAP4 UIDPLUS extension
+- RFC2595: Using TLS with IMAP, POP3 and ACAP
+- RFC2683: IMAP4 Implementation Recommendations
+- RFC2831: Using Digest Authentication as a SASL Mechanism.
+- RFC2971: IMAP4 ID extension
+- RFC3348: The Internet Message Action Protocol (IMAP4) Child Mailbox Extension 
+- RFC3501: VERSION 4rev1 (废弃RFC2060)
+- RFC3502: MULTIAPPEND Extension
+- RFC3503: Message Disposition Notification (MDN) profile for Internet Message Access Protocol (IMAP)
+- RFC3691: Internet Message Access Protocol (IMAP) UNSELECT command
+- RFC4314: IMAP4 Access Control List (ACL) Extension
+- RFC4422: Simple Authentication and Security Layer (SASL)
+- RFC4466: Collected Extensions to IMAP4 ABNF
+- RFC4467: Internet Message Access Protocol (IMAP) - URLAUTH Extension
+- RFC4469: Internet Message Access Protocol (IMAP) CATENATE Extension 对于转发等可以不用download&upload原始邮件
+- RFC4505: Anonymous Simple Authentication and Security Layer (SASL) Mechanism.
+- RFC4549: Synchronization Operations for Disconnected IMAP4 Clients
+- RFC4551: IMAP Extension for Conditional STORE Operation or Quick Flag Changes Resynchronization
+- RFC4616: The PLAIN Simple Authentication and Security Layer (SASL) Mechanism
+- RFC4731: IMAP4 Extension to SEARCH Command for Controlling What Kind of Information Is Returned
+- RFC4752: The Kerberos V5 ("GSSAPI") Simple Authentication and Security Layer (SASL) Mechanism.
+- RFC4870: Domain-Based Email Authentication Using Public Keys Advertised in the DNS (DomainKeys).
+- RFC4952: Overview and Framework for Internationalized Email
+- RFC4959: IMAP Extension for Simple Authentication and Security Layer (SASL) Initial Client Response
+- RFC4978: The IMAP COMPRESS Extension
+- RFC5032: WITHIN Search Extension to the IMAP Protocol  添加两个SEARCH的关键字，用来扩展SEARCH
+- RFC5092: IMAP URL Scheme
+- RFC5161: The IMAP ENABLE Extension  对于CONDSTORE ([RFC4551]), ANNOTATE等插件，可以在每次请求的时候加上，也可以初始化session让其默认
+- RFC5162: IMAP4 Extensions for Quick Mailbox Resynchronization
+- RFC5182: IMAP Extension for Referencing the Last SEARCH Result
+- RFC5255: Internet Message Access Protocol Internationalization
+- RFC5256: Internet Message Access Protocol - SORT and THREAD Extensions
+- RFC5257: Internet Message Access Protocol - ANNOTATE Extension
+- RFC5258: Internet Message Access Protocol version 4 - LIST Command Extensions
+- RFC5259: Internet Message Access Protocol - CONVERT Extension
+- RFC5267: Contexts for IMAP4
+- RFC5335: Internationalized Email Headers
+- RFC5464: The IMAP METADATA Extension
+- RFC5465: The IMAP NOTIFY Extension
+- RFC5466: IMAP4 Extension for Named Searches (Filters) 
+- RFC5504: Downgrading Mechanism for Email Address Internationalization.
+- RFC5530: IMAP Response Codes 
+- RFC5593: Internet Message Access Protocol (IMAP) - URL Access Identifier Extension
+- RFC5738: IMAP Support for UTF-8
+- RFC5788: IMAP4 Keyword Registry
+- RFC5819: IMAP4 Extension for Returning STATUS Information in Extended LIST
+- RFC5825: Displaying Downgraded Messages for Email Address Internationalization.
+- RFC5957: Display-Based Address Sorting for the IMAP4 SORT Extension 
+- RFC6154: IMAP LIST Extension for Special-Use Mailboxes
+- RFC6186: Use of SRV Records for Locating Email Submission/Access Services
+- RFC6203: IMAP4 Extension for Fuzzy Search 
+- RFC6237: IMAP4 Multimailbox SEARCH Extension
+- RFC6785: Support for Internet Message Access Protocol (IMAP) Events in Sieve
+- RFC6851: Internet Message Access Protocol (IMAP) - MOVE Extension 
+- RFC6855: IMAP Support for UTF-8
+- RFC6858: Simplified POP and IMAP Downgrading for Internationalized Email
+- RFC7017: IMAP Access to IETF Email List Archives
+- RFC7162: IMAP Extensions: Quick Flag Changes Resynchronization (CONDSTORE) and Quick Mailbox Resynchronization (QRESYNC) (废弃RFC4551)
+- RFC7377: IMAP4 Multimailbox SEARCH Extension
+- RFC7888: IMAP4 Non-synchronizing Literals(废弃RFC2088)
+- RFC7889: The IMAP APPENDLIMIT Extension
+- RFC8437: IMAP UNAUTHENTICATE Extension for Connection Reuse
+- RFC8438: IMAP Extension for STATUS=SIZE 
+- RFC8440: IMAP4 Extension for Returning MYRIGHTS Information in Extended LIST
+- RFC8457: IMAP "$Important" Keyword and "\Important" Special-Use Attribute
+- RFC8474: IMAP Extension for Object Identifiers
+- RFC8508: IMAP REPLACE Extension
+- RFC8514: Internet Message Access Protocol (IMAP) - SAVEDATE Extension
