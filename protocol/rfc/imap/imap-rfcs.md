@@ -4,19 +4,19 @@
 - RFC2060: INTERNET MESSAGE ACCESS PROTOCOL - VERSION 4rev1（废弃前者）
 - RFC2061: IMAP4 COMPATIBILITY WITH IMAP2BIS
 - RFC2062: Internet Message Access Protocol - Obsolete Syntax: Obsolete Syntax M
-- RFC2086: IMAP4 ACL extension
-- RFC2087: IMAP4 QUOTA extension
-- RFC2088: IMAP4 non-synchronizing literals
+- RFC2086: IMAP4 ACL extension  权限控制
+- RFC2087: IMAP4 QUOTA extension  配额控制
+- RFC2088: IMAP4 non-synchronizing literals 异步发送文本(被RFC7888废弃)
 - RFC2095: IMAP/POP AUTHorize Extension for Simple Challenge/Response
 - RFC2177: IMAP4 IDLE command
 - RFC2180: IMAP4 Multi-Accessed Mailbox Practice
-- RFC2192: IMAP URL Scheme
+- RFC2192: IMAP URL Scheme 直接通过URL方式访问邮件 (被RFC5092废弃)
 - RFC2193: IMAP4 Mailbox Referrals 
 - RFC2221: IMAP4 Login Referrals
-- RFC2222: Simple Authentication and Security Layer (SASL)
-- RFC2245: Anonymous SASL Mechanism.
-- RFC2342: IMAP4 Namespace
-- RFC2359: IMAP4 UIDPLUS extension
+- RFC2222: Simple Authentication and Security Layer (SASL) (被RFC4422, 4752废弃)
+- RFC2245: Anonymous SASL Mechanism. （被RFC4505废弃）
+- RFC2342: IMAP4 Namespace 
+- RFC2359: IMAP4 UIDPLUS extension (被RFC4315废弃)
 - RFC2595: Using TLS with IMAP, POP3 and ACAP
 - RFC2683: IMAP4 Implementation Recommendations
 - RFC2831: Using Digest Authentication as a SASL Mechanism.

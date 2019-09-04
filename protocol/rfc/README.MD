@@ -1,5 +1,13 @@
 # Request For Comments(RFC)
-
+Status
+- INTERNET STANDARD
+- PROPOSED STANDARD
+- INFORMATIONAL
+- HISTORIC
+- EXPERIMENTAL
+Stream
+- Legacy
+- IETF
 ## 官网
 `https://tools.ietf.org/html/` or `https://tools.ietf.org/rfc/`
 `https://www.rfc-editor.org/rfc-index.html`
