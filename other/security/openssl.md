@@ -1,8 +1,13 @@
-# Openssl加密解密
+# Openssl
 分三大块:
 - 标准命令 如: ca,gendsa,genpkey,genrsa,pkcs8,req,rsa,x509等
-- 数字签名 如: md5,sha256等
-- 对称加密 如: aes-256-cbc,base64,des,des3等
+  - s_client
+  `openssl s_client -connect localhost:2009 -crlf -debug -key clientprikey.pem -cert client.pem -ssl3 -cipher EXP-KRB5-RC4-MD5 -msg `
+  `openssl s_client -connect localhost:2009 -crlf -debug -starttls smtp `
+  - s_server
+  `openssl s_server -cert sm22.cer -key sm22.key -dcert sm21.cer -dkey sm21.key -Verify 1 -CAfile sm2root.cer -port 443`
+- 数字签名(dgst快捷方式) 如: md5,sha256等
+- 对称加密(enc快捷方式) 如: aes-256-cbc,base64,des,des3等
 ## 签名与验证
 Linux Only: `sha512sum,md5sum`
 `openssl ciphername or openssl enc -ciphername`

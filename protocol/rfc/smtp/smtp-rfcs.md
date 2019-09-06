@@ -64,4 +64,5 @@
 - RFC6195: Domain Name System (DNS) IANA Considerations
 - RFC6840: Clarifications and Implementation Notes for DNS Security (DNSSEC)
 - RFC6895: Domain Name System (DNS) IANA Considerations
+- RFC7208: Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1
 - RFC8198: Aggressive Use of DNSSEC-Validated Cache
