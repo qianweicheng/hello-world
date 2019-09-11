@@ -32,3 +32,14 @@ nslookup domain
 `telnet host port`
 ## 端口转发
 详情见ssh.md
+## nslookup
+- 直接进入: 
+    ```
+        nslookup
+        set q=mx
+    ```
+- 单行命令: `nslookup yourdomain`
+## dig
+- `dig yourdomain`
+- `dig mx yourdomain`
+- `dig +short txt yourdomain`

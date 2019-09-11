@@ -1,14 +1,14 @@
 # SMTP
 - RFC821: SIMPLE MAIL TRANSFER PROTOCOL(被废弃)
 - RFC974: MAIL ROUTING AND THE DOMAIN SYSTEM
-- RFC1651: SMTP Service Extensions
+- RFC1651: SMTP Service Extensions(被废弃)
 - RFC1845: SMTP Service Extension for Checkpoint/Restart.
-- RFC1846: SMTP 521 Reply Code
+- RFC1846: SMTP 521 Reply Code 定义个code:Host没有mx记录
 - RFC1870: SMTP Service Extension for Message Size Declaration
 - RFC1985: SMTP Service Extension for Remote Message Queue Starting
 - RFC2034: SMTP Service Extension for Returning Enhanced Error Codes
 - RFC2442: The Batch SMTP Media Type.
-- RFC2505: Anti-Spam Recommendations for SMTP MTAs.
+- RFC2505: Anti-Spam Recommendations for SMTP MTAs. (重点看)
 - RFC2645: ON-DEMAND MAIL RELAY (ODMR) SMTP with Dynamic IP Addresses.
 - RFC2821: Simple Mail Transfer Protocol(被废弃)
 - RFC2852: Deliver By SMTP Service Extension.
@@ -25,17 +25,20 @@
 - RFC4496: Open Pluggable Edge Services (OPES) SMTP Use Cases.
 - RFC4865: SMTP Submission Service Extension for Future Message Release.
 - RFC4902 Integrity, Privacy, and Security in Open Pluggable Edge Services (OPES) for SMTP.
-- RFC4954: SMTP Service Extension for Authentication. 
+- RFC4954: SMTP Service Extension for Authentication. (描述登录)
 - RFC5248: A Registry for SMTP Enhanced Mail System Status Codes.
-- RFC5321: Simple Mail Transfer Protocol
+- RFC5321: Simple Mail Transfer Protocol (重要)
 - RFC5336: SMTP Extension for Internationalized Email Addresses(被废弃)
 - RFC6152: SMTP Service Extension for 8-bit MIME Transport.
+- RFC6376: DomainKeys Identified Mail (DKIM) Signatures
+- RFC6409: Message Submission for Mail (重要)
 - RFC6531: SMTP Extension for Internationalized Email
 - RFC6647: Email Greylisting: An Applicability Statement for SMTP.
 - RFC6758: Tunneling of SMTP Message Transfer Priorities.
 - RFC7293: The Require-Recipient-Valid-Since Header Field and SMTP Service Extension.
 - RFC7504: SMTP 521 and 556 Reply Codes
 - RFC7672: SMTP Security via Opportunistic DNS-Based Authentication of Named Entities (DANE) Transport Layer Security (TLS).
+- RFC8314: Cleartext Considered Obsolete: Use of Transport Layer Security (TLS) for Email Submission and Access
 - RFC8460: SMTP TLS Reporting.
 - RFC8461: SMTP MTA Strict Transport Security (MTA-STS).
 ## Releated
@@ -66,3 +69,20 @@
 - RFC6895: Domain Name System (DNS) IANA Considerations
 - RFC7208: Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1
 - RFC8198: Aggressive Use of DNSSEC-Validated Cache
+## Extends
+- SIZE
+- ENHANCEDSTATUSCODES
+- PIPELINING  管道，类似LITERAL+
+- BINARYMIME
+- CHUNKING
+- STARTTLS
+- 8BITMIME
+- SMTPUTF8
+- ETRN
+- DSN
+- CHECKPOINT
+- AUTH
+- MTRK
+- ATRN
+- CONPERM
+- CONNEG

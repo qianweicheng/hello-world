@@ -1,0 +1,20 @@
+# RFC index
+- RFC1847: Security Multiparts for MIME: Multipart/Signed and Multipart/Encrypted(不重要)
+- RFC2183: Communicating Presentation Information in Internet Messages: The Content-Disposition Header Field
+- RFC2231:  MIME Parameter Value and Encoded Word Extensions: Character Sets, Languages, and Continuations
+- RFC2387: The MIME Multipart/Related Content-type（重要）
+- RFC3459: Critical Content Multi-purpose Internet Mail Extensions (MIME) Parameter
+- RFC3461: Simple Mail Transfer Protocol (SMTP) Service Extension for Delivery Status - Notifications (DSNs)
+- RFC3464: An Extensible Message Format for Delivery Status Notifications
+- RFC3676: The Text/Plain Format and DelSp Parameters
+- RFC4021: Registration of Mail and MIME Header Fields
+- RFC5147: URI Fragment Identifiers for the text/plain Media Type(不重要)
+- RFC6522: The Multipart/Report Media Type for the Reporting of Mail System Administrative Messages(废弃RFC3462)
+- RFC6532: Internationalized Email Headers
+- RFC6533: Internationalized Delivery Status and Disposition Notifications(Update 3461，3464，3798，6522)
+- RFC6657: Update to MIME regarding "charset" Parameter Handling in Textual Media Types(定义text/* 默认的字符集)
+- RFC6838: Media Type Specifications and Registration Procedures
+- RFC6854: Update to Internet Message Format to Allow Group Syntax in the "From:" and "Sender:" Header Fields.
+- RFC7303: XML Media Types
+- RFC7578: Returning Values from Forms: multipart/form-data(废弃RFC2388)
+- RFC8098: Message Disposition Notification(关于退信的邮件结构)

@@ -17,10 +17,14 @@
   - SPF是为了防范伪造发件人地址发送垃圾邮件而提出的一种开放式标准，是一种以IP地址认证电子邮件发件人身份的技术。域名所有者通过在DNS中发布SPF记录来授权合法使用该域名发送邮件的IP地址。
   - 当在DNS中定义了域名的SPF记录后，为了确认邮件声称发件人不是伪造的，邮件接收方首先检查邮件域名的SPF记录，来确定发件人的IP地址是否被包含在SPF记录中，若包含，则认为是一封正确的邮件，否则认为是一封伪造的邮件并退回，或将其标记为垃圾/仿冒邮件。
   - 设置正确的SPF记录可以提高邮件系统发送外域邮件的成功率，也可以一定程度上防止被假冒域名发送邮件。
-  - start with `v=spf1`. Example:`v=spf1 include:_spf.google.com ~all`
-- DKIM(DomainKeys Identified Mail)
+  - 在TXT中有一条记录: start with `v=spf1`. Example:`v=spf1 include:_spf.google.com ~all`
+- DKIM(DomainKeys Identified Mail)(RFC6376)
   - DKIM verifies that message content is authentic and not changed.
   - 目前有微软推出的Sender ID作为其唯一的竞争者，不过两者应用差距明显
+  - 配置DMARC
+    - 创建子域名: `_dmarc.yourdomain`
+    - 查询: `dig +short TXT _dmarc.yourdomain`
+    - 公钥存储在: `(selector)._domainkey.yourdomain`
 - DMARC(Domain-based Message Authentication, Reporting & Conformance)(2012)
   - https://tools.ietf.org/html/rfc7489
   - DMARC是一种基于现有的SPF和DKIM协议的可扩展电子邮件认证协议，在邮件收发双方建立了邮件反馈机制，便于邮件发送方和邮件接收方共同对域名的管理进行完善和监督。
@@ -32,12 +36,38 @@ https://toolbox.googleapps.com/apps/checkmx/
 ## PTR(反向域名解析)
 国外部分邮件服务商会对收到的邮件进行反向域名解析`dig -x  IP`
 PTR和SPF有部分重合，PTR是从ISP那边配置的，SPF是从域名服务商那边配置
-## DKIM(RFC6376)
-#### 配置DMARC：
-- 创建子域名: `_dmarc.yourdomain`
-- 查询: `dig +short TXT _dmarc.yourdomain`
-#### 邮件头中有DKIM-Signature字段
-- 例子
+## Example
+#### MX and SPF
+```
+C: dig MX 126.com
+S:  126.com	mail exchanger = 10 126mx02.mxmail.netease.com.
+    126.com	mail exchanger = 10 126mx01.mxmail.netease.com.
+    126.com	mail exchanger = 50 126mx00.mxmail.netease.com.
+    126.com	mail exchanger = 10 126mx03.mxmail.netease.com.
+C: dig TXT 126.com
+S: v=spf1 include:spf.163.com -all
+C: dig TXT spf.163.com
+S: v=spf1 include:a.spf.163.com include:b.spf.163.com include:c.spf.163.com include:d.spf.163.com include:e.spf.163.com -all
+```
+递归查询a-e.spf.163.com得到
+```
+v=spf1 ip4:220.181.12.0/22 ip4:220.181.31.0/24 ip4:123.125.50.0/24 ip4:220.181.72.0/24 ip4:123.58.178.0/24 ip4:123.58.177.0/24 ip4:113.108.225.0/24 ip4:218.107.63.0/24 ip4:123.58.189.128/25 ip4:123.126.96.0/24 ip4:123.126.97.0/24 -all
+省略...
+```
+其中我们126.com常用的IP发送地址`220.181.15.111`属于`220.181.12.0/22`段号.
+```
+前22位为网络号，后10位为机器号
+xxxxxxxx.xxxxxxxx.xxxxxxxx.xxxxxxxx
+                  00001100
+220.181.12-15.xxx
+```
+#### SMTP
+我们通过`nslookup smtp.126.com`查询得到网易的
+smtp服务器列表:`220.181.15.111-114`
+MX的服务器列表:`220.181.15.131-209`
+网易邮箱禁止了使用MX的邮箱当成SMTP邮箱发送邮件
+`Local user is not allowed,126 mx1,H8mowADXbKL72nFdnOR5CQ--.47537S2 1567742717`
+#### DKIM(DKIM-Signature字段)
 ```
 DKIM-Signature: v=1; a=rsa-sha256; d=example.net; s=s110527;
 c=simple; q=dns/txt; i=@eng.example.net;
@@ -99,3 +129,7 @@ z= 复制的头字段（dkim-quoted-printable，可选的，默认为null）
 - 250OK今年8月新出的一份DMARC报告显示，律所在安全协议采用上走在各行业前列，但其采纳率也仅有1/3这么点儿。大部分其他公司的采纳率微乎其微。
 - 250OK的研究与Agari早些时候的调查遥相呼应。Agari发现，财富500强企业中恰当实现了DMARC的仅占8%，仅2%的域名有所防护。
 - 设置DMARC、DKIM和SPF并不容易，且易受运营商错误影响
+- 国内的万网是不支持DKIM，目前新网是支持SPF和DKIM。
+## 相关Header
+Authentication-Results
+DKIM-Signature

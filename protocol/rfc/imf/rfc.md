@@ -151,20 +151,24 @@ fields  =   *(trace
         [RFC2045], [RFC2046], [RFC2047], [RFC2049], [RFC4288], and [RFC4289]
         [RFC4021], [RFC3864]
         - RFC6854(2013): Update to Internet Message Format to Allow Group Syntax in the "From:" and "Sender:" Header Fields
-- MIME
-    RFC2045 MIME Part 1: Format of Internet Message Bodies 
-        2184, 2231, 5335, 6532 
-              2184, 2231    
-        -2231（2045, 2047, 2183）
-    RFC2046 MIME Part 2: Media Types 
-    RFC2047 MIME Part 3: Header Extensions for Non-ASCII Text 
-    RFC2048 MIME Part 4: Registration Procedures 
-    RFC2049 MIME Part 5: Conformance Criteria and Examples
-    RFC4288 
-    RFC4289 
-RFC4021: Registration of Mail and MIME Header Fields
-RFC5322: Internet Message Format. 
+
+RFC4021: Registration of Mail and MIME Header Fields 
 RFC5234: 
-RFC6532: Internationalized Email Headers.
-RFC6854: Update to Internet Message Format to Allow Group Syntax in the
-     "From:" and "Sender:" Header Fields.
+# RFC2047: MIME (Multipurpose Internet Mail Extensions) Part Three: Message Header Extensions for Non-ASCII Text
+主要描述Header的非ASCII， 其他相关的扩展以及更新的RFC在RFC2045里面有描述。
+- RFC2231: MIME Parameter Value and Encoded Word Extensions: Character Sets, Languages, and Continuations
+## Examples
+```
+   From: =?US-ASCII?Q?Keith_Moore?= <moore@cs.utk.edu>
+   To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld@dkuug.dk>
+   CC: =?ISO-8859-1?Q?Andr=E9?= Pirard <PIRARD@vm1.ulg.ac.be>
+   Subject: =?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?=
+    =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=
+```
+# RFC2048 Multipurpose Internet Mail Extensions (MIME) Part Four:Registration Procedures  
+Updated by rfc3023
+->rfc6839(Additional Media Type Structured Syntax Suffixes
+)
+->rfc7303(XML Media Types)
+Obsoleted by： 4288（被6838废弃）, 4289
+最终结果：3023，4289，6838
