@@ -1,7 +1,12 @@
 # RFC index
+- RFC822: (1982)Standard for ARPA Internet text messages(正式标准化)
 - RFC1847: Security Multiparts for MIME: Multipart/Signed and Multipart/Encrypted(不重要)
+- RFC2045: MIME Part One: Format of Internet Message Bodies
+- RFC2046: Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types
+- RFC2047: MIME (Multipurpose Internet Mail Extensions) Part Three: Message Header Extensions for Non-ASCII Text
+- RFC2048 Multipurpose Internet Mail Extensions (MIME) Part Four:Registration Procedures
 - RFC2183: Communicating Presentation Information in Internet Messages: The Content-Disposition Header Field
-- RFC2231:  MIME Parameter Value and Encoded Word Extensions: Character Sets, Languages, and Continuations
+- RFC2231: MIME Parameter Value and Encoded Word Extensions: Character Sets, Languages, and Continuations(废弃RFC2184)
 - RFC2387: The MIME Multipart/Related Content-type（重要）
 - RFC3459: Critical Content Multi-purpose Internet Mail Extensions (MIME) Parameter
 - RFC3461: Simple Mail Transfer Protocol (SMTP) Service Extension for Delivery Status - Notifications (DSNs)
@@ -9,8 +14,11 @@
 - RFC3676: The Text/Plain Format and DelSp Parameters
 - RFC4021: Registration of Mail and MIME Header Fields
 - RFC5147: URI Fragment Identifiers for the text/plain Media Type(不重要)
+- RFC5322: Internet Message Format
 - RFC6522: The Multipart/Report Media Type for the Reporting of Mail System Administrative Messages(废弃RFC3462)
-- RFC6532: Internationalized Email Headers
+- RFC6530: Overview and Framework for Internationalized Email(废弃RFC4952)
+- RFC6531: SMTP Extension for Internationalized Email(废弃RFC5336)
+- RFC6532: Internationalized Email Headers(废弃RFC5335)
 - RFC6533: Internationalized Delivery Status and Disposition Notifications(Update 3461，3464，3798，6522)
 - RFC6657: Update to MIME regarding "charset" Parameter Handling in Textual Media Types(定义text/* 默认的字符集)
 - RFC6838: Media Type Specifications and Registration Procedures
