@@ -1,11 +1,6 @@
 # Openssl
 分三大块:
 - 标准命令 如: ca,gendsa,genpkey,genrsa,pkcs8,req,rsa,x509等
-  - s_client
-  `openssl s_client -connect localhost:2009 -crlf -debug -key clientprikey.pem -cert client.pem -ssl3 -cipher EXP-KRB5-RC4-MD5 -msg `
-  `openssl s_client -connect localhost:2009 -crlf -debug -starttls smtp`
-  - s_server
-  `openssl s_server -cert sm22.cer -key sm22.key -dcert sm21.cer -dkey sm21.key -Verify 1 -CAfile sm2root.cer -port 443`
 - 数字签名(dgst快捷方式) 如: md5,sha256等
 - 对称加密(enc快捷方式) 如: aes-256-cbc,base64,des,des3等
 ## 签名与验证
@@ -41,9 +36,20 @@ base只是一种编码，可以结合加密解密一起用
 `openssl rsautl -sign -in a.txt -inkey server.key -out sign.txt`
 - 公钥解密
 `openssl rsautl -verify -in sign.txt -inkey server.key -out replain.txt`
-
-
-
+#### SSL/TLS客户端程序
+- s_client
+`openssl s_client -connect localhost:2009 -crlf -debug -key clientprikey.pem -cert client.pem -ssl3 -cipher EXP-KRB5-RC4-MD5 -msg `
+`openssl s_client -connect localhost:2009 -crlf -debug -starttls smtp`
+- s_server
+`openssl s_server -cert sm22.cer -key sm22.key -dcert sm21.cer -dkey sm21.key -Verify 1 -CAfile sm2root.cer -port 443`
+- 参数
+  - -host
+  - -port
+  - -connect host:port
+  - -key 私钥文件
+  - -pass 私钥保护口令
+  - -crlf 把在终端输入的换行回车转化成/r/n送出去
+  - -starttls protocol：protocol可以为smtp或pop3，用于邮件安全传输
 
 # 证书管理
 ## 生成私钥
