@@ -115,5 +115,6 @@ set -e 当shell脚本产生错误立即退出( 默认行为是产生了错也继
     echo -e "\033[37m ${str}\033[0m"      ## 白色
     ```
 - 参数`-n`:取消echo后面的`\n`
-  `echo "str" | base64` 将字符串str+换行 编码为base64字符串输出
+  `echo "str" | base64` 将字符串str+换行 编码为base64字符串输出, 也可以用`\x00`两位16进制表示.
+  - `echo "This is \x30"`输出`This is 0` (0的ASCII码为48)， 只在Mac下支持，并且必须引号
     

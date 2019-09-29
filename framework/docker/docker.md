@@ -90,3 +90,23 @@ daemon监听: /var/run/docker.sock
 docker client通过/var/run/docker.sock与daemon通讯
 通过监听docker.sock获取docker事件流
 `curl --unix-socket /var/run/docker.sock http://localhost/events`
+## multi-stage(多阶段构建)
+使用多阶段构建好处
+- 减少镜像Size
+- 简化构建过程(如果使用传统方式来减少Size的话，必须通过脚本`docker cp`拷贝文件)
+- 提高安全性
+```
+# FROM golang:1.7.3 as builder
+FROM golang:1.7.3
+WORKDIR /go/src/github.com/sparkdevo/href-counter/
+RUN go get -d -v golang.org/x/net/html
+COPY app.go    .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+# COPY --from=builder /go/src/github.com/sparkdevo/href-counter/app .
+COPY --from=0 /go/src/github.com/sparkdevo/href-counter/app .
+CMD ["./app"]
+```

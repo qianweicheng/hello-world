@@ -2,7 +2,7 @@
 ## 安装
 - python3
 `yum install python3` or `yum install python-setuptools`
-`brew install python3`
+`brew install python3`. 对于需要c/c++编译的则添加`python-dev/python3-dev`
 - pip
     `wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py`
     `easy_install install pip`

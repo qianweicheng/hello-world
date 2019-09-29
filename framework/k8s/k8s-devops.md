@@ -41,6 +41,13 @@ kubectl patch statefulset tigase --type='json' -p='[{"op": "replace", "path": "/
 3. Even if apps and libraries did proper re-resolution, the load of every client re-resolving DNS over and over would be difficult to manage.
 
 ## 常用命令
+- 锁定当前namespace:
+    `kubectl config set-context --current --namespace=<insert-namespace-name-here>`
+- 创建:
+    `kubectl run --image=nginx:alpine nginx-app --port=80`
+- 选择：
+  - `kubectl get pods --field-selector status.phase=Running`
+  - `kubectl get pods -lapp=nginx`
 - 查看资源:
     `kubectl get pod tigase-0 -o=jsonpath="{.spec.containers[0].image}"`
     `kubectl get pod tigase-0 -o=template --template={{.spec.containers.0.image}}`
@@ -48,6 +55,7 @@ kubectl patch statefulset tigase --type='json' -p='[{"op": "replace", "path": "/
 - 修改机器数量
     `kubectl scale statefulset tigase-beta --replicas=3`
     `kubectl scale deployments shadowsocks --replicas=2`
+    `kubectl patch statefulset web -p '{"spec":{"replicas":3}}'`
     > Deployment在某个事件点上不保证replicate的准确性，如果需要严格保证的化，使用statefulset
 - 强制删除
     `kubectl delete pods <pod> --grace-period=0 --force`
@@ -113,3 +121,6 @@ var/run/secrets/kubernetes.io/serviceaccount/
 - ca.crt 根证书
 - token: 一个jwt格式的token。其内容是一个secret资源，对应一个ServiceAccount和其绑定的Role
 - ServiceAccount, ClusterRole,ClusterRoleBinding
+## 监控
+`kubectl top node`
+`kubectl top pod`
