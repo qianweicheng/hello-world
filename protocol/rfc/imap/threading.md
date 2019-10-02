@@ -3,6 +3,7 @@
 #### 表设计
 thread表设计： `Account, Message-ID, Thread-ID, Subject, Email, Date`，
 此表里面的数据随着Message的删除而删除, 其中Message-ID可以为空，也可以重复(Message-ID重复的情况比较常见，但为空的只是理论存在，真实情况没有case，望补充)
+
 字段|说明
 -|-
 Account| 账号
@@ -11,6 +12,7 @@ Thread-ID|基于UUID规则生成.
 Subject|需要统一规整化，比如去掉“RE:”,"FW:",空格等
 From-Email|邮件的`From`字段
 Date|邮件的收信时间
+
 #### 说明
 - 如果没有`Subject, Email, date`三个字段，则无法完成案例2的聚合
 - Thread-ID生成方案比较: 
