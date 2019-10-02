@@ -28,18 +28,19 @@ Date|邮件的收信时间
       - 效率低.多了一次数据库查询
       - 必须有`Subject, Email, date`三个字段辅助，否则无法完成案例2的聚合
 #### 操作逻辑
-对于所有新收到的邮件，非Gmail账号：
-``` 举例数据
+对于所有新收到的邮件，非Gmail账号，(Gmail直接帮我们计算好了Thread-ID)：
+``` 
+    # 举例数据
     In-Peply-To: <001@edison.tech>
     References: <002@edison.tech> <003@edison.tech>
     Message-ID: <004@edison.tech>
 ```
-- 确定Thread-ID: 通过四个ID查询`SELECT * FROM table WHERE account=01 AND Message-ID in ('<001@edison.tech','<002@edison.tech>', '<003@edison.tech>','<004@edison.tech>')`
+- 确定Thread-ID: 通过`In-Peply-To，References，Message-ID`中的四个ID查询`SELECT * FROM table WHERE account=01 AND Message-ID in ('<001@edison.tech','<002@edison.tech>', '<003@edison.tech>','<004@edison.tech>')`
     - 如果返回条数>0
         - 每行的thread-id都相同(大多数正常情况)，直接返回该thread-id; 
         - 如果thread-id有多个不同的值(对于message-id重复的邮件进行回复),找到同一message-id只有一个thread-id的组合, 如果有
             - 1个: 则直接返回thread-id
-            - 多个: thread-id相同，直接返回它; 否则根据subject和date挑选一个; 挑选失败则进入下一步
+            - 多个: thread-id相同，直接返回它; 否则根据subject和date挑选一个,挑选规则同下; 挑选失败则进入下一步
             - 0个: 进入下一步(回复的邮件都是Message-ID重复的)
     - 如果返回条数=0, 
         - 不是回复和转发邮件，则通过`Subject+low(email)+send date倒序(一定时间内)` 尝试提取Thread-ID，否则生成新的Thread-ID
@@ -50,16 +51,17 @@ Date|邮件的收信时间
 说明：
 - 规整化Subject：去除开头的`(RE:)+`, `(FW:)+`,`(回复:)+`,`(转发:)+`等，并且去除首尾的空白
 - 通过此规则，不同的邮件到达顺序，可能导致插入的顺序不一样，但最后的处理结果在数据库留下的记录集合是一样的
-#### 优化
-这个步骤只是为了更清楚的说明逻辑，在实际操作中应该进行优化，比如:
-现在对于普通邮件基本上都需要进行两次查询: 
-- 通过In-Reply-To，References,Message-ID查询
-- 通过subject，date等字段查询
-
-
-优化方式，realm是否需要？
-- 一次性把数据查询出来:
-`SELECT * FROM table WHERE account=01 AND (Message-ID in ('<001@edison.tech','<002@edison.tech>', '<003@edison.tech>','<004@edison.tech>') OR subject='Final Threading' AND date='xxx' AND email='xxx') `
+- 优化。上述的步骤只是为了更清楚的说明逻辑，在实际操作中应该进行优化，现在对于普通邮件很多都需要进行两次查询: 
+  1. 通过In-Reply-To，References,Message-ID查询(大部分时候是不需要的)
+  2. 通过subject，date等字段查询
+- 优化方式，realm是否需要？
+  - 一次性把数据查询出来:
+    `SELECT * FROM table WHERE account=01 AND (Message-ID in ('<001@edison.tech','<002@edison.tech>', '<003@edison.tech>','<004@edison.tech>') OR subject='Final Threading' AND date='xxx' AND email='xxx')`
+  - 对于不需要支持乱序处理的情况下,也就是严格按照UID升序拉下来邮件
+    - 当In-Reply-To，References为空，跳过Message-ID查询
+    - 当In-Reply-To，References唯一个是`xxxSMTPIN_ADDED_BROKEN@mx.google.com`结尾的，跳过Message-ID查询
+    - 这样就SQL就简化成:
+    `SELECT * FROM table WHERE account=01 AND subject='Final Threading' AND date='xxx' AND email='xxx'`
 
 
 ## 非法Message—ID案例
