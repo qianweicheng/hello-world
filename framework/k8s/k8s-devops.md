@@ -45,6 +45,7 @@ kubectl patch statefulset tigase --type='json' -p='[{"op": "replace", "path": "/
     `kubectl config set-context --current --namespace=<insert-namespace-name-here>`
 - 创建:
     `kubectl run --image=nginx:alpine nginx-app --port=80`
+    `kubectl run -it --rm --restart=Never alpine --image=alpine sh`
 - 选择：
   - `kubectl get pods --field-selector status.phase=Running`
   - `kubectl get pods -lapp=nginx`

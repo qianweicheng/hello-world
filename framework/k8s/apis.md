@@ -31,7 +31,15 @@
 - /apps/v1/namespaces/default/deployments
     这个包含了deployment statefulset 等资源
 ## 访问服务
+https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/
 - /api/v1/namespaces/namespace_name/services/[https:]service_name[:port_name]/proxy
+- 命令行
+  ```
+        APISERVER=$(kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " ")
+        SECRET_NAME=$(kubectl get secrets | grep ^default | cut -f1 -d ' ')
+        TOKEN=$(kubectl describe secret $SECRET_NAME | grep -E '^token' | cut -f2 -d':' | tr -d " ")
+        curl $APISERVER/api --header "Authorization: Bearer $TOKEN" --insecure
+  ```
 ## APIs
 "/api",
 "/api/v1",
