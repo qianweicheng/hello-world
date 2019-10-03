@@ -1,11 +1,11 @@
 # Thread
-标准的Thread处理是通过In-Reply-To，References进行的，本章主要增加如下几种特殊情况的处理:
+标准的Thread处理是通过In-Reply-To，References进行的，本章主要增加如下几种特殊情况的处理(Gmail直接帮我们计算好了Thread-ID不在本章讨论范围):
 - Message-ID重新生成。部分邮件服务商(Gmail)对非法的Message-ID会进行重新创建，导致Thread分裂
 - 同一人使用同一标题(Subject)在一段时间范围内发送了多封邮件
 - Message-ID重复。部分邮件服务商/Email Client发送的邮件使用固定的Message-ID，对此类邮件进行回复和转发的处理
 - Gmail邮件由于本身提供thread，直接使用gmail的Thread-ID进行聚合
 ## 建议处理方法
-#### 表设计
+### 表设计
 thread表设计： `Account, Message-ID, Thread-ID, Subject, Email, Date`，
 此表里面的数据随着Message的删除而删除, 其中Message-ID可以为空，也可以重复(Message-ID重复的情况比较常见，但为空的只是理论存在，真实情况没有case，望补充)
 
@@ -18,22 +18,7 @@ Subject|需要统一规整化，比如去掉“RE:”,"FW:",空格等
 From-Email|邮件的`From`字段
 Date|邮件的收信时间
 
-#### 说明
-- Thread-ID生成方案比较: 
-  - MD5: 
-    - 规则: `md5(account+正则后的subject+low(email)+处理后的date)`
-      - 当我们按日聚合，就取`yyyy-MM-dd`
-      - 当我们按周聚合，就取`yyyy-WW`
-      - 当我们按月聚合，就取`yyyy-MM`
-    - 优势: MD5方便完成案例2的聚合，可以不需要查询数据库，直接生成，Subject, Email, date三字段可以省略(但所有案例的聚合周期只能统一)。
-    - 劣势: 理论上存在键值冲突，并且灵活性略低
-  - UUID(推荐方案): 
-    - 优势: 理论上不存在键值冲突，并且灵活性高
-    - 劣势: 
-      - 效率低.多了一次数据库查询
-      - 必须有`Subject, Email, date`三个字段辅助，否则无法完成案例2的聚合
-#### 操作逻辑
-对于所有新收到的邮件，非Gmail账号，(Gmail直接帮我们计算好了Thread-ID)：
+### 实验数据
 ``` 
     # 举例数据1
     In-Peply-To: <001@edison.tech>
@@ -48,40 +33,53 @@ Date|邮件的收信时间
     002      1
     004      1
 ```
+### 操作逻辑三部曲
+- 查询：通过`In-Peply-To，References，Message-ID`中的ID(举例数据1)查询
+  - 标准查询：`SELECT * FROM table WHERE account=01 AND Message-ID in ('<001@edison.tech','<002@edison.tech>', '<003@edison.tech>','<004@edison.tech>')` 。 
+  - 如果`In-Peply-To，References`为空可以优化成：`SELECT * FROM table WHERE account=01 AND Message-ID=<004@edison.tech> LIMIT 10 ORDER BY DATE DESC`
 - 确定Thread-ID: 
-    通过`In-Peply-To，References，Message-ID`中的ID(举例数据1)
-    - SQL查询：`SELECT * FROM table WHERE account=01 AND Message-ID in ('<001@edison.tech','<002@edison.tech>', '<003@edison.tech>','<004@edison.tech>')` 。 
-    - （优化Optional，主要针对Message-ID重复的情况)如果`In-Peply-To，References`为空：`SELECT * FROM table WHERE account=01 AND Message-ID=<004@edison.tech> LIMIT 10 ORDER BY DATE DESC`
-    
-    具体逻辑：
     1. 如果返回条数>0
         1. thread-id都相同
-          1. 检查返回的记录里面没有“Message-ID=当前Email的Message-ID且Email&Date不为空的”(表示Message-ID没有重复)，直接返回该thread-id，否则下进入下一条; 
-          2. (Message-Id重复的情况发生了)从结果中寻找一个“规整后subject相等，并且date在一定时间内”的记录，找到则返回，否则生成一个新的
+           1. 检查返回的记录里面没有“Message-ID=当前Email的Message-ID且Email&Date不为空的”(表示Message-ID没有重复)，直接返回该thread-id，否则下进入下一条; 
+           2. (Message-Id重复的情况发生了)从结果中寻找一个“规整后subject相等，并且date在一定时间内”的记录，找到则返回，否则生成一个新的
         2. thread-id有多个不同的值(Message-Id重复的情况发生了),找到同一message-id只有一个thread-id的组合（过滤掉Message-ID重复的数据，举例数据2符合条件的有两个002，004）
-            1. 有1个: 则直接返回thread-id
-            2. 有多个: thread-id相同，直接返回它; 否则寻找一个“规整后subject相等，并且date在一定时间内”返回; 寻找失败则进入下一步
-            3. 有0个: (全部Message-ID重复)从结果中寻找一个“规整后subject相等，并且date在一定时间内”的记录，找到则返回，否则生成一个新的
+           1. 有1个: 则直接返回thread-id
+           2. 有多个: thread-id相同，直接返回它; 否则寻找一个“规整后subject相等，并且date在一定时间内”返回(这里依然有可能找出多个，就按时间最接近的); 寻找失败则进入下一步
+           3. 有0个: (全部Message-ID重复)从结果中寻找一个“规整后subject相等，并且date在一定时间内”的记录，找到则返回，否则生成一个新的
     2. 如果返回条数=0, 
-        1. 不是回复和转发邮件，则通过`Subject+low(email)+send date倒序(一定时间内)` 尝试提取Thread-ID，否则生成新的Thread-ID
-        2. 是回复或转发邮件(倒序下载的情况下发生)，则通过`调整后的Subject+send data倒序(一定时间内)`，尝试提取Thread-ID， 否则生成新的Thread-ID
+        1. 不是回复和转发邮件，则通过`Subject+low(email)+date倒序(一定时间内)` 尝试提取Thread-ID，否则生成新的Thread-ID
+        2. 是回复或转发邮件(倒序下载的情况下发生)，则通过`调整后的Subject+data(一定时间内)`，尝试提取Thread-ID， 否则生成新的Thread-ID
 - 插入数据：In-Reply-To，References,Message-ID里面的每一个item为一条记录，本例就必须有四条记录。
-    - In-Peply-To，References中的每个ID的记录中如果有thread-id等于前一步返回的thread-id，则跳过; 否则生成一条新记录(其中Email，date为空)存入。
-    - Message-ID的一个ID的记录中如果有thread-id等于前一步返回的thread-id，(在其他邮件中References或者In-Reply-To中存在过)，则跳过; 否则生成一条新的记录存入，区别于前者是email和date不为空。
-说明：
+    1. In-Peply-To，References中的每个ID的记录中如果有thread-id等于前一步返回的thread-id，则跳过; 否则生成一条新记录(其中Email，date为空)存入。
+    2. Message-ID的一个ID的记录中如果有thread-id等于前一步返回的thread-id，(在其他邮件中References或者In-Reply-To中存在过)
+       1. 如果存在: 判断Email/date是否为空，为空则更新一下这两个字段, 否则跳过
+       2. 如果不存在: 生成一条新的记录存入(注意这里email和date不为空）
+### 说明
+- Thread聚合时间
+  - 不管哪种情况下，如果判断是回复邮件，转发邮件，这个时间可以设置较长，比如1个月或者不限制
+  - 普通的Message-ID重复导致的Thread，这个时间可以设置1周
+  - 通过`Subject+From`(#2.1里面的情况)，则建议设置1天(保持跟Gmail一致)
+- Thread-ID生成方案比较: 
+  - MD5: 
+    - 规则: `md5(account+正则后的subject+low(email)+处理后的date)`
+      - 当我们按日聚合，就取`yyyy-MM-dd`
+      - 当我们按周聚合，就取`yyyy-WW`
+      - 当我们按月聚合，就取`yyyy-MM`
+    - 优势: MD5方便完成案例2的聚合，可以不需要查询数据库，直接生成，Subject, Email, date三字段可以省略(但所有案例的聚合周期只能统一)。
+    - 劣势: 理论上存在键值冲突，并且灵活性略低
+  - UUID(推荐方案): 
+    - 优势: 理论上不存在键值冲突，并且灵活性高
+    - 劣势: 
+      - 效率低.多了一次数据库查询
+      - 必须有`Subject, Email, date`三个字段辅助，否则无法完成案例2的聚合
 - 规整化Subject：去除开头的`(RE:)+`, `(FW:)+`,`(回复:)+`,`(转发:)+`等，并且去除首尾的空白
-- 通过此规则，不同的邮件到达顺序，可能导致插入的顺序不一样，但最后的处理结果在数据库留下的记录集合是一样的
-- 优化。上述的步骤只是为了更清楚的说明逻辑，在实际操作中应该进行优化，现在对于普通邮件很多都需要进行两次查询: 
-  1. 通过In-Reply-To，References,Message-ID查询(大部分时候是不需要的)
-  2. 通过subject，date等字段查询
-- 优化方式，realm是否需要？
-  - 一次性把数据查询出来:
-    `SELECT * FROM table WHERE account=01 AND (Message-ID in ('<001@edison.tech','<002@edison.tech>', '<003@edison.tech>','<004@edison.tech>') OR subject='Final Threading' AND date='xxx' AND email='xxx')`
+- 通过此规则，不同的邮件到达顺序，可能导致插入的顺序不一样，但最后的处理结果在数据库留下的记录集合是一样的 
+- 优化, 上述的步骤只是为了更清楚的说明逻辑，并且支持乱序下载邮件。
+  - 如果在实际操作中只是顺序下载，可以进行优化，并且可以通过一些中间变量减少数组遍历次数。
+  - 一次性把相关数据查询出来，减少数据库查询次数:
   - 对于不需要支持乱序处理的情况下,也就是严格按照UID升序拉下来邮件
     - 当In-Reply-To，References为空，跳过Message-ID查询
-    - 当In-Reply-To，References唯一个是`xxxSMTPIN_ADDED_BROKEN@mx.google.com`结尾的，跳过Message-ID查询
-    - 这样就SQL就简化成:
-    `SELECT * FROM table WHERE account=01 AND subject='Final Threading' AND date='xxx' AND email='xxx'`
+    - 当In-Reply-To，References唯一个是`xxxSMTPIN_ADDED_BROKEN@mx.google.com`结尾的，跳过Message-ID查询，等等。
 
 ## 案例
 ### 非法Message—ID重新生成
