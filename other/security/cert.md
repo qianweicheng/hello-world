@@ -1,10 +1,10 @@
 # Certificate(CERT)
-## Public-Key Cryptography Standards(PKCS)标准).
+## Public-Key Cryptography Standards(PKCS)标准.
 PKCS目前共发布过15个标准。常用的有：
-PKCS#1
-PKCS#7       这种主要是用于签名或者加密。
-PKCS#8
-PKCS#12     这种含有私钥，同时也含有公钥，但是有口令保护
+- PKCS#1
+- PKCS#7: 这种主要是用于签名或者加密。
+- PKCS#8
+- PKCS#12: 这种含有私钥，同时也含有公钥，但是有口令保护
 ## 证书存储格式
 X509,pfx/p12
 #### x509

@@ -1,9 +1,9 @@
 # Thread
 标准的Thread处理是通过In-Reply-To，References进行的，本章主要增加如下几种特殊情况的处理(Gmail直接帮我们计算好了Thread-ID不在本章讨论范围):
-- Message-ID重新生成。部分邮件服务商(Gmail)对非法的Message-ID会进行重新创建，导致Thread分裂
-- 同一人使用同一标题(Subject)在一段时间范围内发送了多封邮件
-- Message-ID重复。部分邮件服务商/Email Client发送的邮件使用固定的Message-ID，对此类邮件进行回复和转发的处理
-- Gmail邮件由于本身提供thread，直接使用gmail的Thread-ID进行聚合
+- Case1: Message-ID重新生成。部分邮件服务商(Gmail)对非法的Message-ID会进行重新创建，导致Thread分裂
+- Case2: 同一人使用同一标题(Subject)在一段时间范围内发送了多封邮件
+- Case3: Message-ID重复。部分邮件服务商/Email Client发送的邮件使用固定的Message-ID，对此类邮件进行回复和转发的处理
+- Case4: Gmail邮件由于本身提供thread，直接使用gmail的Thread-ID进行聚合
 ## 建议处理方法
 ### 表设计
 thread表设计： `Account, Message-ID, Thread-ID, Subject, Email, Date`，

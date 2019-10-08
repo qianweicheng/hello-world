@@ -25,6 +25,19 @@ Redhat系列依赖库:https://rpmfind.net/linux/RPM/index.html
     `rpm -Uvh http://mirrors.kernel.org/fedora-epel/epel-release-latest-7.noarch.rpm`
     或者
     `yum-config-manager --enable epel`
+
+#### yum用法
+```
+    yum repolist all
+    yum install
+    yum reinstall
+    yum update
+    yum remove
+    yum clean all
+    yum check-update
+    yum grouplist
+    yum groupinstall
+```
 ## 常用依赖
 - 编译相关
     - `apt-get install build-essential`
@@ -33,9 +46,14 @@ Redhat系列依赖库:https://rpmfind.net/linux/RPM/index.html
     - `yum groupinstall "Development Tools"` or 简化版`yum install -y gcc g++ kernel-devel`
     - archlinux: base-devel
 - automake: 自动生成makefile的。
-- aptitude: aptitude可以比apt-get更加智能地解决依赖问题，先安装它：
+- aptitude: aptitude可以比apt-get更加智能地解决依赖问题，先安装它
+- DNS相关(包括dig, nslookup, host)
+  - apt: dnsutils
+  - yum: bind-utils
 - 常用工具
-    curl,wget,telnet,netcat,openssl-devel, dnsutils(包括dig, nslookup, host)
+    curl,wget,telnet,netcat,openssl-devel
+- 查询说使用的工具所在的包
+  - `yum provides xxx`
 ## Mac: HomeBrew
 - brew tap 第三方包路径
     ```

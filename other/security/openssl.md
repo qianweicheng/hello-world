@@ -51,7 +51,6 @@ base只是一种编码，可以结合加密解密一起用
   - -crlf 把在终端输入的换行回车转化成/r/n送出去
   - -starttls protocol：protocol可以为smtp或pop3，用于邮件安全传输
 
-# 证书管理
 ## 生成私钥
 无加密:`openssl genrsa -out rsa_private.key 2048` 
 DES3加密:`openssl genrsa -des3 -out rsa_des3_private.key 2048`
