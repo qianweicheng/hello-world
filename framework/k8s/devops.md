@@ -1,11 +1,13 @@
 # Kubernates Devops
-## Kubernates 升级
-1. [升级kops](https://github.com/kubernetes/kops)
-2. [升级集群](https://github.com/kubernetes/kops/blob/master/docs/upgrade.md)：
-3. [查看Version](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md)
-4. kops edit cluster $NAME #NAME 在create-cluster.md里面查看
-5. kops upgrade cluster $NAME
-6. kops update cluster $NAME --yes
+## 升级
+一行搞定: `kops upgrade cluster ${NAME}`
+The Hard way:
+    1. [升级kops](https://github.com/kubernetes/kops)
+    2. [升级集群](https://github.com/kubernetes/kops/blob/master/docs/upgrade.md)：
+    3. [查看Version](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md)
+    4. kops edit cluster $NAME #NAME 在create-cluster.md里面查看
+    5. kops upgrade cluster $NAME
+    6. kops update cluster $NAME --yes
 >此处有坑：VPC的名字不能修改，否则会导致kops找不到，重新创建
 
 ## k8s滚动升级
@@ -13,38 +15,22 @@
 ***在statefulset 文件定义的时候添加 RollingUpdate ***
 或者：kubectl patch statefulset tigase -p '{"spec":{"updateStrategy":{"type":"RollingUpdate"}}}'
 kubectl patch statefulset tigase --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"edisonchat/tigase-edison:prod-v1"}]'
-
-## 变量引用
-```
-- name: MY_POD_SERVICE_ACCOUNT
-  valueFrom:
-    fieldRef:
-      fieldPath: spec.serviceAccountName
-- name: MY_POD_NAME
-  valueFrom:
-    fieldRef:
-        fieldPath: metadata.name
-```
-## Service 
-#### 分成三类
-1. ClusterIP
-2. NodePort (default: 30000-32767)
-3. LoadBalancer
-4. Headless service:port 无需定义，不走service的port, pod 上的port在非NodePort情况下无需定义
-#### Service 的三种格式:
-- xxxx
-- xxxx.<namespace>
-- xxxx.<namespace>.svc.cluster.local
-####  普通service vs headless service(type:ClusterIP + clusterIP:None) 
-1. There is a long history of DNS libraries not respecting DNS TTLs and caching the results of name lookups.
-2. Many apps do DNS lookups once and cache the results.
-3. Even if apps and libraries did proper re-resolution, the load of every client re-resolving DNS over and over would be difficult to manage.
-
 ## 常用命令
-- 锁定当前namespace:
+- Info
+```
+kubectl api-versions
+kubectl api-resources
+kubectl cluster-info
+kubectl get apiservices
+kubectl cp
+kubectl explain
+```
+- 查看配置
+    `kubectl config --kubeconfig=~/.kube/config view --minify`
+- 新建一个context，并且默认一个namespace:
     `kubectl config set-context --current --namespace=<insert-namespace-name-here>`
 - 创建:
-    `kubectl run --image=nginx:alpine nginx-app --port=80`
+    `kubectl create --image=nginx:alpine nginx-app --port=80`
     `kubectl run -it --rm --restart=Never alpine --image=alpine sh`
 - 选择：
   - `kubectl get pods --field-selector status.phase=Running`
@@ -97,31 +83,11 @@ kubectl patch statefulset tigase --type='json' -p='[{"op": "replace", "path": "/
     - user: 用户
     比如新建一个context: `kubectl config set-context dev1-ctx --namespace=dev1 --cluster=stag.easilydo.cc --user=stag.easilydo.cc`
 ## 在pod中查看api server 信息
--  `curl -v --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"`
-- `https://kubernetes/`
-- `https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT`
-
-## Filesystem
-- `aws ec2 modify-volume --region us-east-1 --volume-id vol-11111111111111111 --size 20 --volume-type gp2`
-- `aws ec2 describe-volumes-modifications --region us-east-1 --volume-id vol-11111111111111111`
-- `kubectl get node -o wide`
-
-## Kubernates Security
-- 修改kube-apiserver密码（https://kubernetes.io/docs/admin/kube-apiserver/）
-登陆到k8s-master机器，修改basic_auth.csv文件。(通过 ps aux | grep kube-apiserver 查看basic-auth-file=/srv/kubernetes/basic_auth.csv)
-- API Server
-    /usr/local/bin/kube-apiserver 
-    --allow-privileged=true 
-    --anonymous-auth=false 
-    --apiserver-count=1 
-    --authorization-mode=AlwaysAllow --basic-auth-file=/srv/kubernetes/basic_auth.csv 
-    --bind-address=0.0.0.0 
-    --client-ca-file=/srv/kubernetes/ca.crt 
-- 每个POD下面都有如下文件夹
-var/run/secrets/kubernetes.io/serviceaccount/
-- ca.crt 根证书
-- token: 一个jwt格式的token。其内容是一个secret资源，对应一个ServiceAccount和其绑定的Role
-- ServiceAccount, ClusterRole,ClusterRoleBinding
+```
+# HOST=https://kubernetes/
+HOST=https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
+curl -v --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" $HOST
+```
 ## 监控
 `kubectl top node`
 `kubectl top pod`

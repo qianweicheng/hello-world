@@ -1,0 +1,63 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-nginx
+spec:
+  podSelector:
+    matchLabels:
+      app: test-nginx
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: "test-busybox1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-nginx
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: test-nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: test-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-nginx
+  template:
+    metadata:
+      labels:
+        app: test-nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: test-busybox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-busybox
+  template:
+    metadata:
+      labels:
+        app: test-busybox
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ['sleep', '3600']

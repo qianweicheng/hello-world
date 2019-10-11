@@ -80,9 +80,9 @@ https://kubernetes.io/docs/concepts/cluster-administration/cloud-providers/
 - Contrail / Tungsten Fabric
 - DANM
 - Flannel
-## API
-```
-APISERVER=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')
-TOKEN=$(kubectl get secret $(kubectl get serviceaccount default -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode )
-curl $APISERVER/api --header "Authorization: Bearer $TOKEN" --insecure
-```
+## 扩展Kubernates API
+允许在不修改源代码的前提下扩展。方式有两个
+- API Aggregation
+  - 通过apiserver-builder创建
+  - sample-apiserver和apiserver-builder/example
+- CRD

@@ -1,0 +1,37 @@
+# THIS ONLY WORKS WHEN apiserver is runing with rbac authroication enabled.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: dev
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # "namespace" omitted since ClusterRoles are not namespaced
+  name: cluster-admin
+rules:
+- apiGroups: [""]
+  resources: 
+  - secrets
+  - pods
+  - namespaces
+  - deployments
+  - statefulsets
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+  namespace: dev
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-reader
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: dev
+  # SA 不需要apiGroup,User/Group需要
+  # apiGroup: rbac.authorization.k8s.io

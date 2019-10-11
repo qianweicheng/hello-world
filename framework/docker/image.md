@@ -11,7 +11,7 @@ FROM openjdk:alpine > alpine
 FROM alpine-java:7/8/7_jdk... #Oracle JDK
 
 ## 命令
-ADD vs COPY
+#### ADD vs COPY
 ADD 会自动解压zip等压缩包
 ADD/COPY  不能直接使用"COPY * ./"， 会把当前文件夹下的子文件目录结构丢失，全部扁平了
 ADD指令不仅能够将构建命令所在的主机本地的文件或目录，而且能够将远程URL所对应的文件或目录，作为资源复制到镜像文件系统。
@@ -20,7 +20,8 @@ ADD指令不仅能够将构建命令所在的主机本地的文件或目录，�
 ADD/COPY folder1 ./folder1/
 不能:
 ADD/COPY folder1 ./
-
+#### 条件拷贝
+COPY foo file-which-may-exist* /target
 ## Case1
 ```
 FROM ubuntu
