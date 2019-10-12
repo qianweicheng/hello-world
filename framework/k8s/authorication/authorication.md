@@ -106,6 +106,8 @@ Webhook Token Authentication: Webhook authentication is a hook for verifying bea
 首先必须使用Basic Auth进入（这是由于Dashboard web的原因，自己开发可以直接使用Token），然后:
 - 可以直接跳过，这个时候就是使用默认账号登录
 - 也可以使用Token登录
+- 使用ServiceAccount
+  - https://itnext.io/let-you-team-members-use-kubernetes-bf2ebd0be717
 #### Check
 `kubectl auth can-i create deployments --namespace prod`
 `kubectl auth can-i list secrets --namespace dev --as user1`
@@ -120,7 +122,7 @@ Webhook Token Authentication: Webhook authentication is a hook for verifying bea
     --embed-certs=true \
     --server=https://api.stag.easilydo.cc \
     --certificate-authority=./ca.crt
-  user_token={this-the token}
+  user_token={this-the-token}
   kubectl config set-credentials test-dev2 --token=$user_token
   kubectl config set-context test-dev2 \
     --cluster=test-dev2 \

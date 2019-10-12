@@ -1,93 +1,53 @@
-# Kubernates Devops
-## 升级
-一行搞定: `kops upgrade cluster ${NAME}`
-The Hard way:
-    1. [升级kops](https://github.com/kubernetes/kops)
-    2. [升级集群](https://github.com/kubernetes/kops/blob/master/docs/upgrade.md)：
-    3. [查看Version](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md)
-    4. kops edit cluster $NAME #NAME 在create-cluster.md里面查看
-    5. kops upgrade cluster $NAME
-    6. kops update cluster $NAME --yes
->此处有坑：VPC的名字不能修改，否则会导致kops找不到，重新创建
+# Devops
+## Master node配置
+参考: https://kubernetes.io/docs/setup/best-practices/cluster-large/
+1-5 nodes: m3.medium
+6-10 nodes: m3.large
+11-100 nodes: m3.xlarge
+101-250 nodes: m3.2xlarge
+251-500 nodes: c4.4xlarge
+more than 500 nodes: c4.8xlarge
+## 扩容时候注意如下服务
+InfluxDB and Grafana
+kubedns, dnsmasq, and sidecar
+Kibana
+elasticsearch
+FluentD with ElasticSearch Plugin
+FluentD with GCP Plugin
+## Labels & Selectors
+```
+"metadata": {
+  "labels": {
+    "key1" : "value1",
+    "key2" : "value2"
+  },
+  "annotations": {
+    "key1" : "value1",
+    "key2" : "value2"
+  }
+}
+```
+- Labels: 主要用来选择pod，service等. labels有一套推荐规范
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/instance: wordpress-abcxzy
+    app.kubernetes.io/version: "5.7.21"
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wordpress
+    app.kubernetes.io/managed-by: helm
+```
+- Annotations: 纯粹用来做注释的
+## Node
+node添加
+--node-eviction-rate=0.1 pod/s
 
-## k8s滚动升级
-当只有一个实例的时候，没法自动升级，默认直接时用kubectl apply 不能对statefulset的对象进行升级，必须使用RollingUpdate策略，模式是OnDelete策略
-***在statefulset 文件定义的时候添加 RollingUpdate ***
-或者：kubectl patch statefulset tigase -p '{"spec":{"updateStrategy":{"type":"RollingUpdate"}}}'
-kubectl patch statefulset tigase --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"edisonchat/tigase-edison:prod-v1"}]'
-## 常用命令
-- Info
-```
-kubectl api-versions
-kubectl api-resources
-kubectl cluster-info
-kubectl get apiservices
-kubectl cp
-kubectl explain
-```
-- 查看配置
-    `kubectl config --kubeconfig=~/.kube/config view --minify`
-- 新建一个context，并且默认一个namespace:
-    `kubectl config set-context --current --namespace=<insert-namespace-name-here>`
-- 创建:
-    `kubectl create --image=nginx:alpine nginx-app --port=80`
-    `kubectl run -it --rm --restart=Never alpine --image=alpine sh`
-- 选择：
-  - `kubectl get pods --field-selector status.phase=Running`
-  - `kubectl get pods -lapp=nginx`
-- 查看资源:
-    `kubectl get pod tigase-0 -o=jsonpath="{.spec.containers[0].image}"`
-    `kubectl get pod tigase-0 -o=template --template={{.spec.containers.0.image}}`
-    `kubectl get pod tigase-0 -o=go-template={{.spec.containers.0.image}}`
-- 修改机器数量
-    `kubectl scale statefulset tigase-beta --replicas=3`
-    `kubectl scale deployments shadowsocks --replicas=2`
-    `kubectl patch statefulset web -p '{"spec":{"replicas":3}}'`
-    > Deployment在某个事件点上不保证replicate的准确性，如果需要严格保证的化，使用statefulset
-- 强制删除
-    `kubectl delete pods <pod> --grace-period=0 --force`
-    `kubectl get pvc --all-namespaces（只有get的时候可用）`
-    `kubectl get pvc -l xxx=yyy --namespace=xxx`
-    `kubectl delete pvc xxx --namespace=xxx`
-- 简单创建：
-    `kubectl create deployment nginx --image=nginx`
-- 查看版本历史
-    `kubectl rollout history deployment/nginx-deployment`
-    `kubectl rollout history deployment/nginx-deployment --revision=2`
-- 回滚到上一个版本: 
-    `kubectl rollout undo deployment/nginx-deploymen`
-- 回滚到指定一个版本: 
-    `kubectl rollout undo deployment/nginx-deployment --to-revision=2`
-- Pause: 
-    `kubectl rollout pause deployment/nginx-deploymen`
-- Resume: 
-    `kubectl rollout resume deploy/nginx-deployment`
-- Update:
-    `kubectl set image deploy/nginx-deployment nginx=nginx:1.9.1`
-    `kubectl set resources deployment nginx-deployment -c=nginx --limits=cpu=200m,memory=512Mi`
-    `kubectl set image deployment/nginx busybox=busybox nginx=nginx:1.9.1`
-- 替换image和command: `kubectl patch deployment mongodb-conf --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"edisonchat/mongodb"}, {"op": "remove", "path": "/spec/template/spec/containers/0/command"}, {"op": "add", "path": "/spec/template/spec/containers/0/args", "value":["--configsvr", "--replSet", "configReplSet"]}]'`
-- 修改volume大小
-    `aws ec2 modify-volume --volume-id vol-070a7796c8543f11d --size 44` 
-- 修改资源
-    `kubectl patch deployment mongodb-shad-a --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/resources/limits/memory", "value":"16Gi"},{"op": "replace", "path": "/spec/template/spec/containers/0/resources/requests/memory", "value":"16Gi"}]'`
-    `kubectl patch deployment busybox --patch "$(cat tmp.yaml)"`
-    `kubectl patch pod busybox --patch "$(cat pod-busybox.yaml)"`
-- 挨个重启的方式
-    - 通过set环境变量:`kubectl set env statefulset/kafka key=value`
-    - 删除环境变量:`kubectl set env statefulset/kafka key-`
-- Context：一个上下文包含四个要素
-    - name: context 的名字
-    - namespace: 默认default 
-    - cluster: 远程k8s集群地址
-    - user: 用户
-    比如新建一个context: `kubectl config set-context dev1-ctx --namespace=dev1 --cluster=stag.easilydo.cc --user=stag.easilydo.cc`
-## 在pod中查看api server 信息
-```
-# HOST=https://kubernetes/
-HOST=https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
-curl -v --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" $HOST
-```
-## 监控
-`kubectl top node`
-`kubectl top pod`
+## 扩展Kubernates API
+允许在不修改源代码的前提下扩展。方式有两个
+- API Aggregation
+  - 通过apiserver-builder创建
+  - sample-apiserver和apiserver-builder/example
+- CRD

@@ -44,7 +44,7 @@
         GET /apis/apps/v1/namespaces/{namespace}/deployments/{name}/status
         GET /apis/apps/v1/namespaces/{namespace}/deployments/{name}/scale
       ```
-    - Service,POD,ReplicationController等在core group的则使用`/api/`
+    - Service,POD,ReplicationController等在core group的则使用`/api/v1/`
         ```
         GET /api/v1/namespaces/{namespace}/pods/{name}
         GET /api/v1/services
@@ -63,16 +63,21 @@
 https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/
 - /api/v1/namespaces/namespace_name/services/[https:]service_name[:port_name]/proxy
 - 命令行
+  ``` 通过kubectl 获取token
+      APISERVER=$(kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " ")
+      SECRET_NAME=$(kubectl get secrets | grep ^default | cut -f1 -d ' ')
+      TOKEN=$(kubectl describe secret $SECRET_NAME | grep -E '^token' | cut -f2 -d':' | tr -d " ")
+      curl $APISERVER/api --header "Authorization: Bearer $TOKEN" --insecure
   ```
-        APISERVER=$(kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " ")
-        SECRET_NAME=$(kubectl get secrets | grep ^default | cut -f1 -d ' ')
-        TOKEN=$(kubectl describe secret $SECRET_NAME | grep -E '^token' | cut -f2 -d':' | tr -d " ")
-        curl $APISERVER/api --header "Authorization: Bearer $TOKEN" --insecure
-  ```
-  ```
+  ``` 通过kubectl 获取token
     APISERVER=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')
     TOKEN=$(kubectl get secret $(kubectl get serviceaccount default -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode )
     curl $APISERVER/api --header "Authorization: Bearer $TOKEN" --insecure
+  ```
+  ``` 通过service account获取token
+    # HOST=https://kubernetes/
+    HOST=https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
+    curl -v --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" $HOST
   ```
 #### Fetch Log
 ```

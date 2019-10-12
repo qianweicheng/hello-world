@@ -1,0 +1,27 @@
+{
+    "Comment": "Create a subdomain NS record in the parent domain",
+    "Changes": [
+        {
+            "Action": "CREATE",
+            "ResourceRecordSet": {
+                "Name": "dev.easilydo.cc",
+                "Type": "NS",
+                "TTL": 300,
+                "ResourceRecords": [
+                    {
+                        "Value": "ns-1871.awsdns-41.co.uk"
+                    },
+                    {
+                        "Value": "ns-575.awsdns-07.net"
+                    },
+                    {
+                        "Value": "ns-1229.awsdns-25.org"
+                    },
+                    {
+                        "Value": "ns-112.awsdns-14.com"
+                    }
+                ]
+            }
+        }
+    ]
+}
