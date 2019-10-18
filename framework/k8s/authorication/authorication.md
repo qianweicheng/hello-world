@@ -8,7 +8,8 @@
 - edit 
 - view
 #### 查询密码
-`kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')`
+- 查询token: `kubectl get secret xxx -o yaml`
+- secrets存放在`/var/run/secrets/kubernetes.io/serviceaccount/`
 #### 认证有几种方式
 - 证书
 - Static Token File
@@ -137,7 +138,7 @@ Webhook Token Authentication: Webhook authentication is a hook for verifying bea
 --allow-privileged=true 
 --anonymous-auth=false 
 --apiserver-count=1 
---authorization-mode=AlwaysAllow 
+--authorization-mode=AlwaysAllow
 --basic-auth-file=/srv/kubernetes/basic_auth.csv 
 --bind-address=0.0.0.0 
 --client-ca-file=/srv/kubernetes/ca.crt 

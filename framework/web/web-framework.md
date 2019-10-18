@@ -2,7 +2,7 @@
 ## Java
 - SpringBoot
 ## Golang
-- Beego
+- Beego, Gin
 ## Python
 - Flask
 - Django

@@ -110,3 +110,5 @@ WORKDIR /root/
 COPY --from=0 /go/src/github.com/sparkdevo/href-counter/app .
 CMD ["./app"]
 ```
+## 从另外的image拷贝
+`COPY --from=lachlanevenson/k8s-kubectl:v1.10.3 /usr/local/bin/kubectl /usr/local/bin/kubectl`

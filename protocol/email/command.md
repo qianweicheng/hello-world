@@ -26,9 +26,11 @@ A01 AUTHENTICATE XOAUTH2 dXNlcj13ZWljaGVuZ0BlZGlzb24udGVjaAFhdXRoPUJlYXJlciB5YTI
 ```
 ## SMTP LOGIN
 ```
-username=qweic
-password=1234567
+username="edison" \
+password="edison" \
 echo -n "\x00${username}\x00${password}" | base64
+echo -n "\x00${username}\x00${password}\x00" | base64
+有的需要后面的\x00,有的不需要，why？
 ```
 ```
 EHLO weicheng

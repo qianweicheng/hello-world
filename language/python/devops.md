@@ -1,9 +1,6 @@
 # Stack
 - https://github.com/vinta/awesome-python
 - https://www.jianshu.com/p/ee0e07dcd969
-## Web
-- Django
-- Flask
 ## DevOps 工具
 - Ansible
 - Fabric, cuisine, Fabtools
