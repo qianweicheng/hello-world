@@ -24,31 +24,12 @@ Mac下三个版本:
 ## 运行
 - 直接启动是把脚本所在的目录加入sys.path属性中
   `python xxx.py`
-- 模块启动是把当前工作目录加入sys.path属性中
+- 模块启动是把当前工作目录加入sys.path属性中, 该模块可以不需要__init__.py文件
   `python -m activity.mumu_stat`
 - 设置`PYTHONPATH`环境变量等效与在`sys.path`中加入
     主意python3.6中，可以`PYTHONPATH=xxx;python xxx.py` or `export PYTHONPATH=xxx;python xxx.py`
     主意python3.7中，必须`export PYTHONPATH=xxx;python xxx.py`
-## 源码安装
-setup.py 帮助你纪录安装细节方便你卸载
-    `python setup.py install`
-    `python setup.py install --record log` #这时所有的安装细节都写到 log 里了
-想要卸载的时候 `cat log ｜ xagrs rm －rf` 就可以干净卸载了
-## 发布
-#### 源代码发布
-1. 可以用pip导出你的dependency:
-    `pip freeze > requirements.txt`
-2. 然后在通过以下命令安装dependency:
-    `pip install -r requirements.txt`
-3. 升级
-    `pip install -U pip`
-#### 二进制发布
-1. Install PyInstaller from PyPI:
-    `pip install pyinstaller`
-2. Go to your program’s directory and run:
-    `pyinstaller yourprogram.py`
-3. 下载了wheel，egg等
-    `pip install ./xxx.egg`
+
 ## Python 内存分析
 - 查看进程占用的堆内存大小: `pmap -x pid`
 - gc: python 内置模块, 函数少功能基本, 使用简单, 作为python开发者里边的内容必须过一遍

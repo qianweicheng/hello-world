@@ -35,3 +35,7 @@ except AttributeError:
 else:
     ssl._create_default_https_context = _create_unverified_https_context
 ```
+## eval, exec and compile
+- eval 可以当表达式：`a=eval("1+2") #a=3`
+- exec 
+- compile是一个底层的函数，将字符串编译成一个code对象，交给eval/exec使用

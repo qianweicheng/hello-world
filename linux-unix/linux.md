@@ -1,4 +1,25 @@
 # Linux
+## 发布版本
+- Redhat: 收费。黄金标准的企业发行版。它每五年左右更新一次，在系统的稳定性，前瞻性和安全性上有着极大的优势
+- CentOS: 从Redhat衍生，免费。命令行下的人性化做得比较好，稳定，有着强大的英文文档与开发社区的支持
+- Debian: 
+  - 相对稳定，是没有真正意义的 release 概念的。
+  - 更多自主可控。计划组织跟其他自由操作系统(如 Ubuntu、openSUSE、Fedora、Mandriva、OpenSolaris 等)的开发组织不同。 上述这些自由操作系统的开发组织通常背后由公司或机构支持。Debian组织则完全是一个独立的、分散的开发者组织，纯粹由志愿者组成， 背后没有任何公司或机构支持。
+  - 目前版本主要有: 
+    - Next Release: bullseye
+    - Debian 10 (buster) — current stable release
+    - Debian 9 (stretch) — oldstable release
+    - Debian 8 (jessie) — oldoldstable release
+    - Debian 7 (wheezy) — obsolete stable release
+    - Debian 6.0 (squeeze) — obsolete stable release
+- Ubuntu: 从Debian衍生，UI特长。完善的包管理系统，强大的软件源支持，丰富的技术社区. 主要版本:
+  - xenial (16.04LTS)
+  - bionic (18.04LTS)
+  - cosmic (18.10)
+  - disco (19.04)
+  - disco-updates
+  - disco-backports
+  - eoan
 ## Linux服务
 在Linux生态系统中，Systemd被部署到了大多数的标准Linux发行版中，只有为数不多的几个发行版尚未部署。systemd服务来代替daemon
 两大管理系统

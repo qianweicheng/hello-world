@@ -1,17 +1,27 @@
-# Image 制作
-## 常用基础Docker镜像：
-FROM alpine:latest
-FROM docker.io/jeanblanchard/alpine-glibc
-FROM golang:1.8
-FROM buildpack-deps:jessie > jessie-scm > jessie-curl > debian:jessie(50M)
-FROM python:2/3 > buildpack-deps:stretch
-FROM openjdk:7 > buildpack-deps:stretch-scm
-FROM openjdk:7-slim > debian:stretch-slim
-FROM openjdk:alpine > alpine
-FROM alpine-java:7/8/7_jdk... #Oracle JDK
-
+# Docker Image
+https://hub.docker.com/search/?category=base&source=verified&type=image
+## 常用基础Docker镜像
+alpine
+scratch
+docker.io/jeanblanchard/alpine-glibc
+golang
+buildpack-deps:jessie > jessie-scm > jessie-curl > debian:jessie(50M)
+python:2/3 > buildpack-deps:stretch
+openjdk:7 > buildpack-deps:stretch-scm
+openjdk:7-slim > debian:stretch-slim
+openjdk:alpine > alpine
+alpine-java:7/8/7_jdk... #Oracle JDK
+Ubuntu
+CentOS
+Debian
+### 常见tag
+- alpine: based on the Alpine Linux. 缺点是部分lib不是标准的`musl libc vs glibc`
+- slim: 经过裁剪的，只包含当前app需要的lib
+- stretch: Debian 9
+- jessie: Debian 8
+- slim-stretch
 ## 命令
-#### ADD vs COPY
+### ADD vs COPY
 ADD 会自动解压zip等压缩包
 ADD/COPY  不能直接使用"COPY * ./"， 会把当前文件夹下的子文件目录结构丢失，全部扁平了
 ADD指令不仅能够将构建命令所在的主机本地的文件或目录，而且能够将远程URL所对应的文件或目录，作为资源复制到镜像文件系统。
@@ -20,20 +30,10 @@ ADD指令不仅能够将构建命令所在的主机本地的文件或目录，�
 ADD/COPY folder1 ./folder1/
 不能:
 ADD/COPY folder1 ./
-#### 条件拷贝
+### 条件拷贝
 COPY foo file-which-may-exist* /target
-## Case1
-```
-FROM ubuntu
-# Install essential stuffs
-RUN apt-get update && apt-get install -qy \
-        coreutils \
-        bash \
-        curl \
-        sudo \
-        git \
-        build-essential \
-        postgresql-client \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
-```
+## alpine
+- Alpine has a smaller default stack size for threads, which can lead to Python crashes.
+- One Alpine user discovered that their Python application was much slower because of the way musl allocates memory vs. glibc.
+- I once couldn’t do DNS lookups in Alpine images running on minikube (Kubernetes in a VM) when using the WeWork coworking space’s WiFi. The cause was a combination of a bad DNS setup by WeWork, the way Kubernetes and minikube do DNS, and musl’s handling of this edge case vs. what glibc does. musl wasn’t wrong (it matched the RFC), but I had to waste time figuring out the problem and then switching to a glibc-based image.
+- Another user discovered issues with time formatting and parsing.

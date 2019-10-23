@@ -1,0 +1,12 @@
+FROM ubuntu
+# Install essential stuffs
+RUN apt-get update && apt-get install -qy \
+    coreutils \
+    bash \
+    curl \
+    sudo \
+    git \
+    build-essential \
+    postgresql-client \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*

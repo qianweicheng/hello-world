@@ -1,20 +1,35 @@
 # Jupyter
 https://jupyter-notebook.readthedocs.io/en/stable/
 Jupyter作为核心，有notebook(web),console, jupyterlab(web)等几种交互方式，有多种kernels(语言)支持，可以自行扩展
-## Install&Run
+## Install
+`python3 -m pip install jupyter` or `pip3 install jupyter`
+option:
 ```
-核心: pip install jupyter
-option1: pip install jupyterlab(JupyterLab is a next-generation web-based)
-option2: pip install notebook
-
-jupyter lab
+pip install jupyterlab (JupyterLab is a next-generation web-based)
+pip install notebook
+```
+## Run
+```
 jupyter notebook --ip=0.0.0.0 --port=8888
+jupyter lab # 依赖notebook
 ```
 ## Config
-- OS X: ~/.jupyter/jupyter_notebook_config.py. 添加kernels:
-  - $HOME/Library/Jupyter/kernels
-  - /Library/Frameworks/Python.framework/Versions/3.7/share/jupyter/kernels
-- Linux: /home/USERNAME/.jupyter/jupyter_notebook_config.py
+- 管理kernels:
+  - 工具：`jupyter kernelspec -h`
+  - 具体位置: 
+    - `~/Library/Jupyter/kernels`
+    - `{python-install-path}/share/jupyter/kernels`
+    - `/usr/local/share/jupyter/kernels/`
+- 创建配置文件:
+    ```
+        # 也可以手动创建
+        jupyter notebook --generate-config
+        vim ~/.jupyter/jupyter_notebook_config.py
+    ```
+- 修改配置文件
+    ```
+        c.NotebookApp.ip='*' #外部IP地址客户端可以访问
+    ```
 ## Multi-language support
 https://github.com/jupyter/jupyter/wiki/Jupyter-kernels
 - Golang

@@ -7,11 +7,13 @@ https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
     - namespace: 默认default 
     - cluster: 远程k8s集群地址
     - user: 用户
-- 默认配置文件所在地`~/.kube/config`
+- 配置文件
+  - 所在地`~/.kube/config`
   - 通过环境变量配置默认文件(可以多个): KUBECONFIG=~/.kube/config:~/.kube/kubconfig2 
+  - 通过`--kubeconfig`指定配置文件,`kubectl config --kubeconfig=~/.kube/config view`
 - 查看context: 
-  - `kubectl config view --minify`
-  - `kubectl config --kubeconfig=~/.kube/config view --minify`
+  - 只看当前：`kubectl config view --minify`
+  - 看所有：`kubectl config view`
 - 新建一个context: 
   ```
     kubectl config set-context dev1-ctx 
@@ -20,6 +22,9 @@ https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
     --user=stag.easilydo.cc
   ```
 - 切换context: `kubectl config use-context test-dev2`
+- 也可以不需要context，直接链接，使用相应的flag配置参数
+  - `--user --cluster --server, --certificate-authority, --insecure-skip-tls-verify`
+  - `--client-certificate, --client-key, --username, --password, --token`
 - 删除：
   - 用户: `kubectl config unset users.foo `
   - Context: `kubectl config unset contexts.foo`
