@@ -1,0 +1,66 @@
+{
+    "title": "Weicheng's Blog",
+    "author": "Weicheng",
+    "description": "This is weicheng's Blog",
+    "language": "zh-hans",
+    "gitbook": "3.2.3",
+    "structure": {
+        "readme": "README.md"
+    },
+    "links": {
+        "sidebar": {
+            "我的github": "https://github.com/qianweicheng"
+        }
+    },
+    "plugins": [
+       
+    ],
+    "pluginsConfig": {
+        "github": {
+            "url": "https://github.com/qianweicheng"
+        },
+        "github-buttons": {
+            "buttons": [
+                {
+                    "user": "Weicheng",
+                    "repo": "glory",
+                    "type": "star",
+                    "size": "small",
+                    "count": true
+                }
+            ]
+        },
+        "sharing": {
+            "douban": false,
+            "facebook": false,
+            "google": false,
+            "hatenaBookmark": false,
+            "instapaper": false,
+            "line": false,
+            "linkedin": false,
+            "messenger": false,
+            "pocket": false,
+            "qq": false,
+            "qzone": false,
+            "stumbleupon": false,
+            "twitter": false,
+            "viber": false,
+            "vk": false,
+            "weibo": false,
+            "whatsapp": false,
+            "all": [
+                "google",
+                "facebook",
+                "weibo",
+                "twitter",
+                "qq",
+                "qzone",
+                "linkedin",
+                "pocket"
+            ]
+        },
+        "anchor-navigation-ex": {
+            "showLevel": false
+        }
+    }
+}

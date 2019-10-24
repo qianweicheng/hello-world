@@ -1,10 +1,15 @@
 # ConfigMap&Env
 配置文件会自动更新，TTL默认=1 minute，使用subPath挂载的不能自动刷新
 ## 创建configmap
-- 通过文件夹创建: `kubectl create configmap my-config --from-file=the-folder/`
-- 直接指定文件,重新指定文件名: `kubectl create configmap my-config --from-file=new-file-name=game.properties`
-- 直接指定文件: `kubectl create configmap my-config-2 --from-file=game.properties --from-file=ui.properties`
-- 也可以直接使用`--from-literal`
+```
+# 通过文件夹创建
+kubectl create configmap my-config --from-file=the-folder/
+# 直接指定文件,重新指定文件名
+kubectl create configmap my-config --from-file=new-file-name=game.properties
+# 直接指定文件
+kubectl create configmap my-config --from-file=game.properties --from-file=ui.properties
+# 也可以直接使用 --from-literal
+```
 ## ConfigMap.yaml
 ```
 apiVersion: v1
@@ -33,8 +38,36 @@ secret有多种type(kubernetes/pkg/apis/core/types.go)
 - kubernetes.io/ssh-auth
 - kubernetes.io/tls
 - bootstrap.kubernetes.io/token
+### data vs dataString
+- data会base64编码，
+- dataString则原始状态，只写，自动变成base64
+
 ```
-kubectl create secret docker-registry my-secret --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL
+# 两个同时使用会选择stringData
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  username: YWRtaW4=
+stringData:
+  username: administrator
+```
+### Create a secret
+```
+# 普通Opaque
+kubectl create secret generic db-user-pass 
+--from-file=./username.txt 
+--from-file=./password.txt
+kubectl create secret generic dev-db-secret 
+--from-literal=username=devuser 
+--from-literal=password='xxx'
+# docker-registry
+kubectl create secret docker-registry <name> --docker-server=DOCKER_REGISTRY_SERVER 
+--docker-username=DOCKER_USER 
+--docker-password=DOCKER_PASSWORD 
+--docker-email=DOCKER_EMAIL
 ```
 ## ENV变量引用
 ```

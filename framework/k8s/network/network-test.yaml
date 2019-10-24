@@ -13,6 +13,8 @@ spec:
   podSelector:
     matchLabels:
       app: test-nginx
+  policyTypes:
+  - Ingress
   ingress:
   - from:
     - podSelector:
