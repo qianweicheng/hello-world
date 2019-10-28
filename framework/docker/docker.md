@@ -1,8 +1,16 @@
 # Docker
 ## Docker Daemon
 - 启动服务
-  - systemctl enable docker
-  - systemctl start docker
+  ```
+    systemctl enable docker
+    systemctl start docker
+  ```
+- 关闭服务
+  ```
+    systemctl stop docker
+    systemctl disable docker
+    yum -y remove docker
+  ```
 - daemon监听: /var/run/docker.sock， client通过/var/run/docker.sock与daemon通讯, 通过监听docker.sock获取docker事件流
 `curl --unix-socket /var/run/docker.sock http://localhost/events`
 - 日记: /var/lib/docker/containers/ --log-opt max-size=10m --log-opt max-file=3

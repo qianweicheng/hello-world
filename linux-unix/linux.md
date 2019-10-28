@@ -20,29 +20,6 @@
   - disco-updates
   - disco-backports
   - eoan
-## Linux服务
-在Linux生态系统中，Systemd被部署到了大多数的标准Linux发行版中，只有为数不多的几个发行版尚未部署。systemd服务来代替daemon
-两大管理系统
-- service+chkconfig: linux最初的服务管理系统
-    `service xxxxx start/stop/status` or `/etc/init.d/xxxx start`
-    自动启动停止服务:
-    `chkconfig --add/del`
-    `chkconfig –level 2345 nginx on`
-- systemctl: (Centos)systemctl命令兼容了service
-    `systemctl start/status/restart/enable/disable xxx`
-
-systemctl|service|chkconfig|备注
--|-|-|-
-systemctl start [unit type]|service [服务] start||
-systemctl stop [unit type]|service [服务] stop||
-systemctl restart [unit type]|service [服务] restart||
-systemctl enable [unit type]||chkconfig [服务] on|开机自启动
-systemctl disable [unit type]||chkconfig [服务] off|关闭开机自启动
-systemctl is-active [unit type]||| 查看服务是否运行
-systemctl is-enable [unit type]|||查看服务是否设置为开机启动
-systemctl mask [unit type]||| 注销指定服务
-systemctl unmask [unit type]|||取消注销指定服务
-systemctl poweroff|init 0||关机
 
 ## Linux信号
 0   SIGT        ping
@@ -94,20 +71,6 @@ ex：date | tee [-a] out.log
     主要用于父进程与子进程之间，或者两个兄弟进程之间
 2. named pipe(FIFO)有名管道: `mkfifo /tmp/k.pipe`
     命名管道是为了解决无名管道只能用于近亲进程之间通信的缺陷而设计的。命名管道是建立在实际的磁盘介质或文件系统（而不是只存在于内存中）上有自己名字的文件
-## 终端
-对应关系：Linux 进程 N:1 进程组 N:1 会话 1:1 控制终端
-tmux就是基于一个终端对应N个会话
-终端的类型：
-- pty/pts  伪终端,成对的逻辑终端设备,如/dev/ptmx /dev/pts/x
-- tty    控制终端, tty=tty0当前终端
-- ttys   串行终端，（/dev/ttySn）
-    echo test > /dev/ttyS1 会把单词”test”发送到连接在ttyS1（COM2）端口的设备上
-- console控制台，相当于只读方式打开当前激活tty
-## Linux配置加载(bashrc,profile, rcX.d, rc, rc.local)
-[参考](https://www.jianshu.com/p/020f3d02f538)
- 顺序：/etc/rc.sysinit（通过分析/etc/inittab文件来确定系统的启动级别，然后才去执行/etc/rc.d/rc*.d下的文件）->rc->rc.d(->init.d)->S99local(->rc.local)
-- bashrc为交互式non-login，一般图形系统启动的shell和shell内部启动的shell
-- profile为交互式login shell，一般为远程登录启动的shell
 ## Linux加载环境变量顺序
 #### Mac OS
 - unknown:

@@ -1,5 +1,4 @@
 # Elasticsearch
-
 ## Elastic Search 三要素：
 1 _index
 2 _type, 同一个_index下面的需要_type相同
