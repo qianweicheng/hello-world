@@ -52,9 +52,9 @@ why|explain why packages or modules are needed (解释为什么需要依赖)
 - replace 语句可以替换依赖项模块
 - exclude 语句可以忽略依赖项模块
 ## go查找依赖包路径的规则如下：
-1. 当前包下的vendor目录。
-2. 向上级目录查找，直到找到src下的vendor目录。
-3. 在GOPATH下面查找依赖包。
+1. 当前包下的vendor目录
+2. 向上级目录查找，直到找到src下的vendor目录
+3. 在GOPATH下面查找依赖包
 4. 在GOROOT目录下查找
 5. 标准包的源码位于`$GOROOT/src/`下面
 6. 自定义的包和第三方包的源码放到`$GOPATH/src`
@@ -62,17 +62,6 @@ why|explain why packages or modules are needed (解释为什么需要依赖)
 go在1.5版本引入了vendor属性(默认关闭，需要设置go环境变量GO15VENDOREXPERIMENT=1)，并在1.6版本中默认开启了vendor属性。在使用vendor中，给出如下建议：
 - 一个library库工程（不包含main的package）不应该在自己的版本控制中存储外部的包在`vendor`目录中，除非他们有特殊原因并且知道为什么要这么做。
 - 在一个app应用中,（包含main的package），建议只有一个vendor目录在代码库一级目录。
-## Language
-- 除了new创建的，都是值类型；make创建出来的也一样，只不过其底层捂住了一个指针
-- make用于创建map,slic,channel,slic为指针
-- Go语言和C语言一样，类型都是基于值传递的。要想修改变量的值，只能传递指针
-- 在Go语言中没有构造函数的概念，一般使用工厂方法
-  rect1 := new(Rect)
-  rect2 := &Rect{}
-- 初始化
-  - 每个包的变量
-  - 每个包的init函数
-  - main包的main入口
 ## 命令行
 - go build
 - go clean
@@ -81,6 +70,12 @@ go在1.5版本引入了vendor属性(默认关闭，需要设置go环境变量GO1
 - go install/go get
 - go test
 - go pprof
+- 跨平台
+```
+set GOARCH=amd64     //设置目标可执行程序操作系统构架，包括 386，amd64，arm
+set GOOS=linux       //设置可执行程序运行操作系统，支持 darwin，freebsd，linux，windows
+go build ./main.go       //打包
+```
 ## “避坑”与技巧
 - 接口与nil不相等(Faq. https://golang.org/doc/faq#nil_error)
 This situation can be confusing, and arises when a nil value is stored inside an interface value such as an error return:
@@ -92,10 +87,4 @@ func returnsError() error {
 	}
 	return p // Will always return a non-nil error.
 }
-```
-- 跨平台
-```
-set GOARCH=amd64     //设置目标可执行程序操作系统构架，包括 386，amd64，arm
-set GOOS=linux       //设置可执行程序运行操作系统，支持 darwin，freebsd，linux，windows
-go build ./main.go       //打包
 ```

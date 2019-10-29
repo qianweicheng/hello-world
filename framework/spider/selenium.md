@@ -1,7 +1,8 @@
-## 安装
-#### selenium
+# selenium
+selenium既可以做爬虫用，也可以做自动化测试使用
+## Install
     `pip install selenium` or `http://www.seleniumhq.org/download/`
-#### Headless
+## Headless
 常用Headless browser
 - Phantomjs（项目暂封存，慎用）
     `http://phantomjs.org/download.html`

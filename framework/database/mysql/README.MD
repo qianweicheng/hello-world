@@ -1,6 +1,23 @@
 # MYSQL
  参考地址：
 https://dev.mysql.com/doc/refman/5.7/en/user-account-management.html
+## Install
+```Server
+docker run \
+--name mysql \
+-p 3306:3306 \
+-e MYSQL_ROOT_PASSWORD=A1234567 \
+-d mysql:latest \
+--character-set-server=utf8mb4 \
+--collation-server=utf8mb4_unicode_ci
+```
+```
+docker run 
+-it
+--rm
+mysql
+mysql -hsome-mysql -uroot -p
+```
 ## 常用命令
 启动/关闭: mysqld_safe
 创建数据库: `mysqladmin create databasename;` or `mysql -u root -p databasename < db.sql`

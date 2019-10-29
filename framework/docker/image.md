@@ -20,7 +20,22 @@ Debian
 - stretch: Debian 9
 - jessie: Debian 8
 - slim-stretch
-## 命令
+### python alpine
+- Alpine has a smaller default stack size for threads, which can lead to Python crashes.
+- One Alpine user discovered that their Python application was much slower because of the way musl allocates memory vs. glibc.
+- I once couldn’t do DNS lookups in Alpine images running on minikube (Kubernetes in a VM) when using the WeWork coworking space’s WiFi. The cause was a combination of a bad DNS setup by WeWork, the way Kubernetes and minikube do DNS, and musl’s handling of this edge case vs. what glibc does. musl wasn’t wrong (it matched the RFC), but I had to waste time figuring out the problem and then switching to a glibc-based image.
+- Another user discovered issues with time formatting and parsing. 
+
+## 镜像构建
+### ENTRYPOINT 指令的两种格式：
+- ENTRYPOINT ["executable", "param1", "param2"] (the preferred exec form)
+- ENTRYPOINT command param1 param2 (shell form)
+CMD 指令的三种格式：
+- CMD ["executable","param1","param2"] (exec form, this is the preferred form)
+- CMD ["param1","param2"] (as default parameters to ENTRYPOINT)
+- CMD command param1 param2 (shell form)
+
+> 备注：不能通过rc.local文件设置自动启动
 ### ADD vs COPY
 ADD 会自动解压zip等压缩包
 ADD/COPY  不能直接使用"COPY * ./"， 会把当前文件夹下的子文件目录结构丢失，全部扁平了
@@ -32,8 +47,25 @@ ADD/COPY folder1 ./folder1/
 ADD/COPY folder1 ./
 ### 条件拷贝
 COPY foo file-which-may-exist* /target
-## alpine
-- Alpine has a smaller default stack size for threads, which can lead to Python crashes.
-- One Alpine user discovered that their Python application was much slower because of the way musl allocates memory vs. glibc.
-- I once couldn’t do DNS lookups in Alpine images running on minikube (Kubernetes in a VM) when using the WeWork coworking space’s WiFi. The cause was a combination of a bad DNS setup by WeWork, the way Kubernetes and minikube do DNS, and musl’s handling of this edge case vs. what glibc does. musl wasn’t wrong (it matched the RFC), but I had to waste time figuring out the problem and then switching to a glibc-based image.
-- Another user discovered issues with time formatting and parsing.
+### docker 17.05+ 支持多重编译的新特性
+使用多阶段构建好处
+- 减少镜像Size
+- 简化构建过程(如果使用传统方式来减少Size的话，必须通过脚本`docker cp`拷贝文件)
+- 提高安全性
+```
+# FROM golang:latest as builder
+FROM golang:latest
+WORKDIR /go/src/github.com/sparkdevo/href-counter/
+RUN go get -d -v golang.org/x/net/html
+COPY app.go    .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+# COPY --from=builder /go/src/github.com/sparkdevo/href-counter/app .
+COPY --from=0 /go/src/github.com/sparkdevo/href-counter/app .
+CMD ["./app"]
+```
+### 从另外的image拷贝
+`COPY --from=lachlanevenson/k8s-kubectl:v1.10.3 /usr/local/bin/kubectl /usr/local/bin/kubectl`

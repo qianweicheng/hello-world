@@ -1,4 +1,5 @@
-## [文档](https://github.com/swagger-api/swagger-codegen)
+# Swagger
+[文档](https://github.com/swagger-api/swagger-codegen)
 ## Install
 `brew install swagger-codegen`
 ## URL

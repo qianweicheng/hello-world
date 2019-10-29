@@ -29,17 +29,24 @@ docker run \
 - Folder: 树状结构，便于管理project,如权限控制等(project本身在文件系统还是扁平结构)
 - View: 就是一个project的filter
 ## 项目类型
-- Freestyle: 纯粹运行一些列脚本，这是Jenkins的核心，其他类型的project都是基于这个core，增加一个gradle解析器实现
+- Freestyle: 
+  - 纯粹运行一些列脚本，这是Jenkins的核心，其他类型的project都是基于这个core，增加一个gradle解析器实现
+  - 提供任务管理，日记管理，触发器等
 - Pipeline： 两种格式，可以相互转换:
   - Declarative(声明式,推荐),`pipeline{}`
   - Scripted(高级), 是用Groovy写的:`node{}`
   - 一般流程
     - 指定一个代码库
+    - 指定分支
     - 指定代码库中Jenkinsfile路径
     - workspace会在第一次运行的时候创建(可以清理掉，在下一次运行的时候重建)
-- Mu l
+- MultiBranch Pipeline
+  - 跟pipeline类似
+  - 只不过不指定分支，通过扫描分支下是否存在Jenkinsfile自动进行，相对来说灵活性少了一些
 ## Integrate with k8s
 https://blog.csdn.net/Andriy_dangli/article/details/85062813
+## Webhook
+- 内置的: `/github-webhook/`
 ## cases
 - Case1
 ```

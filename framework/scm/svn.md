@@ -1,0 +1,2 @@
+# svn
+不同于git和mercurial的分布式，svn为集中式版本管理方案

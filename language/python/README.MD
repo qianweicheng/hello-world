@@ -1,19 +1,19 @@
 # Python
 ## 安装
 - python3
-`yum install python3` or `yum install python-setuptools`
-`brew install python3`. 对于需要c/c++编译的则添加`python-dev/python3-dev`
+  - yum: `yum install python3` or `yum install python-setuptools`
+  - brew: `brew install python3`. 对于需要c/c++编译的则添加`python-dev/python3-dev`
+  - apt: `apt-get install -y python3 python3-distutils python-setuptools`
 - pip
-    `wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py`
+    `wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py`
     `easy_install install pip`
     下载了源代码: `python setup.py install`
     这种方法会将pip安装到对应python的site-packages中
-Mac下三个版本:
+## Mac下三个版本:
 - 系统自带:`/System/Library/Frameworks/Python.framework` site-packages: `/Library/Python`
 - 官网下载安装:`/Library/Frameworks/Python.framework/Versions`
 - HomeBrew: `/usr/local/Cellar/python`(不自带pip)
-> Windows下载安装也不自带pip
-- easy_install: `apt-get install python-setuptools`
+- Windows下载安装也不自带pip
 ## virtualenv
 - 安装虚拟环境：`pip install virtualenv`
 - 创建虚拟环境: `virtualenv -p python3 venv`
