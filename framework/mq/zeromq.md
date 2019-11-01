@@ -41,3 +41,16 @@
             time.sleep(1)    
     ```
 - Parallel Pipeline模式：push进行数据推送，work进行数据缓存，pull进行数据竞争获取处理。区别于Publish-Subscribe存在一个数据缓存和处理负载, 当连接被断开，数据不会丢失，重连后数据继续发送到对端
+    ```
+    import zmq
+    context = zmq.Context()
+    receive = context.socket(zmq.PULL)
+    receive.connect('tcp://127.0.0.1:5557')
+    sender = context.socket(zmq.PUSH)
+    sender.connect('tcp://127.0.0.1:5558')
+
+    while True:
+        data = receive.recv()
+        print("正在转发...")
+        sender.send(data)
+    ```

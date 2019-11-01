@@ -1,3 +1,8 @@
+# XMPP
+三种消息类型:
+- message
+- presence
+- iq
 #### message
 message是一种基本推送消息方法，它不要求响应。主要用于IM、groupChat、alert和notification之类的应用中
 属性：type, body, subject

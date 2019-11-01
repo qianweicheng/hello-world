@@ -34,7 +34,14 @@ mysql -hsome-mysql -uroot -p
 - 刷新授权
     `FLUSH PRIVILEGES;`
 - 撤销授权: `REVOKE privilege ON db.tablename FROM 'username'@'host';`
-- 修改密码: `SET PASSWORD FOR 'username'@'host' = PASSWORD('newpassword');`
+- 修改密码: 
+  - 老版本`SET PASSWORD FOR 'username'@'host' = PASSWORD('newpassword');`
+  - 新版本,去掉了PASSWORD字段和函数，使用authentication_string字段
+    ```
+    ALTER user 'root'@'%' IDENTIFIED BY '123456';
+    FLUSH PRIVILEGES;
+    select host,user,authentication_string from mysql.user;
+    ```
 - 删除用户: `DROP USER 'username'@'host';`
 > 废弃: GRANT 如果用户不存在，则会根据配置NO_AUTO_CREATE_USER直接创建用户[非常不安全]； 如果GRANT后面跟了IDENTIFIED BY，则会把所有的密码修改，包括登陆密码。
 ## 绑定端口
