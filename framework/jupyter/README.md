@@ -29,13 +29,6 @@ jupyter lab
     ```
         c.NotebookApp.ip='*' #外部IP地址客户端可以访问
     ```
-- 运行时创建的配置文件
-    `~/Library/Jupyter/runtime/kernel-xxx.json`
-    - shell_port: 前端命令输入端口,
-    - iopub_port: kernel发布消息的端口,
-    - stdin_port: kernel读取input的端口，跟shell_port有些不一样，这个是主动模式,
-    - control_port: shutdown and restart messages, as well as for debugging messages.
-    - hb_port: 心跳端口
 ## Multi-language support
 https://github.com/jupyter/jupyter/wiki/Jupyter-kernels
 - Golang

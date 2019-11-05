@@ -93,7 +93,7 @@ jenkins/jenkins:lts
 ```
 > 映射/var/run/docker.sock可以利用宿主机的dockerd，docker内部本身可以自己安装docker client，或者映射宿主机的client
 
-## Docker network
+## Network
 - docker network ls
     默认有三个:
     bridge:bridge(默认)
@@ -105,6 +105,11 @@ jenkins/jenkins:lts
 - run within special network
 在一个局域网里启动， name相当于host，可以通过其相互连通
 `docker run --name xxx --network my_net xxxx`
+## Volume
+- `-v /data`: 将本地`/var/lib/docker/volumes/xxx`自动创建一个文件夹映射到`/data/`中。
+- 在Dockerfile文件中: `VOLUME /data`声明，作用同上
+- `-v /data:/data`: 将本地`/data`映射到容器的`/data`
+- `-v data:/data`: 将名字为data的volume映射到`/data`
 ## 坑
 - 运行在docker里面的程序新开启的文件会被docker缓存而得不到释放，从而造成内存泄漏
 - 使用alpine等精简的base image可能确实部分东西,如证书等，可以通过目录自己添加。`RUN apk --no-cache add ca-certificates`

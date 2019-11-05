@@ -21,29 +21,26 @@ chsh [-s 修改默认] /bin/zsh
 oh-my-zsh安装文件在$ZSH所指代的目录下
 - 强大的插件主题
 ## mosh:新的ssh
-- Client本地可以使用
-  - `brew install mosh`
-  - chrome mosh插件
-- 服务器
-    ```
-    # 准备编译环境
-    yum groupinstall "Development Tools"
-    # https://mosh.org/#getting 里面需要预选安装一些依赖
-    sudo yum install openssl-devel
-    sudo yum install ncurses-devel
-    wget https://mosh.org/mosh-1.3.2.tar.gz
-    tar mosh-1.3.2
-    cd mosh-1.3.2
-    ./configure
-    make
-    make install
-    ```
-    ```
-    yum install -y mosh
-    ```
-使用UDP协议，在弱网络环境下优势明显
-- server side: mosh-server
-- client side: mosh 
+- 使用UDP协议，在弱网络环境下优势明显
+  - server side: mosh-server
+  - client side: mosh 
+- Install
+  - Client本地可以使用
+    - `brew install mosh`
+    - chrome mosh插件
+  - 服务器
+    - Source
+      ```
+      # 准备编译环境
+      yum groupinstall "Development Tools"
+      # https://mosh.org/#getting 里面需要预选安装一些依赖
+      yum install -y openssl-devel ncurses-devel protobuf-compiler protobuf-devel
+      wget https://mosh.org/mosh-1.3.2.tar.gz
+      tar mosh-1.3.2
+      cd mosh-1.3.2
+      ./configure & make & make install
+      ```
+    - Yum: `yum install -y mosh`
 ## tmux
 Terminal Multiplexer，一个多终端进程管理器
 - 分屏功能

@@ -1,4 +1,18 @@
-# 发送一条命令
+# 消息格式
+```
+[
+  b'u-u-i-d',         # zmq identity(ies)
+  b'<IDS|MSG>',       # delimiter
+  b'baddad42',        # HMAC signature
+  b'{header}',        # serialized header dict
+  b'{parent_header}', # serialized parent header dict
+  b'{metadata}',      # serialized metadata dict
+  b'{content}',       # serialized content dict
+  b'\xf0\x9f\x90\xb1' # extra raw data buffer(s)
+  ...
+]
+```
+## 发送一条命令
 <IDS|MSG>
 c7f315ac07c459083f66394451f06a9f629c878fcc541c360796ca3d34494815
 {"msg_id":"7e54aeb9b8a64d86822549829c15c2d6","username":"username","session":"7ce7e7acf63f4b9f9b1e6720baf128dc","msg_type":"execute_request","version":"5.2","date":"2019-11-01T03:53:46.122349Z"}
@@ -6,7 +20,7 @@ c7f315ac07c459083f66394451f06a9f629c878fcc541c360796ca3d34494815
 {}
 {"code":"pwd","silent":false,"store_history":true,"user_expressions":{},"allow_stdin":true,"stop_on_error":true}
 
-# 订阅了iopub端口，在收到一条client的指令之后的消息
+## 订阅了iopub端口，在收到一条client的指令之后的消息
 response: kernel.74f0fb4d-8413-43dd-8f83-7eda729fd9c4.status
 response: <IDS|MSG>
 response: 6dc1d55a2956790b3f467fc7e4b897f4f549d06eac5e235941958f025a83ae81
