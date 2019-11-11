@@ -1,16 +1,26 @@
 # K8S 认证与授权
 参考: https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
 ## 认证
-#### 内置ClusterRole
+- serviceaccount
+- clusterrole & role
+  - clusterrole可以跨namespace
+  - role不能跨namespace
+- rolebinding & clusterrolebinding
+### 内置ClusterRole
 - cluster-admin
 - cluster-status
 - admin
 - edit 
 - view
-#### 查询密码
+### 查询密码
 - 查询token: `kubectl get secret xxx -o yaml`
 - secrets存放在`/var/run/secrets/kubernetes.io/serviceaccount/`
-#### 认证有几种方式
+- 证书
+  ```
+  CA_CRT_PATH=/etc/kubernetes/ssl/ca.pem
+  CA_KEY_PATH=/etc/kubernetes/ssl/ca-key.pem
+  ```
+### 认证有几种方式
 - 证书
 - Static Token File
   - 启动参数: `--token-auth-file=SOMEFILE`
@@ -26,7 +36,7 @@
   - 请求头: `Authorization: Basic BASE64ENCODED(USER:PASSWORD)`
 - Service Account Tokens
   - 默认开启，可选参数: `--service-account-key-file` and `--service-account-lookup`
-#### Kubernates Security
+### Kubernates Security
 - 修改kube-apiserver密码（https://kubernetes.io/docs/admin/kube-apiserver/）
 登陆到k8s-master机器，修改basic_auth.csv文件。(通过 ps aux | grep kube-apiserver 查看basic-auth-file=/srv/kubernetes/basic_auth.csv),修改了必须重启才生效
 - API Server
@@ -78,7 +88,7 @@ var/run/secrets/kubernetes.io/serviceaccount/
 - ca.crt 根证书
 - token: 一个jwt格式的token。其内容是一个secret资源，对应一个ServiceAccount和其绑定的Role
 - ServiceAccount, ClusterRole,ClusterRoleBinding
-#### WebHooks
+### WebHooks
 Webhook Token Authentication: Webhook authentication is a hook for verifying bearer tokens.
 ```
 {
@@ -103,17 +113,17 @@ Webhook Token Authentication: Webhook authentication is a hook for verifying bea
   }
 }
 ```
-#### Dashboard Authorication
+### Dashboard Authorication
 首先必须使用Basic Auth进入（这是由于Dashboard web的原因，自己开发可以直接使用Token），然后:
 - 可以直接跳过，这个时候就是使用默认账号登录
 - 也可以使用Token登录
 - 使用ServiceAccount
   - https://itnext.io/let-you-team-members-use-kubernetes-bf2ebd0be717
-#### Check
+### Check
 `kubectl auth can-i create deployments --namespace prod`
 `kubectl auth can-i list secrets --namespace dev --as user1`
 ## 授权
-#### Authorization Modes
+### Authorization Modes
 - Node
 - ABAC
   `{"apiVersion": "abac.authorization.kubernetes.io/v1beta1", "kind": "Policy", "spec": {"user": "kubelet", "namespace": "*", "resource": "pods", "readonly": true}}`

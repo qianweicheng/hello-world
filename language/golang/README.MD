@@ -11,6 +11,8 @@
    export GOROOT=$HOME/go1.X
    export PATH=$PATH:$GOROOT/bin
 ```
+GOROOT: Golang的安装目录
+GOPATH: Used to specify directories outside of $GOROOT that contain the source for Go projects and their binaries.
 ## 包管理
 - go get: 只是下载包，不做任何管理
 - glide(glide.yml): 会将所有依赖平铺到顶层的vender目录
@@ -27,12 +29,17 @@
 ## 依赖包管理方式
 目前主流有两种模式:
 - vender模式
+  -  go 1.11, the vendor directories are only supported when $PWD is under $GOPATH
 - modules模式(最新推荐)
+  - A module is a collection of Go packages stored in a file tree with a go.mod file at its root.
+  - 只寻找当前go.mod文件夹下，go.mod依赖和GOROOT下，不寻找GOPATH下的包
 
 最新版本的golang，有`GO111MODULE`,`GOPATH`,`go.mod`三要素。
-- 打开了`GO111MODULE=on`，则所有的go命令都会工作在module模式下，则会存在对go.mod的依赖
-- 当前目录在GOPATH下的，则需要显示的设置`GO111MODULE=on`
-- 当前目录不在GOPATH下，则系统自动会进入modules模式
+- Go 1.11
+  - 打开了`GO111MODULE=on`，所有的go命令都会工作在module模式下，会存在对go.mod的依赖
+  - 当前目录在GOPATH下的，则需要显示的设置`GO111MODULE=on`
+  - 当前目录不在GOPATH下，则系统自动会进入modules模式
+- Go 1.13 默认进入modules模式
 ### vendor模式
 go在1.5版本引入了vendor属性(默认关闭，需要设置go环境变量GO15VENDOREXPERIMENT=1)，并在1.6版本中默认开启了vendor属性。在使用vendor中，给出如下建议：
 - 一个library库工程（不包含main的package）不应该在自己的版本控制中存储外部的包在`vendor`目录中，除非他们有特殊原因并且知道为什么要这么做。

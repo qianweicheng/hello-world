@@ -30,18 +30,31 @@ N-M 表示N到M
 N,M 表示N或M
 
 ## at命令
-格式如下：
-at 时间 命令
-
-AT Time中的时间表示方法
-　　Minute    at now + 5 minutes   任务在5分钟后运行
-
-　　Hour      at now + 1 hour      任务在1小时后运行
-
-　　Days      at now + 3 days      任务在3天后运行
-
-　　Weeks     at now + 2 weeks     任务在两周后运行
-
-　　Fixed     at midnight          任务在午夜运行
-
-　　Fixed     at 10:30pm           任务在晚上10点30分
+- at
+  - -f 指定文件
+  - -t 指定时间,格式如:`[[CC]YY]MMDDhhmm[.SS]`
+  - -c：打印任务的内容到标准输出
+- atq: `at -l`
+- atrm: `at -r`,`atq the-job-id`
+### 两种方式指定时间
+- -t 参数，见上。`at -t 11070101 -f cmd.txt`
+- 直接指定:`at [time]`,格式如下:
+```
+Minute    at now + 5 minutes   任务在5分钟后运行
+Hour      at now + 1 hour      任务在1小时后运行
+Days      at now + 3 days      任务在3天后运行
+Weeks     at now + 2 weeks     任务在两周后运行
+Fixed     at midnight          任务在午夜运行
+Fixed     at 10:30pm           任务在晚上10点30分
+```
+### 两种方式指定命令
+- -f 指定文件
+    ```
+    at now + 1min -f cmd.txt
+    ```
+- stdin输入
+    ```
+    at now + 1 min
+    # 进入编辑
+    # 结束: ctrl+d
+    ```
