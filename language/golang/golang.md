@@ -32,6 +32,8 @@
 - 顺序
   - 每个包的变量
   - 每个包的init函数
+    - 程序的初始化运行在单个Go程中，但该Go程可能会创建其它并发运行的Go程。
+    - 若包 p 导入了包 q，则 q 的 init 函数会在 p 的任何函数启动前完成。
   - main包的main入口
 - 除了new创建的，都是值类型；make创建出来的也一样，只不过其底层捂住了一个指针
 - make用于创建map,slic,channel,slic为指针
@@ -41,3 +43,52 @@
   rect2 := &Rect{}
 - 暴露给外部使用的成员或者方法都必须大写开头
 ## Go语言变量会进行逃逸分析
+## Tips
+- Go 中数组赋值和函数传参都是值复制的
+- Slice
+定义:
+```
+letters := []string{"a", "b", "c", "d"}
+s := make([]string, 5, 5)
+s := make([]byte, 5)
+```
+- 字符串拼接
+```
+1. +号
+2. strings.Join
+3. fmt.Sprint
+4. g :=new(byte.Buffer) or g :=new(byte.Builder)
+```
+- 只有一个for：`for i:=0;i<100;i++`or `for i<100{}` or `for{}` or `for i, v := range pow`
+- `if v := math.Pow(x, n); v < lim `
+- switch,有两种写法，默认break，显式fallthouth
+```
+switch {
+	case t.Hour() < 12:
+		fmt.Println("Good morning!")
+	case t.Hour() < 17:
+		fmt.Println("Good afternoon.")
+	default:
+		fmt.Println("Good evening.")
+	}
+```
+- defer
+- 结构体类型上定义方法,使用指针和不使用指针的方式
+- 接口类型的值可以存放实现这些方法的任何值， golang使用duck模式
+- chan
+  ```
+  ch := make(chan int)
+  ch <- v    // 将 v 送入 channel ch。
+  v := <-ch  // 从 ch 接收，并且赋值给 v。
+  ```
+  - select
+  ```
+  select {
+  case i := <-c:
+      // 使用 i
+  default:
+      // 从 c 读取会阻塞
+  }
+  ```
+  - 只有发送者才能关闭 channel，而不是接收者
+  - 循环 `for i := range c` 会不断从 channel 接收值，直到它被关闭。
