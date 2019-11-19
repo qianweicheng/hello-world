@@ -15,8 +15,12 @@ Domain|MX
 GoDaddy.com | godaddy-com.mail.protection.outlook.com
 easilydo.onmicrosoft.com | easilydo.mail.protection.outlook.com
 cornell.edu | cornellprod-mail-onmicrosoft-com.mail.eo.outlook.com
-## Exchange Autodiscover
-1、http://your-domain/Autodiscover/Autodiscover.xml
-2、http://autodiscover.your-domain/Autodiscover/Autodiscover.xml
-3、查询DNS是否注册有名称为_autodiscover的SRV服务记录，如果有，获取该服务记录所指定的主机名称（A记录）。假设找到SRV记录，指向主机mail.your-domain。那么Outlook会尝试连接：
+## Exchange
+https://docs.microsoft.com/zh-cn/Exchange/architecture/client-access/autodiscover?view=exchserver-2019
+### Autodiscover
+1. http://your-domain/Autodiscover/Autodiscover.xml
+2. http://autodiscover.your-domain/Autodiscover/Autodiscover.xml
+3. 查询DNS是否注册有名称为_autodiscover的SRV服务记录，如果有，获取该服务记录所指定的主机名称（A记录）。假设找到SRV记录，指向主机mail.your-domain。那么Outlook会尝试连接：
 https://mail.your-domain/autodiscover/autodiscover.xml
+### Exchange Web Service(EWS)开发指南
+https://docs.microsoft.com/zh-cn/exchange/client-developer/exchange-server-development

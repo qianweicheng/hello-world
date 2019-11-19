@@ -71,49 +71,9 @@ ex：date | tee [-a] out.log
     主要用于父进程与子进程之间，或者两个兄弟进程之间
 2. named pipe(FIFO)有名管道: `mkfifo /tmp/k.pipe`
     命名管道是为了解决无名管道只能用于近亲进程之间通信的缺陷而设计的。命名管道是建立在实际的磁盘介质或文件系统（而不是只存在于内存中）上有自己名字的文件
-## Linux加载环境变量顺序
-#### Mac OS
-- unknown:
-    /etc/paths
-        /etc/paths.d
-- unknown:
-    /etc/profile
-        /etc/bashrc
-- unknown:
-    $HOME/.bash_profile
-#### Centos
-- unknown:
-    /usr/local/bin:
-    /bin:
-    /usr/bin:
-    /usr/local/sbin:
-    /usr/sbin:
-    /sbin:
-- unknown:
-    /etc/profile # startup programs, Environment stuff
-        /etc/profile.d/*.sh
-- unknown:
-    /etc/bashrc # login setup functions and aliases
-        /etc/profile.d/*.sh
--  unknown
-    ~/.bash_profile
-        ~/.bash_rc
-            /etc/bashrc
-                /etc/profile.d/*.sh
-
-#### Ubuntu
-- unknown:
-    /etc/environment
-    /etc/profile
-        /etc/bash.bashrc
-        /etc/profile.d/
-- unknown:
-    ~/.bashrc
-        ~/.bash_aliases
-##LANG问题:locale
+## LANG问题:locale
 1）对于CentOS，可以直接编辑/etc/sysconfig/i18n文件，将LANG="en_US.UTF-8"设置成LANG="zh_CN.UTF-8"
 localedef -i en_US -f UTF-8 en_US.UTF-8
-
-##Etc
-source = .
+## Etc
+`source`效果等同`.`
 nohub xxx &
