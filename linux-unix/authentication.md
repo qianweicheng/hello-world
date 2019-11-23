@@ -3,6 +3,7 @@
 [参考](./pam.md)
 ## 用户权限管理相关文件
 - /etc/group
+    格式:`group:pwd:gid:user1,user2`
 - /etc/passwd
     格式:`username:pwd:uid:gid:commant:home:shell`
 - /etc/shadow
@@ -75,7 +76,7 @@
 Defaults  env_reset
 Defaults  secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 ### visudo
-用`visudo /etc/sudoers` 可以让添加的用户有运行sudo的权限
+用`visudo`编辑`/etc/sudoers`可以让添加的用户有运行sudo的权限
 1. 配置Host_Alias：就是主机的列表 
 Host_Alias      HOST_FLAG = hostname1, hostname2, hostname3 
 2. 配置Cmnd_Alias：就是允许执行的命令的列表，命令前加上!表示不能执行此命令. 
@@ -86,17 +87,21 @@ User_Alias USER_FLAG = user1, user2, user3
 4. 配置Runas_Alias：就是用户以什么身份执行（例如root，或者oracle）的列表 
 Runas_Alias RUNAS_FLAG = operator1, operator2, operator3 
 5. 权限具体配置格式
-USER_FLAG HOST_FLAG=(RUNAS_FLAG) NOPASSWD: COMMAND_FLAG 
+USER_FLAG HOST_FLAG=(RUNAS_FLAG) NOPASSWD: COMMAND_FLAG(注意这里必须是全路径)
+省写1: USER_FLAG HOST_FLAG=NOPASSWD: COMMAND_FLAG
+省写2: USER_FLAG HOST_FLAG=COMMAND_FLAG
 ### 例子
 ```
 # User privilege specification
 root ALL=(ALL) ALL
+USER_OPS ALL=(ALL) NOPASSWD: ALL
 # Members of the admin group may gain root privileges
 %admin ALL=(ALL) ALL
 ```
 上面 root 表示用户、%admin 表示 admin 用户组(%+名表示给用户组设置权限)
-第一个ALL：多个系统之间部署 sudo 环境时，该ALL代表所有主机。也可以换成相应的主机名，表示改规则只适用主机名对应的系统
+第一个ALL：标示登录者的主机名
 第二个ALL（即括号内的）：指出规定的 user 用户能够以何种身份来执行命令。该ALL表示user用户能够以任何用户的身份执行命令
 第三个ALL：表示能执行"命令表"，ALL表示用户能够执行系统中的所有命令。
-## Authorizatio
-`bash -r` or `ln -s bash rbash`
+## Authorization
+受限的shell: `bash -r`
+`ln -s bash rbash`
