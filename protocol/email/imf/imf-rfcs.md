@@ -1,6 +1,7 @@
 # RFC index
 - RFC822: (1982)Standard for ARPA Internet text messages(正式标准化)
 - RFC1847: Security Multiparts for MIME: Multipart/Signed and Multipart/Encrypted(不重要)
+- RFC1873: Message/External-Body Content-ID Access Type
 - RFC2045: MIME Part One: Format of Internet Message Bodies
 - RFC2046: Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types
 - RFC2047: MIME (Multipurpose Internet Mail Extensions) Part Three: Message Header Extensions for Non-ASCII Text

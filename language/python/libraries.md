@@ -1,4 +1,5 @@
 # Libraries
+- 网络库: requests
 - 画图
   - Echarts百度出品
     https://github.com/pyecharts/pyecharts-gallery
