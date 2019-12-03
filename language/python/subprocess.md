@@ -1,5 +1,4 @@
-# subprocess
-开启子进程
+# 调用外部进程
 - subprocess
     这个库替换了老的如下一些库
     os.system
@@ -11,9 +10,14 @@
   这个库主要用于人机对话模拟
 ## subprocess
 ### usage
-subprocess.call(["ls", "-l"])
-subprocess.call("exit 1", shell=True)
-subprocess.check_output(["echo", "Hello World!"])
+本质都是调用Popen，其他的都是helper方法
+```
+result = subprocess.getoutput(cmd) # return string
+result = subprocess.getstatusoutput(cmd)  # return code, string
+result = subprocess.check_output("pwd", shell=True, text=True)
+result = subprocess.run(cmd, stdout=subprocess.PIPE, timeout=30, check=True, text=True, shell=True)
+result = subprocess.run(cmd, stdout=subprocess.PIPE)
+```
 ### replace
 ```
 # old
