@@ -27,20 +27,6 @@ CODE also known as “text resident set” is total physical memory used to load
 ```
 ## /proc/
 - 内存参数:{pid}/status
-字段 | 说明
--|-
-VmPeak | 进程所使用的虚拟内存的峰值
-VmSize | 进程当前使用的虚拟内存的大小
-VmLck | 已经锁住的物理内存的大小（锁住的物理内存不能交换到硬盘）
-VmHWM | 进程所使用的物理内存的峰值
-VmRSS | 进程当前使用的物理内存的大小
-VmData | 进程占用的数据段大小
-VmStk | 进程占用的栈大小
-VmExe | 进程占用的代码段大小（不包括库）
-VmLib | 进程所加载的动态库所占用的内存大小（可能与其它进程共享）
-VmPTE | 进程占用的页表大小（交换表项数量）
-VmSwap | 进程所使用的交换区的大小
-
 - `/proc/meminfo`, `free -h`, `top`, `vmstat`
 - 64位系统的虚拟地址空间划分: 一般是2^48。因为并不需要 2^64 这么大的寻址空间，过大空间只会导致资源的浪费。64位Linux一般使用48位来表示虚拟地址空间，40位表示物理地址，这可通过 /proc/cpuinfo 来查看`address sizes   : 40 bits physical, 48 bits virtual`
   - 共提供 256TB(2^48) 的寻址空间
@@ -54,8 +40,7 @@ VmSwap | 进程所使用的交换区的大小
 ## docker 
 文件存储：/var/lib/docker/containers/
 /sys/fs/cgroup/memory/docker/<longid>/.
-- docker stats：不包括cache
+- docker stats：不包括cache. 为top中所有进程的内存之和
 - k8s dashboard 包括了cache
 - /sys/fs/cgroup/memory/memory.stat
-- 查看tpc连接:`netstat -ant|awk '/^tcp/ {++S[$NF]} END {for(a in S) print (a,S[a])}'`
 - K8S:cAdvisor 废弃了
