@@ -27,13 +27,13 @@ mysql -hsome-mysql -uroot -p
 ## 授权
 - 创建用户: `CREATE USER 'username'@'host' IDENTIFIED BY 'password';`
 - 授权: 
-    `GRANT privileges ON db.tablename TO 'username'@'host'`
-    `GRANT privileges ON db.tablename TO 'username'@'host' WITH GRANT OPTION;`
-    - privileges：用户的操作权限，如SELECT，INSERT，UPDATE等，如果要授予所的权限则使用ALL
-    - db和tablename：可以使用*代替,如: db.*, *.* 
+    `GRANT [privileges]] ON dbname.tablename TO 'username'@'host'`
+    `GRANT [privileges] ON dbname.tablename TO 'username'@'host' WITH GRANT OPTION;`
+    - privileges: 用户的操作权限，如SELECT，INSERT，UPDATE等，如果要授予所的权限则使用ALL. 其中`USAGE` 代表空权限
+    - db和tablename: 可以使用*代替,如: db.*, *.* 
 - 刷新授权
     `FLUSH PRIVILEGES;`
-- 撤销授权: `REVOKE privilege ON db.tablename FROM 'username'@'host';`
+- 撤销授权: `REVOKE [privileges] ON db.tablename FROM 'username'@'host';`
 - 修改密码: 
   - 老版本`SET PASSWORD FOR 'username'@'host' = PASSWORD('newpassword');`
   - 新版本,去掉了PASSWORD字段和函数，使用authentication_string字段
@@ -43,6 +43,7 @@ mysql -hsome-mysql -uroot -p
     select host,user,authentication_string from mysql.user;
     ```
 - 删除用户: `DROP USER 'username'@'host';`
+- 查看用户的权限: `SHOW GRANTS FOR 'username'@'%';`
 > 废弃: GRANT 如果用户不存在，则会根据配置NO_AUTO_CREATE_USER直接创建用户[非常不安全]； 如果GRANT后面跟了IDENTIFIED BY，则会把所有的密码修改，包括登陆密码。
 ## 绑定端口
 netstat -tulpen

@@ -111,5 +111,5 @@ jenkins/jenkins:lts
 - `-v /data:/data`: 将本地`/data`映射到容器的`/data`
 - `-v data:/data`: 将名字为data的volume映射到`/data`
 ## 坑
-- 运行在docker里面的程序新开启的文件会被docker缓存而得不到释放，从而造成内存泄漏
-- 使用alpine等精简的base image可能确实部分东西,如证书等，可以通过目录自己添加。`RUN apk --no-cache add ca-certificates`
+- 运行在docker里面的程序新开启的文件会被docker缓存而得不到释放(存放在cache中). 导致统计偏差
+- 使用alpine等精简的base image可能确实部分东西,如证书等，可以通过目录自己添加.`RUN apk --no-cache add ca-certificates`

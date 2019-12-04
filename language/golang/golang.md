@@ -1,4 +1,5 @@
 # Golang
+https://books.studygolang.com/advanced-go-programming-book/
 ## 变量定义:
   - 变量: `var name type`, `var hp int = 100`, `var hp = 100`
   - 数组: `var name [N]type`

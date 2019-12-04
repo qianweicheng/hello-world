@@ -4,9 +4,9 @@ https://en.wikipedia.org/wiki/Universally_unique_identifier
 ## 标准格式
 UUID的格式是这样的：xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx
 - M那个位置，代表版本号，由于UUID的标准实现有5个版本，所以只会是1,2,3,4,5
-- N那个位置(variants)，正常使用只会是8,9,a,b
+- N那个位置(variants)，正常使用只会是8,9,a,b(10xx),下面四个中的第二个
   - 0xxx:  backwards compatibility with the now-obsolete
-  - 10xx: referred to as RFC 4122/DCE 1.1 UUIDs
+  - 10xx: referred to as RFC 4122/DCE 1.1 UUIDs (8,9,a,b这四种可能)
   - 110x: reserved, Microsoft Corporation backward compatibility
   - 111x: future variants
 
@@ -20,7 +20,7 @@ node|12|the 48-bit node id
 
 ## UUID有多个版本
 - UUID Version 1：基于时间的UUID
-  基于时间的UUID通过计算当前时间戳（60bits),机器MAC地址(48bits)和序列号(13/14-bits)得到
+  基于时间的UUID通过计算当前时间戳（60bits),机器MAC地址(48bits)和序列号(13/14-bits)得到.也可以使用退化的算法，以IP地址来代替MAC地址－－Java的UUID往往是这样实现的
 - UUID Version 2：DCE安全的UUID
   DCE安全的UUID和基于时间的UUID算法相同，但会把时间戳的前4位置换为POSIX的UID或GID。不过，在UUID的规范里面没有明确地指定，所以基本上所有的UUID实现都不会实现这个版本
 - UUID Version 3：基于名字的UUID(MD5)
