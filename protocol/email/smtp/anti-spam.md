@@ -131,5 +131,6 @@ z= 复制的头字段（dkim-quoted-printable，可选的，默认为null）
 - 设置DMARC、DKIM和SPF并不容易，且易受运营商错误影响
 - 国内的万网是不支持DKIM，目前新网是支持SPF和DKIM。
 ## 相关Header
-Authentication-Results
-DKIM-Signature
+- Received-SPF
+- Authentication-Results
+- DKIM-Signature

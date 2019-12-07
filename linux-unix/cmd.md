@@ -6,7 +6,11 @@
 - (macos)shasum
 ## File System
 - `mount` `umount`
-- `df -h` `du -h`
+- `df -h` 
+- `du -[sh] [file]`:
+  - -s 只显示目录，不递归
+  - -h 显示友好，
+  - file 指定特定文件/目录
 - `cat /proc/self/mountstats`
 - `resize2fs`
 - `lsblk --list block devices`

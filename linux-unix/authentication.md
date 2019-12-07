@@ -41,8 +41,14 @@
 - 解锁密码:`passwd -u`
 - 查看: `passwd -S`
 ### 组
+- 新建组: `groupadd`
+- 删除组: `groupdel`
 - 修改组: groupmod  (groupmod groupmod -g NEW-GID groupname)
 - 查询: `groups [username]:查询所属group`
+### Example
+添加用户: `useradd stag -c "this is for stag cluster"`
+添加组: `groupadd edison`
+将用户添加到组: `usermod -a -G edison stag`
 ## shell
 - login shell
 - nologin shell

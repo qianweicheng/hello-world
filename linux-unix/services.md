@@ -9,7 +9,7 @@
     - 启动关闭: `systemctl start/status/restart xxx.service`
     - 开机自动启动停止: `systemctl enable/disable xxx.service`
     - 添加自动运行并且立即启动:`systemctl enable --now xxx.service`
-    - List: `systemctl list-units`
+      - List: `systemctl list-units`
     systemctl|service|chkconfig|备注
     -|-|-|-
     systemctl start [unit type]|service [服务] start||

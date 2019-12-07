@@ -1,0 +1,4 @@
+Zapier
+IFTTT
+Jenkins
+Travis

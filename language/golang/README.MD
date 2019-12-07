@@ -14,7 +14,6 @@
 GOROOT: Golang的安装目录
 GOPATH: Used to specify directories outside of $GOROOT that contain the source for Go projects and their binaries.
 ## 包管理
-- go get: 只是下载包，不做任何管理
 - glide(glide.yml): 会将所有依赖平铺到顶层的vender目录
    安装 `curl https://glide.sh/get | sh` 或 `brew install glide`
    - glide create/init：初始化
@@ -26,6 +25,7 @@ GOPATH: Used to specify directories outside of $GOROOT that contain the source f
 - godep: 第三方(go get github.com/tools/godep)
 - vender机制: 1.5开始
 - go module: (官方)1.11开始，最新推荐
+- go get: 
 ## 依赖包管理方式
 目前主流有两种模式:
 - vender模式
