@@ -1,15 +1,16 @@
 # SSH
+Document: https://man.openbsd.org/OpenBSD-current/man8/sshd.8
 ## 生成密钥对
 `ssh-keygen -t rsa -C "weicheng.andy"`
 ## 服务端（/etc/ssh/sshd_config）
-#### 开启密码登录
+### 开启密码登录
 - PasswordAuthentication 改为 yes
 - 添加/修改密码`passwd [username]`
 - 重启生效 `service sshd restart`
 
-#### 挂载远程目录
+### 挂载远程目录
 sshfs dev-stag:/home/ec2-user ./dev-stag
-#### 端口转发
+### 端口转发
 -   动态端口转发（在本机运行）,也叫：ssh socks代理
     >ssh -Nf -D local_A_port ssh-proxy-server
     Ex: ssh -fN -D 8080 ssh-proxy-server
@@ -24,7 +25,7 @@ sshfs dev-stag:/home/ec2-user ./dev-stag
     注1：此处的local_A_address 是相对于ssh-proxy-server的来说的，不是本机。
     注2: 由于安全性，sshd默认只能服务器本地转发。开启全局：`/etc/ssh/sshd_config`中修改`GatewayPorts yes`
     本地端口转发和远程端口转发，其实都可看着是动态端口转发(代理)的子集；
-#### Banner
+### Banner
 - 在登录前显示: 修改/etc/ssh/sshd_config `Banner /etc/issue.net`,并且修改:`PrintMotd no`。 如果登录非常快，则可能不可见，并且对于nologin的用户不可见
 - 在进入SHELL后显示: 添加脚本在 `/etc/update-motd.d/`
 - 测试:`sudo run-parts /etc/update-motd.d`
@@ -63,3 +64,26 @@ ssh -i private.key user@remote
         sshd: 192.168.0.1
     ```
 - 允许某个ip: /etc/hosts.allow
+## .ssh/authorized_keys
+- Options
+```
+cert-authority
+command="command"
+environment="NAME=value"
+expiry-time="timespec"
+from="pattern-list"
+no-agent-forwarding
+no-port-forwarding
+no-pty
+no-user-rc
+no-X11-forwarding
+permitlisten="[host]:port"
+permitopen="host:port"
+principals="principals"
+restrict
+tunnel="n"
+```
+- Demo
+```
+no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo This host:master.easilydo.cc will stop soon, please use fortress.edisonpark.net; sleep 5; /bin/bash"
+```

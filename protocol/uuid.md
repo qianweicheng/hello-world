@@ -38,3 +38,7 @@ node|12|the 48-bit node id
 ## 参考
 - Birthday problem(https://en.wikipedia.org/wiki/Birthday_problem)
 - Google搜索: `UUID collisions`
+## 生成UUID
+- `cat /proc/sys/kernel/random/uuid`
+- `uuidgen` or 
+- `dbus-uuidgen`(无分隔符)

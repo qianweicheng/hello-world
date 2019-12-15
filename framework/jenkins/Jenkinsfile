@@ -1,0 +1,75 @@
+Jenkinsfile (Declarative Pipeline)
+// https://jenkins.io/zh/doc/book/pipeline/jenkinsfile/
+pipeline {
+    agent { 
+        docker 'python:3.5.1' 
+    }
+    environment {
+        DISABLE_AUTH = 'true'
+        DB_ENGINE    = 'sqlite'
+        BITBUCKET_COMMON_CREDS = credentials('my-prefined-secret-text') 
+        // BITBUCKET_COMMON_CREDS - 包含一个以冒号分隔的用户名和密码，格式为 username:password。
+        // BITBUCKET_COMMON_CREDS_USR - 附加的一个仅包含用户名部分的变量。
+        // BITBUCKET_COMMON_CREDS_PSW - 附加的一个仅包含密码部分的变量。
+    }
+    options {
+        timeout(time: 1, unit: 'HOURS') 
+        quietPeriod(30) 
+        retry(3)
+    }
+    parameters {
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
+    }
+    triggers {
+        cron('H */4 * * 1-5')
+    }
+    tools {
+        maven 'apache-maven-3.0.1' 
+    }
+    stages {
+        stage('build') {
+            agent {
+                docker {
+                    image 'python:2-alpine' 
+                }
+            }
+            steps {
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh '''
+                    echo "Multiline shell steps works too"
+                    ls -lah
+                '''
+            }
+        }
+        stage('Test') {
+            steps {
+                sh './gradlew check'
+            }
+        }
+    }
+    post {
+        always {
+            echo 'This will always run'
+        }
+        success {
+            echo 'This will run only if successful'
+            slackSend channel: '#ops-room',
+                  color: 'good',
+                  message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
+        }
+        failure {
+            echo 'This will run only if failed'
+        }
+        unstable {
+            echo 'This will run only if the run was marked as unstable'
+        }
+        changed {
+            echo 'This will run only if the state of the Pipeline has changed'
+            echo 'For example, if the Pipeline was previously failing but is now successful'
+        }
+    }
+}

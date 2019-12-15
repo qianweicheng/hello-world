@@ -27,7 +27,7 @@ mysql -hsome-mysql -uroot -p
 ## 授权
 - 创建用户: `CREATE USER 'username'@'host' IDENTIFIED BY 'password';`
 - 授权: 
-    `GRANT [privileges]] ON dbname.tablename TO 'username'@'host'`
+    `GRANT [privileges] ON dbname.tablename TO 'username'@'host'`
     `GRANT [privileges] ON dbname.tablename TO 'username'@'host' WITH GRANT OPTION;`
     - privileges: 用户的操作权限，如SELECT，INSERT，UPDATE等，如果要授予所的权限则使用ALL. 其中`USAGE` 代表空权限
     - db和tablename: 可以使用*代替,如: db.*, *.* 
