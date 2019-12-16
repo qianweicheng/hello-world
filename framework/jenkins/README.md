@@ -60,7 +60,11 @@ https://blog.csdn.net/Andriy_dangli/article/details/85062813
 ## Pipeline优势
 - 流水线上的代码评审/迭代
 - 对流水线进行审计跟踪
-- 流水线的单一可信数据源 [2]，能够被项目的多个成员查看和编辑。
+- 流水线的单一可信数据源，能够被项目的多个成员查看和编辑。
 ## 插件
 - Authorize Project
 - Role-based Authorization Strategy
+## 权限
+一个用户必须拥有global_role和project_role(可选)，
+- global role中必须要overall的read权限，并且控制所有project的权限
+- project rold 根据正则控制单个项目的权限
