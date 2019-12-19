@@ -24,58 +24,46 @@ Usage :
   -s, --start                   Start the instance
   -S, --stop                    Stop the instance
 Example:  
-  1) Use short options to create vm:  
-    $ sudo $xxxxx
+  1) xxxxxxx
 EOF
-}   # ----------  end of function usage  ----------
+}
 if [ $# -eq 0 ]; then usage; exit 1; fi  
 
-RET=`getopt -o hs:S:c:: -al help,start:,stop:,cherry:: -n "aws-instance.sh" -- "$@"` 
+RET=`getopt -o hs:S:c:: -al help,start:,stop:,cherry:: -n "error message" -- "$@"` 
 # 判定 getopt 的执行时候有错，错误信息输出到 STDERR  
-if [ $? != 0 ]  
-then  
+if [ $? != 0 ];then  
     echo "Terminating....." >&2  
     exit 1  
-fi  
+fi
 
 # 重新排列参数的顺序  
-# 使用eval 的目的是为了防止参数中有shell命令，被错误的扩展。  
-#echo RET:"$RET"  
+# 使用eval 的目的是为了防止参数中有shell命令，被错误的扩展
+# set 会重新排列参数的顺序，也就是改变$1,$2...$n的值，这些值在getopt中重新排列过了
+# echo RET:"$RET"  
 eval set -- "$RET"  
   
 # 处理具体的选项  
-while [ -n "$1" ]  
-do  
-    echo ====$1=====
+while [ -n "$1" ];do
     case "$1" in  
         -h | --help ) usage; exit 1;;  
         -s | --start | -start)    
-            #aws ec2 start-instances --instance-ids xxx
-            shift 2
-            ;;  
+            echo $2
+            shift 2;;  
         -S | --stop | -stop)  
-            #aws ec2 stop-instances --instance-ids xxx
-            shift 2
-            ;;  
+            echo $2
+            shift 2;;
         -c | --cherry | -cherry)  
             case "$2" in  
                 "") # 选项 c 带一个可选参数，如果没有指定就为空  
                     echo "option c, no argument"  
-                    shift 2  
-                    ;;  
+                    shift 2;;  
                 *)  
                     echo "option c, argument $2"  
-                    shift 2  
+                    shift 2;;  
             esac  
             ;;  
-        --)  
-            shift  
-            break  
-            ;;  
-        *)   
-            echo "Internal error!$1"
-            exit 1  
-            ;;  
+        --) shift;break;;  
+        *)  echo "Internal error!$1";exit 1;;  
         esac  
   
 done  

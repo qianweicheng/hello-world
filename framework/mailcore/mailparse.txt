@@ -1,0 +1,68 @@
+        mailcore::Array * bentchmarkAttachments = mailcore::HTMLRenderer::attachmentsForMessage(imapMessage);
+        mailcore::Array * bentchmarkInlineattachments = mailcore::HTMLRenderer::htmlInlineAttachmentsForMessage(imapMessage);
+        mailcore::Array * bentchmarkHTML =mailcore::HTMLRenderer::requiredPartsForRendering(imapMessage);
+        if (bentchmarkAttachments->count() != attachmentParts->count() ||
+            bentchmarkInlineattachments->count() != inlineAttachmentParts->count() ||
+            bentchmarkHTML->count() != htmlParts->count()) {
+            EdoLog::printWQ("====Subject: %s\n",message->subject.c_str());
+            mailcore::String * output = mailcore::IMAPPartParser::prettyPrint(imapMessage, htmlParts, plainParts, attachmentParts, inlineAttachmentParts);
+            mailcore::String * bentchmart = mailcore::IMAPPartParser::prettyPrint(imapMessage, bentchmarkHTML, NULL, bentchmarkAttachments, bentchmarkInlineattachments);
+            EdoLog::printWQ("====Edison: %s\n",output->UTF8Characters());
+            EdoLog::printWQ("====Mailcore: %s\n",bentchmart->UTF8Characters());
+        }
+
+
+
+    mailcore::String *  case1 = MCSTR("中imageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimage12345.png");
+    mailcore::String * str = case1->filenameFix();
+    std::cout << str->UTF8Characters()<<std::endl;
+
+    case1 = MCSTR("..////def.txt//");
+    str = case1->filenameFix();
+    std::cout << str->UTF8Characters()<<std::endl;
+
+    case1 = MCSTR("");
+    str = case1->filenameFix();
+    std::cout << str->UTF8Characters()<<std::endl;
+
+    case1 = MCSTR(".");
+    str = case1->filenameFix();
+    std::cout << str->UTF8Characters()<<std::endl;
+
+    case1 = MCSTR("..def.txt");
+    str = case1->filenameFix();
+    std::cout << str->UTF8Characters()<<std::endl;
+
+
+    case1 = MCSTR("//abc//def.txt");
+    str = case1->filenameFix();
+    std::cout << str->UTF8Characters()<<std::endl;
+
+    case1 = MCSTR("   //abc//def.txt");
+    str = case1->filenameFix();
+    std::cout << str->UTF8Characters()<<std::endl;
+
+    case1 = MCSTR("   /abc/def.txt    ");
+    str = case1->filenameFix();
+    std::cout << str->UTF8Characters()<<std::endl;
+
+    case1 = MCSTR("/abc/def/imageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimage12345.png");
+    str = case1->filenameFix();
+    std::cout << str->UTF8Characters()<<std::endl;
+
+    case1 = MCSTR("/abc/def/imageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimageimage12.png");
+    str = case1->filenameFix();
+    std::cout << str->UTF8Characters()<<std::endl;
+
+
+    mailcore::String * inputPath = mailcore::String::stringWithUTF8Characters("/Users/qianweicheng/work/email1.eml");
+
+    mailcore::Array * htmlParts = mailcore::Array::array();
+    mailcore::Array * plainParts = mailcore::Array::array();
+    //Note: we can using ONLY one array, indetify them by attachment->isInline & attachment->isAttachment.
+    mailcore::Array * attachmentParts = mailcore::Array::array();
+    mailcore::Array * inlineAttachmentParts = mailcore::Array::array();
+    mailcore::AbstractMessage * message = mailcore::IMAPPartParser::parseMessage(inputPath, htmlParts, plainParts, attachmentParts, inlineAttachmentParts);
+
+    mailcore::String * result = mailcore::IMAPPartParser::prettyPrint(message, htmlParts, plainParts, attachmentParts, inlineAttachmentParts);
+    std::cout << result->UTF8Characters()<<std::endl;

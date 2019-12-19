@@ -21,7 +21,7 @@ mysql -hsome-mysql -uroot -p
 ## 常用命令
 启动/关闭: mysqld_safe
 创建数据库: `mysqladmin create databasename;` or `mysql -u root -p databasename < db.sql`
-导出数据: `mysqldump -uroot -p [--databases dbname] > mysql.test`
+导出数据: `mysqldump -uroot -p [--databases dbname] > mysql.dbname`
 导入数据: `mysqlimport -uroot -p < mysql.dbname`
 优化(周期运行): `OPTIMIZE TABLE`
 ## 授权
