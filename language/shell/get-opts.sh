@@ -18,4 +18,6 @@ while getopts :f:h OPTION;do
         # *)  echo $OPTIND opt:$OPTION value:$OPTARG;;
     esac    
 done
-echo finished.
+echo $OPTIND
+shift $(( $OPTIND-1 ))
+echo ext params: $*
