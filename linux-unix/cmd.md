@@ -14,6 +14,12 @@
 - `cat /proc/self/mountstats`
 - `resize2fs`
 - `lsblk --list block devices`
+## 文件同步
+  - scp
+  - rsync (`yum install -y rsync`or `brew install rsync`)
+### 实时同步
+- 当同步的目录数据量不大时，建议使用Rsync+Inotify-tools；
+- 当数据量很大（几百G甚至1T以上）、文件很多时，建议使用Rsync+sersync
 ## Other
 - command
 - which

@@ -54,7 +54,7 @@ ${string#*/}:  删掉第一个`/`及其左边的字符串
 ${string##*/}: 删掉最后一个`/`及其左边的字符串
 ${string%/*}:  删掉最后一个`/`及其右边的字符串
 ${string%%/*}: 删掉第一个`/`及其右边的字符串
-${string:start:length}`: 子字符串
+${string:start:length}: 子字符串
 ${string:position}: 同上，length可以省略，在$string中, 从位置$position开始提取子串
 ${string/src/dst}: 将第一个src 替换为dst
 ${string//src/dst}: 将全部src 替换为dst
@@ -105,4 +105,23 @@ array_new=(${array1[*]}  ${array2[*]})
 - 删除
 ```
 unset array_name[index]
+```
+- split
+```Option1
+string="hello,shell,split,test"  
+array=(${string//,/ })  
+ 
+for var in ${array[@]}
+do
+   echo $var
+done 
+```
+```Option2
+string="hello,shell,split,test"  
+array=(`echo $string | tr ',' ' '` )  
+ 
+for var in ${array[@]}
+do
+   echo $var
+done 
 ```
