@@ -60,23 +60,6 @@ umask|为新建的文件和目录设置默认权限
 unalias|刪除指定的别名
 unset|刪除指定的环境变量或 shell 属性
 wait|等待指定的进程完成，并返回退出状态码
-## 获取脚本当前目录
-- 支持软连接的版本
-```
-SOURCE="$0"
-while [ -h "$SOURCE"  ]; do
-    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-    SOURCE="$(readlink "$SOURCE")"
-    [[ $SOURCE != /*  ]] && SOURCE="$DIR/$SOURCE" 
-done
-DIR="$( cd -P "$( dirname "$SOURCE"  )" && pwd  )"
-echo $DIR # 当前脚本的物理文件夹
-echo $SOURCE # 当前脚本的绝对地址
-```
-- 不支持软链接的版本
-```
-dirname=$(dirname $0)
-```
 ## test 标签
 -z:字符串的长度为零
 -n:字符串的长度非零

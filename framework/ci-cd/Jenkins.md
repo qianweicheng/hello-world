@@ -38,7 +38,7 @@ https://blog.csdn.net/Andriy_dangli/article/details/85062813
   - 纯粹运行一些列脚本，这是Jenkins的核心，其他类型的project都是基于这个core，增加一个gradle解析器实现
   - 提供任务管理，日记管理，触发器等
   - 可以配置代码库，直接下载整个项目，然后全部使用自定义脚本进行处理
-  - 但我们由于需要使用docker镜像进行构建，以及使用密码管理，所有使用pipeline会表方便
+  - 但我们由于需要使用docker镜像进行构建，以及使用密码管理，所有使用pipeline会方便
 - Pipeline
   - Pipeline文件管理方式：
     - local pipeline
