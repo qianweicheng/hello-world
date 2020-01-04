@@ -8,7 +8,7 @@
     #!/bin/bash
     rm "/Users/$(whoami)/Library/Application\ Support/Victim/the-register-file"
     rm "/Users/$(whoami)/Library/Preferences/Victim/xxxx"
-    ${dirname $0}/Victim.real $@
+    $(dirname $0)/Victim.real $@
     ```
 3. 将脚本`chmod a+x Victim.sh`
 ## Preference文件路径

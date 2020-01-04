@@ -1,6 +1,8 @@
 # Swagger
 官网: https://swagger.io/ 
 GitHub地址: https://github.com/swagger-api
+规范2.0: https://swagger.io/docs/specification/2-0/describing-request-body/
+规范3.0: https://swagger.io/docs/specification/describing-request-body/
 - 编辑Swagger
     - 在线收费版: https://app.swaggerhub.com/
     - 在线免费版: http://editor.swagger.io/

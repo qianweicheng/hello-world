@@ -1,3 +1,4 @@
+# boot process
 ## Linux加载环境变量顺序
 ### Mac OS
 - unknown:
@@ -35,3 +36,10 @@
 - unknown:
     ~/.bashrc
         ~/.bash_aliases
+## 启动服务
+/etc/init.d 和 /etc/rc.x 都是链接到/etc/rc.d/里面去
+/etc/rc.d
+    rc.local 废弃
+    init.d  兼容模式，存放老的/etc/init.d
+    rc.x 
+/etc/systemd 真正放服务的地方

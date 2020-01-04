@@ -57,6 +57,9 @@ https://blog.csdn.net/Andriy_dangli/article/details/85062813
 - MultiBranch Pipeline
   - 跟pipeline类似
   - 只不过不指定分支，通过扫描分支下是否存在Jenkinsfile自动进行，相对来说灵活性少了一些
+- Lightweight checkout 不单独checkout一个xxx@script的文件夹出来
+  - 优点: 对于Jenkinsfile和代码在一个repo和分支的情况，一般使用Lightweight比较方便
+  - 缺点: 对于经常清空工作目录的情况，并且Jenkinsfile和代码不在一个repo的话， 每次让Jenkinsfile重新下载比较费事
 ## Pipeline优势
 - 流水线上的代码评审/迭代
 - 对流水线进行审计跟踪

@@ -37,7 +37,7 @@ tsung默认开放8091端口用于监控当前压测状态：`http://xxxx:8091/in
 配置详情: http://tsung.erlang-projects.org/user_manual/dtd.html
 `<client type="batch" batch="torque" maxusers="30000" use_controller_vm=false>`
 maxusers: 表示一个进程最多开启多少个session，主要避免操作系统对单进程打开文数的限制
-use_controller_vm: 默认false，表示当达到了maxusers之后，就开启新的进程
+use_controller_vm: 默认false，表示当达到了maxusers之后，就开启新的进程。当有tsung集群的时候，主tsung需要设置成false
 interarrival:每多少秒一个
 arrivalrate:每秒多少个
 session_setup: 选择session

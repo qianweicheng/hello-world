@@ -14,4 +14,5 @@ echo $SOURCE # 当前脚本的绝对地址
 - 不支持软链接的版本
 ```
 dirname=$(dirname $0)
+cd "$(dirname $0)/../.."
 ```
