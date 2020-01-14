@@ -21,12 +21,13 @@ https://goswagger.io/
 ## Generate spec form source
 - swagger:meta  总文档
 - swagger:route `swagger:operation`的简化版本，直接使用的是`swagger:response`
-- swagger:params  用来做请求参数的实体
 - swagger:operation 可以用来做复杂的API定义，可以通过yaml自定义
-- swagger:response 定义相应类，包括了Body，Header等。必须有description
 - swagger:model 定义实体类
+- swagger:parameters  用来做请求参数的实体
+- swagger:response 定义相应类，包括了Body，Header等。必须有description
 ## Tips
-建议直接使用`swagger:operation`, 这样可以直接使用model定义response，简化实体定义类型
+`swagger:parameters`和`swagger:response`对应，都是直接定义整个请求和相应，包括Header
+建议直接使用`swagger:operation`和`swagger:model`, 这样可以直接使用model定义response，简化实体定义类型
 ## 本人遇到的坑
 在使用swagger:operation的时候，定义response出错了，注意一下对比(schema)
 - response vs definitions

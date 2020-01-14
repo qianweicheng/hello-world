@@ -1,5 +1,5 @@
 # Code
-- 等待退出
+## 等待退出
 ```
     // Ctrl+C 退出
     sig := make(chan os.Signal, 1)
@@ -22,3 +22,17 @@
         defer func() { <-make(chan bool) }()
     }
 ```
+## JSON
+- 解析
+```Option1
+var param model.User
+decoder := json.NewDecoder(c.Request.Body)
+err := decoder.Decode(&param)
+```
+```Option2
+var param model.User
+bytes, err2 := c.GetRawData()
+json.Unmarshal(bytes, &param)
+```
+- gin
+err := c.ShouldBindJSON(param) 优势是可以增加验证
