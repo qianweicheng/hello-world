@@ -29,3 +29,7 @@ TODO
     `REVOKE xxx ON xxx FROM xxx;`
 ### 授权管理
 在scheme的管理页面可以统一管理
+```
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO edi_dba;
+select * from information_schema.table_privileges where grantee='edi_reader';
+```

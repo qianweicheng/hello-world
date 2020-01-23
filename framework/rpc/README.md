@@ -3,7 +3,7 @@
 - hessian
 - soap
 - thrift
-- protobuf
+- grpc
 ## RMI(remote method invocation，面向对象的远程方法调用)
 Java专用
 ## Web Service
