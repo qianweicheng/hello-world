@@ -86,7 +86,13 @@ http://localhost/apixxx  -> http://someserver/xxx
   http://localhost/apixxx  -> http://someserver/apixxx
 
 前端访问->后端访问:http://localhost/api  -> Nginx 会发起一个301跳转到http://localhost/api/
-
+## 反向代理去除前缀有两种办法
+- proxy_pass后面加上`/`
+- 使用review
+```
+  rewrite ^/order/(.*)$ /$1 break;
+  proxy_pass http://order;
+```
 ## Rewirte重定向
 rewrite指令执行顺序:
 1.执行server块的rewrite指令(这里的块指的是server关键字后{}包围的区域，其它xx块类似)

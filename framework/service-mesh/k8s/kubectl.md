@@ -37,6 +37,9 @@ kubectl cp
 kubectl explain
 kubectl top node
 kubectl top pod
+### Help man
+kubectl explain 
+`kubectl explain Deployment.spec.selector`
 ### Creating
 - `kubectl create --image=nginx deployment nginx`
 - `kubectl create --image=nginx nginx-app --port=80`

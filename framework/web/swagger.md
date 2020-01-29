@@ -12,6 +12,9 @@ GitHub地址: https://github.com/swagger-api
 - 代码生成
     https://github.com/swagger-api/swagger-codegen
     `brew install swagger-codegen`
+## swagger mockserver
+mock语法:http://mockjs.com/examples.html
+easy-mock 直接导入swagger.yaml,生成mock数据
 ## Go-Swagger
 一个Golang版本的swagger，可以从文档生成代码，也可以从代码生成文档
 https://github.com/go-swagger/go-swagger

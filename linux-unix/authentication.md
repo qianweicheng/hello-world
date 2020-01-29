@@ -48,7 +48,7 @@
 ### Example
 添加用户: `useradd stag -c "this is for stag cluster"`
 添加组: `groupadd edison`
-将用户添加到组: `usermod -a -G edison stag`
+将用户添加到组: `usermod -a -G wheel devops`
 ## shell
 - login shell
 - nologin shell
