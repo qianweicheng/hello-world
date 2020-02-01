@@ -7,9 +7,17 @@
     Process Selection By List:
         -C,-G, U, -U, -g, p, -p, q, -q, -s, t, -t ,-u, --pid, --ppid, --sid, -123=--sid 123, 123=--pid 123, xxx
     Output Format Control:
-        -F, -O, O, -M, X, Z, -c, -f, j, -j, l, -l, o, -o, s, u, v, -y, -Z
+        -F, 
+        O -O: -o 预定义的一些col. 等价 -o pid,format,state,tname,time,command
+        -M, X, Z, -c, -f, 
+        j, -j: job format
+        l, -l: Long format.
+        o, -o: `ps -eo pid,format,time,%cpu`
+        s, u, v, -y, -Z
     Output Modifiers:
-        -H, N, O, S, c, e, f, h, k, -n, n, -w, w, ...
+        -H, N, O, S, c, 
+        e: `ps -ef e`
+        f, h, k, -n, n, -w, w, ...
     Thread Display:
         H, -L, -T, m, -m
     Other Information:

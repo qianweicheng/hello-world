@@ -131,6 +131,10 @@ z= 复制的头字段（dkim-quoted-printable，可选的，默认为null）
 - 设置DMARC、DKIM和SPF并不容易，且易受运营商错误影响
 - 国内的万网是不支持DKIM，目前新网是支持SPF和DKIM。
 ## 相关Header
-- Received-SPF
-- Authentication-Results
-- DKIM-Signature
+- Return-Path: 邮件返回地址
+- Received-SPF: pass 表示通过
+- Authentication-Results: dkim=pass,spf=pass,dmarc=pass
+- DKIM-Signature:一些配置信息提供验证邮件内容是否修改
+- ARC-Authentication-Results: 有点类似Authentication-Results
+- ARC-Message-Signature: 类似DKIM-Signature
+- ARC-Seal:
