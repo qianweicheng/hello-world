@@ -53,22 +53,24 @@ PTR和SPF有部分重合，PTR是从ISP那边配置的，SPF是从域名服务�
 - ARC-Message-Signature: 类似DKIM-Signature
 - ARC-Seal:
 ## 帮助工具
-黑名单组织: https://www.spamhaus.org/lookup/
-反馈DKARC报告: https://dmarc.postmarkapp.com/
-https://www.mail-tester.com/spf-dkim-check
-https://www.dmarcanalyzer.com/spf/checker/
-https://www.dmarcanalyzer.com/dkim/dkim-check/
-https://www.dmarcanalyzer.com/dmarc/dmarc-record-check/
-https://toolbox.googleapps.com/apps/checkmx/
-https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/how-office-365-uses-spf-to-prevent-spoofing
+黑名单组织: https://www.spamhaus.org/lookup/  
+反馈DKARC报告: https://dmarc.postmarkapp.com/  
+https://www.mail-tester.com/spf-dkim-check  
+https://www.dmarcanalyzer.com/spf/checker/  
+https://www.dmarcanalyzer.com/dkim/dkim-check/  
+https://www.dmarcanalyzer.com/dmarc/dmarc-record-check/  
+https://toolbox.googleapps.com/apps/checkmx/  
+https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/how-office-365-uses-spf-to-prevent-spoofing  
 ## Edison
-edsionmail.app 三无
-edisonmail.com 三无
-edison.tech 三无
-
+- edisonmail.com(edsionmail.app去掉)
+- edison.tech
+  - SPF: NEUTRAL with IP 209.85.220.41 Learn more
+  - DKIM: 'PASS' with domain edison-tech.20150623.gappssmtp.com Learn more
+```
 dig TXT _dmarc.sendgrid.net
 sendgrid.net: "v=DMARC1; p=reject; sp=none; rua=mailto:dmarc_agg@dmarc.250ok.net; ruf=mailto:dmarc_fr@dmarc.250ok.net; fo=1; pct=100; rf=afrf"
 amazonses.com: "v=DMARC1; p=quarantine; rua=mailto:rua@dmarc.amazonses.com; ruf=mailto:ruf@dmarc.amazonses.com"
 qq.com:"v=DMARC1; p=none; rua=mailto:mailauth-reports@qq.com"
 aol.com:"v=DMARC1; p=reject; pct=100; rua=mailto:d@rua.agari.com; ruf=mailto:d@ruf.agari.com;"
 zoho.com:"v=DMARC1; p=reject; sp=reject; fo=0; rua=mailto:dmarcaggregation@zoho.com; ruf=mailto:dmarcaggregation@zoho.com"  
+```

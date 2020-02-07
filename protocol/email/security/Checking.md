@@ -55,14 +55,19 @@
 4. Sender: `domain6`
 5. Header.From: `domain7`
 ### 计算
-resver-path: domain1=domain2 --根域名相等--> domain3(有可能是子域名)=domain5(有可能是子域名)。
-header.from: domain4=domain7
-resver-path = header.from
-sender: domain6 应该跟domain4/domain7同域名或子域名
-如上公式不满足，则邮件有被伪造或者代发风险
-显示代发内容: 
-1. 如果domain6=resver-path代发，则显示由header.sender代发
-2. 如果不相等，可能是伪造，否则不应该出现这种情况，提示警告，则显示由resver-path代发。
+```
+公式1: resver-path: domain1=domain2 --根域名相等--> domain3(有可能是子域名)=domain5(有可能是子域名)。
+公式2: header.from: domain4=domain7
+公式3: resver-path = header.from
+公式4: sender: 如果有则 domain6应该跟domain4/domain7同域名或子域名
+
+结果: 
+- 以上所有公式满足：则有header.sender就显示，没有就当正常内容
+- 如果公式1不成立。显示警告，一般都是邮件被转发或者人为构造导致的错误。并考虑把错误原因显示
+- 如果公式2不成立。显示警告，一般都是邮件被转发或者人为构造导致的错误。
+- 如果公式3不成立。显示由resver-path代发，(这是正常的代发邮件)
+- 如果公式4不成立。显示警告, 一般都是邮件被转发或者人为构造导致的错误。
+```
 ## 特例:
 QQ: 使用X-QQ-CSender和X-QQ-ORGSender, X-QQ-SPAM: true
 
