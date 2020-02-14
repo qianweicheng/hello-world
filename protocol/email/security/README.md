@@ -3,7 +3,7 @@
 - 网络钓鱼
 - 恶意软件
 ## 方式
-- 直接通过CROF等方式窃取session，危害最大，邮件系统几乎无法防护
+- 直接通过XSS/CSRF等方式窃取session，危害最大，邮件系统几乎无法防护
 - 伪造return-path。通不过SPF
 - 域名相似攻击
 - Display Name 冒充：取一个跟某人一样的Display Name，最没技术含量的方式。或者username取一个非常相似的

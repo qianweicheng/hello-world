@@ -54,14 +54,21 @@
 3. Return-Path: `domain5`，有些g suite 这类的代发，我们不处理inner-domain的攻击，这个依托各自的邮箱服务器的权限验证
 4. Sender: `domain6`
 5. Header.From: `domain7`
-### 计算
+<!-- ### 计算
 ```
-公式1: resver-path: domain1=domain2 --根域名相等--> domain3(有可能是子域名)=domain5(有可能是子域名)。
+公式1: spf-pass: domain1=domain2=domain3
+公式2: dkim: 只通过dkim=pass, 或者compauth=pass
+公式3: domain4=domain7
+公式4: sender: 如果有则 domain6应该跟domain4/domain7同域名或子域名
+``` -->
+### 计算2
+```
+公式1: revert-path: domain1=domain2 --根域名相等--> domain3(有可能是子域名)=domain5(有可能是子域名)。
 公式2: header.from: domain4=domain7
-公式3: resver-path = header.from
+公式3: revert-path = header.from
 公式4: sender: 如果有则 domain6应该跟domain4/domain7同域名或子域名
 
-结果: 
+结果:
 - 以上所有公式满足：则有header.sender就显示，没有就当正常内容
 - 如果公式1不成立。显示警告，一般都是邮件被转发或者人为构造导致的错误。并考虑把错误原因显示
 - 如果公式2不成立。显示警告，一般都是邮件被转发或者人为构造导致的错误。
