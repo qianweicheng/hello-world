@@ -10,15 +10,19 @@
 # 所有选项参数必须写在其它参数的前面，因为getopts是从命令行前面开始处理，遇到非-开头的参数，或者选项参数结束标记--就中止了
 # shift $((OPTIND-1))
 # 所有不认识的变量都放?里面. *,? 都是通配符
-while getopts :f:h OPTION;do
-    case $OPTION in
-        f)  echo $OPTIND opt:$OPTION value:$OPTARG;;
-        h)  echo $OPTIND opt:$OPTION value:$OPTARG;;
-        :)  echo "Missing argument for $OPTARG";;
-        \?)  echo $OPTIND opt:$OPTION value:$OPTARG;;
-        # *)  echo $OPTIND opt:$OPTION value:$OPTARG;;
-    esac    
-done
-echo $OPTIND
-shift $(( $OPTIND-1 ))
-echo ext params: $*
+if [ $# -gt 0 ];then
+    while getopts :f:h OPTION;do
+        case $OPTION in
+            f)  echo $OPTIND opt:$OPTION value:$OPTARG;;
+            h)  echo $OPTIND opt:$OPTION value:$OPTARG;;
+            :)  echo "Missing argument for $OPTARG";;
+            ?)  echo $OPTIND opt:$OPTION value:$OPTARG;;
+            # *)  echo $OPTIND opt:$OPTION value:$OPTARG;;
+        esac    
+    done
+    echo $OPTIND
+    shift $(( $OPTIND-1 ))
+else
+    echo "no params"
+fi
+echo "ext params: $*"
