@@ -1,12 +1,10 @@
 import time
 
-from appium import webdriver
-
 from wechat.driver import WechatDriver
+from wechat.driver2 import WechatDriver2
 
 if __name__ == "__main__":
-    driver = WechatDriver()
+    driver = WechatDriver2()
     driver.start()
-    # driver.test_selection()
-    # driver.scroll_up_and_down()
-    time.sleep(3)
+    input("按任意键推出...")
+    print("正在推出...")

@@ -1,10 +1,10 @@
 from appium import webdriver
+
 from appium.webdriver.common.touch_action import TouchAction
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
-
-from selenium.webdriver import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -72,10 +72,21 @@ class WechatDriver(object):
                 print("unknown {} tab".format(tab_name))
                 return
         # selected_tab.click()
-        actions = TouchAction(self.driver)
-        actions.tap(selected_tab, count=count)
-        actions.perform()
-        time.sleep(1)
+        action = TouchAction(self.driver)
+        # action.tap(tabs[0], x=50, y=50, count=count)
+        # action.wait(1000)
+        # action.tap(tabs[1], x=50, y=50, count=count)
+        # action.wait(1000)
+        # action.tap(tabs[2], x=50, y=50, count=count)
+        # action.wait(1000)
+        # action.tap(tabs[3], x=50, y=50, count=count)
+        # action.wait(1000)
+        if count == 2:
+            action.tap(selected_tab, count=count).wait(260).tap(selected_tab)
+        else:
+            action.tap(selected_tab)
+        action.perform()
+        time.sleep(0.1)
 
     def conversion_list(self):
         conversion_listview = self.driver.find_element_by_id("com.tencent.mm:id/dcf")
@@ -112,7 +123,8 @@ class WechatDriver(object):
         if len(els) > 0:
             last_message = els[0].get_attribute("text")
         print("Title:{}\nCount:{}\nLast message:{}\n".format(title, message_count, last_message))
-        row.click()
+        # row.click()
+        TouchAction(self.driver).tap(row).perform()
         # 进入了详情页面
         self.conversion_detail_messages(title)
         # 回调列表页面
@@ -137,10 +149,19 @@ class WechatDriver(object):
                 user = el[0].text
             el = row.find_elements_by_id("com.tencent.mm:id/pq")
             if len(el) > 0:
+                actions = ActionChains(self.driver)
+                actions.move_to_element(el[0])
+                actions.double_click()
+                actions.perform()
                 TouchAction(self.driver).tap(el[0], count=2).perform()
-                full_screen_message_el = self.driver.find_element_by_id("com.tencent.mm:id/awl")
-                message = full_screen_message_el.text
-                TouchAction(self.driver).tap(self.driver.find_element_by_id("com.tencent.mm:id/awk")).perform()
+                TouchAction(self.driver).tap(el[0]).wait(100).tap(el[0]).perform()
+                TouchAction(self.driver).press(el[0]).release().wait(100).press(el[0]).release().perform()
+                try:
+                    full_screen_message_el = self.driver.find_element_by_id("com.tencent.mm:id/awl")
+                    message = full_screen_message_el.text
+                    TouchAction(self.driver).tap(self.driver.find_element_by_id("com.tencent.mm:id/awk")).perform()
+                except Exception as e:
+                    print(e)
             time.sleep(0.2)
             print("Time:{}\nUser:{}\nMessage:{}\n".format(current_time, user, message))
             self.conversions[room].append({"user": user, "time": current_time, "message": message})
@@ -157,20 +178,6 @@ class WechatDriver(object):
         actions.tap(search_btn)
         actions.perform()
 
-    def create_actions(self, el_id):
-        el = self.driver.find_element_by_accessibility_id(el_id)
-        if el:
-            actions = TouchAction(self.driver)
-            # actions.double_tap(el)
-            # actions.tap_and_hold(el)
-            # actions.move(el, x, y)
-            # actions.move_to(el, x, y)
-            # actions.release(el)
-            # actions.perform()
-            return actions
-        else:
-            return None
-
     def exec(self, cmd):
         result = self.driver.execute_script('mobile: shell', {
             'command': 'sh',
@@ -183,17 +190,11 @@ class WechatDriver(object):
     def scroll_top(self):
         el = self.driver.find_element_by_id("com.tencent.mm:id/l2")
         if el.get_attribute("clickable"):
-            TouchAction(self.driver).tap(el, x=100, y=80, count=2)
-            # TouchAction(self.driver).press(els[0], x=100, y=80, ).wait(50).release() \
-            #     .wait(300). \
-            #     press(els[0], x=100, y=100, ).wait(50).release().perform()
-            # actions = ActionChains(self.driver)
-            # actions.move_to_element(el)
-            # actions.double_click(el)
-            # actions.perform()
-            # time.sleep(1)
-            print("======")
-            # self.driver.swipe(100, 1000, 100, 100, 500)
+            # TouchAction(self.driver).press(el, x=200, y=100).release() \
+            #     .wait(100).press(el, x=210, y=90).release().perform()
+            # TouchAction(self.driver).tap(el, x=200, y=200).perform()
+            # self.driver.execute_script("mobile: scroll", {"direction": "down"})
+            self.driver.swipe(100, 300, 100, 1000, 200)
         else:
             print("can't find title bar")
 
@@ -209,7 +210,8 @@ class WechatDriver(object):
         # actions.release()
         # actions.perform()
         # self.driver.swipe(x1, y1, x2, y2, duration)
-        self.driver.scroll(from_row, to_row, duration=1000)
+        # self.driver.execute_script("mobile: scrollBackTo", {"direction": "down"})
+        self.driver.scroll(from_row, to_row, duration=200)
 
     def scroll_up_and_down(self):
         conversion_listview = self.driver.find_element_by_id("com.tencent.mm:id/dcf")
@@ -225,19 +227,11 @@ class WechatDriver(object):
         print(self.driver.current_activity)
         self.select_tab("消息", count=2)
 
-    def test_selection(self):
-        # RelativeLayout(com.tencent.mm:id/bw)->LinearLayout->RelativeLayout(点击区域)->LinearLayout->RelativeLayout,TextView(com.tencent.mm:id/dkb)
-        # el = self.driver.find_element_by_accessibility_id(el_id)
-        # el = self.driver.find_element_by_android_viewtag('a tag name')
-        # el = self.driver.find_element_by_android_view_matcher('')
-        # el = self.driver.find_element_by_android_uiautomator('new UiSelector().resourceId("com.:id/w5")')
-        # self.driver.find_element_by_android_uiautomator('new UiSelector().text("盼盼")')
-        # el = self.driver.find_element_by_xpath(el_id)
-
+    def screenshot(self):
         bottom = self.driver.find_element_by_id('com.tencent.mm:id/bw')
-        tab1 = bottom.find_elements_by_xpath('//*[@resource-id="com.tencent.mm:id/bw"]/android.widget.LinearLayout[1]')
+        # tab1 = bottom.find_elements_by_xpath('//*[@resource-id="com.tencent.mm:id/bw"]/android.widget.LinearLayout[1]')
         tab1 = bottom.find_elements_by_xpath('.//android.widget.LinearLayout[1]')
-        el = self.driver.find_element_by_id("")
+        # el = self.driver.find_element_by_id("")
         tab1.screenshot("tab1.png")
 
     def start(self):
