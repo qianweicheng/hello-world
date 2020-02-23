@@ -11,7 +11,7 @@ API方式确定不可靠，决定使用自动化方式。
 1. 使用`$ANDROID_HOME/tools/bin/uiautomatorviewer`分析目标程序的界面结构
 2. 通过appt工具获取package、activity，cmd运行  `aapt dump badging  xxx.apk`
 3. 编写脚本进行自动化处理
-4. 启动Appium Server:`appium &`
+4. 启动Appium Server:`appium --relaxed-security`
 5. 运行脚本。
 
 

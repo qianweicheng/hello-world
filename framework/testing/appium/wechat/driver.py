@@ -234,9 +234,26 @@ class WechatDriver(object):
         # el = self.driver.find_element_by_id("")
         tab1.screenshot("tab1.png")
 
+    # def toast_message(self):
+    #     xpath = "//*[contains(@text,'图片已保存')]"
+    #     toast = self.wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
+    #     message = toast.text
+    #     print("text:" + message)
+    #     # print("class:" + toast.get_attribute("class"))
+    #     toast = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "android.widget.Toast")))
+    #     message = toast.text
+    #     print("text:" + message)
+    #     print(toast.get_attribute("class"))
+    #     return message
+
     def start(self):
         self.select_tab('消息')
         self.conversion_list()
         # 回到顶部，准备下一轮
         self.scroll_top()
         time.sleep(3)
+
+
+if __name__ == "__main__":
+    driver = WechatDriver()
+    driver.start()

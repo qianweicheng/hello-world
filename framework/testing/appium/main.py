@@ -1,9 +1,9 @@
-import time
+import logging
 
-from wechat.driver import WechatDriver
 from wechat.driver2 import WechatDriver2
 
+logging.basicConfig(level=logging.INFO)
 if __name__ == "__main__":
     driver = WechatDriver2()
     driver.start()
-    print("正在推出...")
+    logging.info("正在退出...")
