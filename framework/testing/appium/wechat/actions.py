@@ -2,12 +2,13 @@
 import subprocess
 
 
-def pull_files_from_device(filepath):
+def pull_files_from_device(filepath, dist="./images/"):
     # 单个文件: adb pull /sdcard/tencent/MicroMsg/WeiXin/${filepath} .
     # 文件夹: adb pull /sdcard/tencent/MicroMsg/WeiXin .
-    status = subprocess.call("adb pull {} ../images/".format(filepath), shell=True)
+    cmd = "adb pull {} ./images/".format(filepath)
+    status = subprocess.call(cmd, shell=True)
     return status
 
 
 if __name__ == "__main__":
-    pull_files_from_device("/sdcard/tencent/MicroMsg/WeiXin/wx_camera_1545546944630.jpg")
+    pull_files_from_device("/sdcard/tencent/MicroMsg/WeiXin/wx_camera_1545546944630.jpg", "../images")

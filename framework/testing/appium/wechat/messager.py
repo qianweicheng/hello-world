@@ -4,7 +4,6 @@ from wechat.actions import pull_files_from_device
 
 
 class Messager(object):
-    attachments = ["image", "video"]
 
     def __init__(self, me):
         self.logger = logging.getLogger("messager")
@@ -23,7 +22,7 @@ class Messager(object):
             "date": date,
             "sender": sender,
         })
-        if message_type in self.attachments and path:
+        if path:
             pull_files_from_device(path)
         # 如果需要回复信息，则返回信息内容
         # if not message.startswith("回复"):

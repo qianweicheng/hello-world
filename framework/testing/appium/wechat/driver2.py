@@ -25,6 +25,8 @@ class WechatDriver2(object):
         'appActivity': 'com.tencent.mm.ui.LauncherUI',
         'newCommandTimeout': 30,
         # "deviceId": "192.168.2.241:5555",
+        # "adbPort": 5555,
+        # "dontStopAppOnReset": True,
         'noReset': True,
         # 'app':'the-apk-path-if-appPackage-or-appActivity-is-not-specialfied'
     }
@@ -35,9 +37,10 @@ class WechatDriver2(object):
         self.wait = WebDriverWait(self.driver, 30)
         self.wait_list_page()
         self.messager = Messager("钱炜铖")  # 自己
-        self.rooms = ["盼盼", "成云机器人"]  # 只记录指定的对话，如果为空则全部记录
+        self.rooms = ["x盼盼", "袁州区市场监管局", "x成云机器人"]  # 只记录指定的对话，如果为空则全部记录
         self.full_log = True  # 只记录新消息
         self.wechat_file_path = "/sdcard/tencent/MicroMsg/WeiXin/"
+        self.wechat_attachment = "/sdcard/tencent/MicroMsg/Download/"
 
     def wait_list_page(self):
         self.logger.info(self.driver.current_activity)
@@ -80,7 +83,7 @@ class WechatDriver2(object):
         row_index = 0
         while True:
             try:
-                time.sleep(0.3)
+                time.sleep(0.5)
                 listview = self.driver.find_element_by_id("com.tencent.mm:id/dcf")
                 rows = listview.find_elements_by_id("com.tencent.mm:id/bah")
                 row_count = len(rows)
@@ -173,7 +176,7 @@ class WechatDriver2(object):
         row_index = 0
         current_time = ""
         while True:
-            time.sleep(0.1)
+            time.sleep(1)
             rows = self.driver.find_elements_by_xpath("//*[@resource-id='com.tencent.mm:id/ab']/..")
             row_count = len(rows)
             if row_index < row_count:
@@ -188,16 +191,21 @@ class WechatDriver2(object):
                 current_time = date_fix(el[0].text)
             elif not current_time:
                 current_time = date_fix(self.driver.device_time)
-            el = row.find_elements_by_id("com.tencent.mm:id/po")
+            el = row.find_elements_by_id("com.tencent.mm:id/pp")
+            user = ""
             if el:
-                user = el[0].get_attribute("content-desc")
-                if user:
-                    if user.endswith("头像"):
-                        user = user[:-2]
+                user = el[0].text
+            if not user:
+                el = row.find_elements_by_id("com.tencent.mm:id/po")
+                if el:
+                    user = el[0].get_attribute("content-desc")
+                    if user:
+                        if user.endswith("头像"):
+                            user = user[:-2]
+                    else:
+                        user = room
                 else:
                     user = room
-            else:
-                user = room
             message, _ = self.process_text_message(row)
             if message:
                 reply = self.messager.append(room, current_time, user, "text", message, None)
@@ -226,20 +234,15 @@ class WechatDriver2(object):
                 continue
             elif message == "":
                 continue
+            message, path = self.process_file_message(row)
+            if message:
+                self.messager.append(room, current_time, user, "file", message, path)
             message, path = self.process_other_message(row)
             if message:
                 self.messager.append(room, current_time, user, "other", message, path)
                 continue
             elif message == "":
                 continue
-            # RelativeLayout
-            # --（可能）TextViewcom.tencent.mm:id/ai
-            # --LinearLayout(ab)
-            # ----(文字)LinearLayout()->pq
-            # ----(图片)LinearLayout(aw3)->atb
-            # ----(视频)LinearLayout()->gi9->abt->av.->aw.
-            # ----(语音)LinearLayout(atb)->awh,awg
-            # ----(分享)LinearLayout(abv)->ata->atb...->atj
 
     def process_text_message(self, row):
         try:
@@ -259,10 +262,17 @@ class WechatDriver2(object):
         try:
             el = row.find_elements_by_id("com.tencent.mm:id/aw3")
             if el:
+                # 附加条件
+                a = row.find_elements_by_id("com.tencent.mm:id/atb")
+                b = row.find_elements_by_id("com.tencent.mm:id/av0")
+                c = row.find_elements_by_id("com.tencent.mm:id/av4")
+                if not a or not b or not c:
+                    return None, None
                 ActionChains(self.driver).move_to_element(el[0]).click().perform()
                 # full_screen_message_el = self.driver.find_element_by_class_name("com.tencent.mm.ui.mogic.WxViewPager")
                 # TouchAction(self.driver).long_press(full_screen_message_el).perform()
                 # TouchAction(self.driver).tap(self.driver.find_element_by_xpath('//*[@text="保存图片"]/../../..')).perform()
+                # 下载按钮
                 TouchAction(self.driver).tap(self.driver.find_element_by_id('com.tencent.mm:id/cqq')).perform()
                 toast = self.wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@text,'图片已保存至')]")))
                 toast_message = toast.text
@@ -271,7 +281,7 @@ class WechatDriver2(object):
                     # file name:  2020-02-13 13:14 wx_camera_1581570852980.jpg
                     # tencent/MicroMsg/WeiXin/ -> /sdcard/tencent/MicroMsg/WeiXin/
                     # 获取到这个文件夹的最后一个文件就可以
-                    filename = self.exec("ls -t {}| head -n1".format(self.wechat_file_path))
+                    filename = self.exec("ls -t {}| head -n1".format(self.wechat_file_path)).strip()
                     return "[图片消息]", "{}{}".format(self.wechat_file_path, filename)
         except Exception as e:
             self.logger.error(e)
@@ -283,9 +293,14 @@ class WechatDriver2(object):
             el = row.find_elements_by_id("com.tencent.mm:id/gi9")
             if el:
                 # 点击视频播放
-                # gi9->com.tencent.mm:id/atb
-                ActionChains(self.driver).move_to_element(
-                    el[0].find_element_by_id("com.tencent.mm:id/atb")).click().perform()
+                click_btn = el[0].find_elements_by_id("com.tencent.mm:id/atb")
+                # 附加条件
+                a = row.find_elements_by_id("com.tencent.mm:id/av0")
+                b = row.find_elements_by_id("com.tencent.mm:id/av4")
+                c = row.find_elements_by_id("com.tencent.mm:id/av3")
+                if not click_btn or not a or not b or not c:
+                    return None, None
+                ActionChains(self.driver).move_to_element(click_btn[0]).click().perform()
                 # 视频页面: 点击更多
                 ActionChains(self.driver).move_to_element(
                     self.driver.find_element_by_id("com.tencent.mm:id/gig")).click().perform()
@@ -311,6 +326,23 @@ class WechatDriver2(object):
         except Exception as e:
             self.logger.error(e)
             return "[语音消息]", None
+        return None, None
+
+    def process_file_message(self, row):
+        try:
+            # ----(文件)LinearLayout(ata)->ats,att,atv(文件大小)
+            el = row.find_elements_by_id("com.tencent.mm:id/aba")
+            if el:
+                a = el.find_elements_by_id("com.tencent.mm:id/ats")
+                b = el.find_elements_by_id("com.tencent.mm:id/att")
+                c = el.find_elements_by_id("com.tencent.mm:id/atv")
+                if not a or not b or not c:
+                    return None, None
+                # TODO:
+                return "[文件]", None
+        except Exception as e:
+            self.logger.error(e)
+            return "[文件]", None
         return None, None
 
     def process_other_message(self, row):

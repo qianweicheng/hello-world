@@ -13,8 +13,11 @@ API方式确定不可靠，决定使用自动化方式。
 3. 编写脚本进行自动化处理
 4. 启动Appium Server:`appium --relaxed-security`
 5. 运行脚本。
-
-
+## 无线方案
+```
+adb tcpip 5555
+adb connect 192.168.2.241:5555
+```
 ## 使用python uiautomator2
 这个库底层使用android自带的uiautomator
 `pip3 install --pre -U uiautomator2`
