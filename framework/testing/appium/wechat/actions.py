@@ -1,14 +1,13 @@
-from appium import webdriver
+#!/usr/bin/env python3
+import subprocess
 
 
-def select_control_by_id(id):
-    pass
+def pull_files_from_device(filepath):
+    # 单个文件: adb pull /sdcard/tencent/MicroMsg/WeiXin/${filepath} .
+    # 文件夹: adb pull /sdcard/tencent/MicroMsg/WeiXin .
+    status = subprocess.call("adb pull {} ../images/".format(filepath), shell=True)
+    return status
 
 
-def start_activity(driver):
-    driver.start_activity("com.example", "ActivityName");
-
-def screenshot(driver):
-    screenshotBase64 = driver.get_screenshot_as_base64()
-    return screenshotBase64
-
+if __name__ == "__main__":
+    pull_files_from_device("/sdcard/tencent/MicroMsg/WeiXin/wx_camera_1545546944630.jpg")

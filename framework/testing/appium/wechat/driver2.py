@@ -35,8 +35,9 @@ class WechatDriver2(object):
         self.wait = WebDriverWait(self.driver, 30)
         self.wait_list_page()
         self.messager = Messager("钱炜铖")  # 自己
-        self.rooms = ["成云机器人"]  # 只记录指定的对话，如果为空则全部记录
+        self.rooms = ["盼盼", "成云机器人"]  # 只记录指定的对话，如果为空则全部记录
         self.full_log = True  # 只记录新消息
+        self.wechat_file_path = "/sdcard/tencent/MicroMsg/WeiXin/"
 
     def wait_list_page(self):
         self.logger.info(self.driver.current_activity)
@@ -197,37 +198,37 @@ class WechatDriver2(object):
                     user = room
             else:
                 user = room
-            message = self.process_text_message(row)
+            message, _ = self.process_text_message(row)
             if message:
-                reply = self.messager.append(room, user, message, "text", current_time)
+                reply = self.messager.append(room, current_time, user, "text", message, None)
                 if reply:
                     self.reply_message(reply)
                 continue
             elif message == "":
                 continue
-            message = self.process_image_message(row)
+            message, path = self.process_image_message(row)
             if message:
-                reply = self.messager.append(room, user, message, "image", current_time)
+                reply = self.messager.append(room, current_time, user, "image", message, path)
                 if reply:
                     self.reply_message(reply)
                 continue
             elif message == "":
                 continue
-            message = self.process_video_message(row)
+            message, path = self.process_video_message(row)
             if message:
-                self.messager.append(room, user, message, "video", current_time)
+                self.messager.append(room, current_time, user, "video", message, path)
                 continue
             elif message == "":
                 continue
-            message = self.process_voice_message(row)
+            message, path = self.process_voice_message(row)
             if message:
-                self.messager.append(room, user, message, "voice", current_time)
+                self.messager.append(room, current_time, user, "voice", message, path)
                 continue
             elif message == "":
                 continue
-            message = self.process_other_message(row)
+            message, path = self.process_other_message(row)
             if message:
-                self.messager.append(room, user, message, "other", current_time)
+                self.messager.append(room, current_time, user, "other", message, path)
                 continue
             elif message == "":
                 continue
@@ -248,11 +249,11 @@ class WechatDriver2(object):
                 full_screen_message_el = self.driver.find_element_by_id("com.tencent.mm:id/awl")
                 message = full_screen_message_el.text
                 TouchAction(self.driver).tap(self.driver.find_element_by_id("com.tencent.mm:id/awk")).perform()
-                return message
+                return message, None
         except Exception as e:
             self.logger.error(e)
-            return ""
-        return None
+            return "[文本消息]", None
+        return None, None
 
     def process_image_message(self, row):
         try:
@@ -263,47 +264,63 @@ class WechatDriver2(object):
                 # TouchAction(self.driver).long_press(full_screen_message_el).perform()
                 # TouchAction(self.driver).tap(self.driver.find_element_by_xpath('//*[@text="保存图片"]/../../..')).perform()
                 TouchAction(self.driver).tap(self.driver.find_element_by_id('com.tencent.mm:id/cqq')).perform()
-                toast = self.wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@text,'图片已保存')]")))
+                toast = self.wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@text,'图片已保存至')]")))
                 toast_message = toast.text
                 self.driver.press_keycode(4)
-                folder = "/sdcard/tencent/MicroMsg/WeiXin/"
                 if toast_message:
                     # file name:  2020-02-13 13:14 wx_camera_1581570852980.jpg
                     # tencent/MicroMsg/WeiXin/ -> /sdcard/tencent/MicroMsg/WeiXin/
                     # 获取到这个文件夹的最后一个文件就可以
-                    filename = self.exec("ls -t {}| head -n1".format(folder))
-                    return "{}{}".format(folder, filename)
+                    filename = self.exec("ls -t {}| head -n1".format(self.wechat_file_path))
+                    return "[图片消息]", "{}{}".format(self.wechat_file_path, filename)
         except Exception as e:
             self.logger.error(e)
-            return ""
-        return None
+            return "[图片消息]", None
+        return None, None
 
     def process_video_message(self, row):
         try:
             el = row.find_elements_by_id("com.tencent.mm:id/gi9")
-            return "[视频消息]" if el else None
+            if el:
+                # 点击视频播放
+                # gi9->com.tencent.mm:id/atb
+                ActionChains(self.driver).move_to_element(
+                    el[0].find_element_by_id("com.tencent.mm:id/atb")).click().perform()
+                # 视频页面: 点击更多
+                ActionChains(self.driver).move_to_element(
+                    self.driver.find_element_by_id("com.tencent.mm:id/gig")).click().perform()
+                # 视频页面: 点击保存按钮
+                TouchAction(self.driver).tap(self.driver.find_element_by_xpath('//*[@text="保存视频"]/../../..')).perform()
+                toast = self.wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@text,'视频已保存至')]")))
+                toast_message = toast.text
+                self.driver.press_keycode(4)
+                if toast_message:
+                    # filename = self.exec("ls -t {}| head -n1".format(self.wechat_file_path)).strip()
+                    # return "[视频消息]", "{}{}".format(self.wechat_file_path, filename)
+                    return "[视频消息]", toast_message[6:]
         except Exception as e:
             self.logger.error(e)
-            return ""
-        return None
+            return "[视频消息]", None
+        return None, None
 
     def process_voice_message(self, row):
         try:
             el = row.find_elements_by_id("com.tencent.mm:id/awh")
             if el:
-                return "[语音消息]" + el[0].get_attribute("text")
+                return "[语音消息]" + el[0].get_attribute("text"), None
         except Exception as e:
             self.logger.error(e)
-        return None
+            return "[语音消息]", None
+        return None, None
 
     def process_other_message(self, row):
         try:
-            el = row.find_elements_by_id("com.tencent.mm:id/abv")
-            return "[其它消息]" if el else None
+            # el = row.find_elements_by_id("com.tencent.mm:id/abv")
+            return "[其它消息]", None
         except Exception as e:
             self.logger.error(e)
-            return ""
-        return None
+            return "[其它消息]", None
+        return None, None
 
     def reply_message(self, text):
         try:
