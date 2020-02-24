@@ -18,12 +18,12 @@ class WechatDriver2(object):
     # https://appium.io/docs/en/writing-running-appium/caps/
     desired_caps = {
         'platformName': 'Android',
-        'deviceName': 'HUAWEI',
+        'deviceName': 'Android-HUAWEI',
         # 'platformVersion': '10',
-        # 'unid':'CLB7N18B07008885',
+        # 'unid':'CLB7N18B07008885', # 如果同时登录多台设备使用这个区分
         'appPackage': 'com.tencent.mm',
         'appActivity': 'com.tencent.mm.ui.LauncherUI',
-        'newCommandTimeout': 30,
+        'newCommandTimeout': 300,  # 下一个命令的最大等待时间
         # "deviceId": "192.168.2.241:5555",
         # "adbPort": 5555,
         # "dontStopAppOnReset": True,
@@ -37,15 +37,15 @@ class WechatDriver2(object):
         self.wait = WebDriverWait(self.driver, 30)
         self.wait_list_page()
         self.messager = Messager("钱炜铖")  # 自己
-        self.rooms = ["x盼盼", "袁州区市场监管局", "x成云机器人"]  # 只记录指定的对话，如果为空则全部记录
+        self.rooms = ["盼盼", "x袁州区市场监管局", "x成云机器人"]  # 只记录指定的对话，如果为空则全部记录
         self.full_log = True  # 只记录新消息
         self.wechat_file_path = "/sdcard/tencent/MicroMsg/WeiXin/"
         self.wechat_attachment = "/sdcard/tencent/MicroMsg/Download/"
 
     def wait_list_page(self):
         self.logger.info(self.driver.current_activity)
-        self.wait.until(EC.presence_of_element_located((By.ID, 'com.tencent.mm:id/bw')))
-        # self.driver.wait_activity(".ui.LauncherUI", 30)
+        # self.wait.until(EC.presence_of_element_located((By.ID, 'com.tencent.mm:id/bw')))
+        self.driver.wait_activity(".ui.LauncherUI", 30)
         self.logger.info(self.driver.current_activity)
 
     def select_tab(self, tab_name, count=1):
@@ -53,27 +53,30 @@ class WechatDriver2(object):
         # RelativeLayout(com.tencent.mm:id/bw)->LinearLayout->RelativeLayout(点击区域)->LinearLayout->RelativeLayout,TextView(com.tencent.mm:id/dkb)
         # bottom = self.driver.find_element_by_id('com.tencent.mm:id/bw')
         # tabs = bottom.find_elements_by_xpath('//*[@resource-id="com.tencent.mm:id/dkb"]/../..')
-        tabs = self.driver.find_elements_by_xpath('//*[@resource-id="com.tencent.mm:id/dkb"]/../..')
-        selected_tab = None
-        if len(tabs) == 4:
-            if tab_name == "消息":
-                selected_tab = tabs[0]
-            elif tab_name == "联系人":
-                selected_tab = tabs[1]
-            elif tab_name == "发现":
-                selected_tab = tabs[2]
-            elif tab_name == "我":
-                selected_tab = tabs[3]
+        try:
+            tabs = self.driver.find_elements_by_xpath('//*[@resource-id="com.tencent.mm:id/dkb"]/../..')
+            selected_tab = None
+            if len(tabs) == 4:
+                if tab_name == "消息":
+                    selected_tab = tabs[0]
+                elif tab_name == "联系人":
+                    selected_tab = tabs[1]
+                elif tab_name == "发现":
+                    selected_tab = tabs[2]
+                elif tab_name == "我":
+                    selected_tab = tabs[3]
+                else:
+                    self.logger.error("unknown {} tab".format(tab_name))
             else:
-                self.logger.error("unknown {} tab".format(tab_name))
-        else:
-            self.logger.error("tab数不对")
-        if not selected_tab:
-            return
-        if count == 2:
-            ActionChains(self.driver).move_to_element(selected_tab).click().pause(0.25).click().perform()
-        else:
-            ActionChains(self.driver).move_to_element(selected_tab).click().perform()
+                self.logger.error("tab数不对")
+            if not selected_tab:
+                return
+            if count == 2:
+                ActionChains(self.driver).move_to_element(selected_tab).click().pause(0.25).click().perform()
+            else:
+                ActionChains(self.driver).move_to_element(selected_tab).click().perform()
+        except Exception as e:
+            self.logger.error(e)
 
     def conversion_list(self):
         """
@@ -81,9 +84,10 @@ class WechatDriver2(object):
         :return:
         """
         row_index = 0
+        row_count = 0
         while True:
             try:
-                time.sleep(0.5)
+                time.sleep(1)
                 listview = self.driver.find_element_by_id("com.tencent.mm:id/dcf")
                 rows = listview.find_elements_by_id("com.tencent.mm:id/bah")
                 row_count = len(rows)
@@ -135,6 +139,9 @@ class WechatDriver2(object):
             except Exception as e:
                 # 这里是订阅消息等异常情况
                 self.logger.error(e)
+                self.logger.error("当前{}/{}出错，等待10秒清零重试".format(row_index, row_count))
+                row_index = 0
+                time.sleep(10)
         self.select_tab('消息')
         post_runnable(self.conversion_list, delay=3)
 
@@ -243,6 +250,9 @@ class WechatDriver2(object):
                 continue
             elif message == "":
                 continue
+            message, path = self.process_unknown_message(row)
+            if message:
+                self.messager.append(room, current_time, user, "unknown", message, path)
 
     def process_text_message(self, row):
         try:
@@ -302,10 +312,11 @@ class WechatDriver2(object):
                     return None, None
                 ActionChains(self.driver).move_to_element(click_btn[0]).click().perform()
                 # 视频页面: 点击更多
-                ActionChains(self.driver).move_to_element(
-                    self.driver.find_element_by_id("com.tencent.mm:id/gig")).click().perform()
+                more_btn = self.wait.until(EC.presence_of_element_located((By.ID, "com.tencent.mm:id/gig")))
+                ActionChains(self.driver).move_to_element(more_btn).click().perform()
                 # 视频页面: 点击保存按钮
-                TouchAction(self.driver).tap(self.driver.find_element_by_xpath('//*[@text="保存视频"]/../../..')).perform()
+                save_btn = self.wait.until(EC.presence_of_element_located((By.XPATH, '//*[@text="保存视频"]/../../..')))
+                TouchAction(self.driver).tap(save_btn).perform()
                 toast = self.wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@text,'视频已保存至')]")))
                 toast_message = toast.text
                 self.driver.press_keycode(4)
@@ -347,11 +358,27 @@ class WechatDriver2(object):
 
     def process_other_message(self, row):
         try:
-            # el = row.find_elements_by_id("com.tencent.mm:id/abv")
-            return "[其它消息]", None
+            el = row.find_elements_by_id("com.tencent.mm:id/abv")
+            if el:
+                a = row.find_elements_by_id("com.tencent.mm:id/ata")
+                b = row.find_elements_by_id("com.tencent.mm:id/atb")
+                c = row.find_elements_by_id("com.tencent.mm:id/atp")
+                title = row.find_elements_by_id("com.tencent.mm:id/atq")
+                if not a or not b or not c or not title:
+                    return None, None
+                return "[其它消息]" + title[0].text, None
         except Exception as e:
             self.logger.error(e)
             return "[其它消息]", None
+        return None, None
+
+    def process_unknown_message(self, row):
+        try:
+            self.logger.warning("Unsupported message")
+            return "[未知消息]", None
+        except Exception as e:
+            self.logger.error(e)
+            return "[未知消息]", None
         return None, None
 
     def reply_message(self, text):

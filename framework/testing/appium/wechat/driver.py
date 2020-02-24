@@ -12,12 +12,15 @@ class WechatDriver(object):
     # https://appium.io/docs/en/writing-running-appium/caps/
     desired_caps = {
         'platformName': 'Android',
-        'deviceName': 'HUAWEI',
-        'platformVersion': '10',
+        'deviceName': 'Android-HUAWEI',
+        # 'platformVersion': '10',
+        # 'unid':'CLB7N18B07008885',
         'appPackage': 'com.tencent.mm',
         'appActivity': 'com.tencent.mm.ui.LauncherUI',
-        'newCommandTimeout': 120,
-        # 'unid':'CLB7N18B07008885',
+        'newCommandTimeout': 300,
+        # "deviceId": "192.168.2.241:5555",
+        # "adbPort": 5555,
+        # "dontStopAppOnReset": True,
         'noReset': True,
         # 'app':'the-apk-path-if-appPackage-or-appActivity-is-not-specialfied'
     }
@@ -31,8 +34,6 @@ class WechatDriver(object):
         self.wait = WebDriverWait(self.driver, 300)
         self.wait_list_page()
 
-    def raw_driver(self):
-        return self.driver
 
     def wait_list_page(self):
         print(self.driver.current_activity)
