@@ -1,5 +1,5 @@
-import datetime
 import logging
+import re
 import time
 
 from appium import webdriver
@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
-from wechat import post_runnable
+from wechat.actions import read_input_with_timeout
 from wechat.date_helper import date_fix
 from wechat.messager import Messager
 
@@ -33,14 +33,27 @@ class WechatDriver2(object):
 
     def __init__(self):
         self.logger = logging.getLogger("wechat")
+        self.messager = Messager("钱炜铖")  # 自己
+        # 只记录指定的对话，如果为空则监控全部对话
+        self.rooms = ["弹性开发部"]
+        # 进入到消息列表页面后的消息处理模式:
+        # 1. 完整模式,包括历史记录
+        # 2. 新消息，在开启应用之后收到的消息
+        # 3. 不处理任何消息，只是用来调试作用，或者用来消除未读取消息数
+        self.message_log_mode = 1
+        self.scroll_conversion_list = False  # 会话是否需要滚动
+        # ======配置文件到此结束=====
+        self.wechat_file_path = "/sdcard/tencent/MicroMsg/WeiXin/"
+        self.wechat_attachment = "/sdcard/tencent/MicroMsg/Download/"
+        self.driver = None
+        self.wait = None
+        self.conversion_map = None
+        self.reset_driver()
+
+    def reset_driver(self):
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', self.desired_caps)
         self.wait = WebDriverWait(self.driver, 30)
         self.wait_list_page()
-        self.messager = Messager("钱炜铖")  # 自己
-        self.rooms = ["盼盼", "x袁州区市场监管局", "x成云机器人"]  # 只记录指定的对话，如果为空则全部记录
-        self.full_log = True  # 只记录新消息
-        self.wechat_file_path = "/sdcard/tencent/MicroMsg/WeiXin/"
-        self.wechat_attachment = "/sdcard/tencent/MicroMsg/Download/"
 
     def wait_list_page(self):
         self.logger.info(self.driver.current_activity)
@@ -54,6 +67,7 @@ class WechatDriver2(object):
         # bottom = self.driver.find_element_by_id('com.tencent.mm:id/bw')
         # tabs = bottom.find_elements_by_xpath('//*[@resource-id="com.tencent.mm:id/dkb"]/../..')
         try:
+            self.wait.until(EC.presence_of_element_located((By.ID, "com.tencent.mm:id/bw")))
             tabs = self.driver.find_elements_by_xpath('//*[@resource-id="com.tencent.mm:id/dkb"]/../..')
             selected_tab = None
             if len(tabs) == 4:
@@ -74,9 +88,57 @@ class WechatDriver2(object):
             if count == 2:
                 ActionChains(self.driver).move_to_element(selected_tab).click().pause(0.25).click().perform()
             else:
-                ActionChains(self.driver).move_to_element(selected_tab).click().perform()
+                TouchAction(self.driver).tap(selected_tab).perform()
         except Exception as e:
             self.logger.error(e)
+
+    def conversion_list_pages(self, mode=2):
+        # 确保回到顶部
+        self.scroll_top()
+        self.conversion_map = set()
+        while True:
+            self.conversion_list()
+            if self.scroll_conversion_list:
+                reach_bottom = self.conversion_list_scroll(mode=mode)
+                if reach_bottom:
+                    break
+            else:
+                break
+        # index = 0
+        # for conversion in self.conversion_map:
+        #     index += 1
+        #     self.logger.info("{}\t{}".format(index, conversion))
+        self.conversion_map = None
+        self.logger.info("==================================")
+
+    def conversion_list_scroll(self, mode):
+        if mode == 1:
+            self.select_tab("消息", count=2)
+        else:
+            try:
+                # 对于是否滑倒底部做二次确认
+                retry_count = 2
+                while retry_count:
+                    list_view = self.wait.until(EC.presence_of_element_located((By.ID, "com.tencent.mm:id/dcf")))
+                    rows = list_view.find_elements_by_id("com.tencent.mm:id/bah")
+                    row_count = len(rows)
+                    if row_count > 5:
+                        first_row = rows[2]
+                        last_row = rows[row_count - 3]
+                        tag = first_row.get_attribute("bounds")
+                        self.driver.scroll(last_row, first_row, duration=2000)
+                        rows2 = list_view.find_elements_by_id("com.tencent.mm:id/bah")
+                        row_count2 = len(rows)
+                        if row_count2 > 2:
+                            tag2 = rows2[2].get_attribute("bounds")
+                            if tag == tag2:
+                                retry_count -= 1
+                            else:
+                                return False
+                return retry_count == 0
+            except Exception as e:
+                self.logger.error(e)
+            return False
 
     def conversion_list(self):
         """
@@ -84,69 +146,84 @@ class WechatDriver2(object):
         :return:
         """
         row_index = 0
-        row_count = 0
+        bounds_rex = re.compile(r"\[(\d{,4}),(\d{,4})\]\[(\d{,4}),(\d{,4})\]")
+        list_top = 0
+        list_bottom = 0
         while True:
-            try:
-                time.sleep(1)
-                listview = self.driver.find_element_by_id("com.tencent.mm:id/dcf")
-                rows = listview.find_elements_by_id("com.tencent.mm:id/bah")
-                row_count = len(rows)
-                if row_index < row_count:
-                    row = rows[row_index]
-                    row_index += 1
-                else:
-                    if row_index > 0 and row_count == 0:
-                        self.logger.error("Last Index:{}".format(row_index))
-                    break
-                message_count = ""
-                last_message = ""
-                # 标题
-                els = row.find_elements_by_id("com.tencent.mm:id/baj")
-                if els:
-                    room = els[0].get_attribute("text")
-                    if self.rooms and room not in self.rooms:
-                        self.logger.info("skip conversion: " + room)
-                        continue
-                else:
-                    continue
-                if not message_count:
-                    # 单聊消息数
-                    els = row.find_elements_by_id("com.tencent.mm:id/op")
-                    if els:
-                        message_count = els[0].get_attribute("text")
-                        has_new_message = True
-                if not message_count:
-                    # 群聊新消息标记
-                    els = row.find_elements_by_id("com.tencent.mm:id/bai")
-                    if els:
-                        message_count = "1+"
-                        has_new_message = True
-                # 对话的最后一条
-                els = row.find_elements_by_id("com.tencent.mm:id/bal")
-                if els:
-                    last_message = els[0].get_attribute("text")
-                if message_count or self.full_log:
-                    self.logger.info("Title:{}\tCount:{}\tLast message:{}".format(room, message_count, last_message))
-                    row.click()
-                    # TouchAction(self.driver).tap(row).perform()
+            list_view = self.wait.until(EC.presence_of_element_located((By.ID, "com.tencent.mm:id/dcf")))
+            rows = list_view.find_elements_by_id("com.tencent.mm:id/bah")
+            row_count = len(rows)
+            if row_index < row_count:
+                row = rows[row_index]
+                row_index += 1
+            else:
+                if row_index > 0 and row_count == 0:
+                    self.logger.error("Conversion List: last index is {}".format(row_index))
+                break
+            # 修正点击区域，划出屏幕的不点击
+            if not list_bottom:
+                # '[0,2187][1080,2244]'
+                bottom_bounds = self.driver.find_element_by_id("com.tencent.mm:id/bw").get_attribute("bounds")
+                title_bounds = self.driver.find_element_by_id("com.tencent.mm:id/l2").get_attribute("bounds")
+                result = bounds_rex.match(bottom_bounds)
+                list_bottom = int(result.group(2))
+                result = bounds_rex.match(title_bounds)
+                list_top = int(result.group(2))
+            row_bounds = row.get_attribute("bounds")
+            result = bounds_rex.match(row_bounds)
+            row_top = int(result.group(2))
+            row_bottom = int(result.group(4))
+            row_middle = (row_bottom + row_top) / 2
+            if row_middle > list_bottom or row_middle < list_top:
+                continue
+            # 标题
+            els = row.find_elements_by_id("com.tencent.mm:id/baj")
+            room = els[0].text if els else ""
+            if not room:
+                # 列表控件回收导致的
+                continue
+            elif room in self.conversion_map:
+                # 滚动的时候接上一屏幕的重复数据
+                continue
+            elif self.rooms and room not in self.rooms:
+                self.logger.info("{}\tskip conversion".format(room))
+                self.conversion_map.add(room)
+                continue
+            self.conversion_map.add(room)
+            els = row.find_elements_by_id("com.tencent.mm:id/bal")
+            last_message = els[0].text if els else None
+            els = row.find_elements_by_id("com.tencent.mm:id/bak")
+            last_message_time = date_fix(els[0].text) if els else None
+            message_count = ""
+            if not message_count:
+                # 单聊消息数
+                els = row.find_elements_by_id("com.tencent.mm:id/op")
+                message_count = els[0].get_attribute("text") if els else 0
+            if not message_count:
+                # 群聊新消息标记
+                els = row.find_elements_by_id("com.tencent.mm:id/bai")
+                message_count = "1+" if els else 0
+            self.logger.info("{}\t{}\t{}\t{}".format(room, message_count, last_message_time, last_message))
+            if message_count or self.message_log_mode != 2:
+                # row.click()
+                TouchAction(self.driver).tap(row).perform()
+                try:
                     # 进入了详情页面
-                    try:
-                        self.conversion_detail_messages_pages(room)
-                    except Exception as e:
-                        self.logger.error(e)
-                    # 返回到列表页面
+                    self.conversion_detail_messages_pages(room)
+                except Exception as e:
+                    self.logger.error(e)
+                # 返回到列表页面
+                if self.driver.find_elements_by_id("com.tencent.mm:id/dcf") and \
+                        self.driver.find_elements_by_id("com.tencent.mm:id/bw"):
+                    # 已经在当前页，防止点击失效的情况
+                    continue
+                else:
                     self.driver.press_keycode(4)
-            except Exception as e:
-                # 这里是订阅消息等异常情况
-                self.logger.error(e)
-                self.logger.error("当前{}/{}出错，等待10秒清零重试".format(row_index, row_count))
-                row_index = 0
-                time.sleep(10)
-        self.select_tab('消息')
-        post_runnable(self.conversion_list, delay=3)
 
     def conversion_detail_messages_pages(self, room):
         # self.driver.flick(100, 300, 100, 1000)
+        if self.message_log_mode == 3:
+            return
         els = self.driver.find_elements_by_id("com.tencent.mm:id/apo")
         if els:
             TouchAction(self.driver).tap(els[0]).perform()
@@ -159,19 +236,26 @@ class WechatDriver2(object):
 
     def conversion_detail_scroll(self):
         try:
-            rows = self.driver.find_elements_by_xpath("//*[@resource-id='com.tencent.mm:id/ab']/..")
-            row_count = len(rows)
-            if row_count > 2:
-                first_row = rows[0]
-                last_row = rows[row_count - 1]
-                tag = first_row.get_attribute("bounds")
-                self.driver.scroll(last_row, first_row, duration=2000)
-                rows2 = self.driver.find_elements_by_xpath("//*[@resource-id='com.tencent.mm:id/ab']/..")
-                row_count2 = len(rows)
-                if row_count2 > 2:
-                    tag2 = rows2[0].get_attribute("bounds")
-                    if tag == tag2:
-                        return True
+            # 对于是否滑倒底部做二次确认
+            retry_count = 2
+            while retry_count:
+                rows = self.driver.find_elements_by_xpath("//*[@resource-id='com.tencent.mm:id/ab']/..")
+                row_count = len(rows)
+                # TODO
+                if row_count > 3:
+                    first_row = rows[1]
+                    last_row = rows[row_count - 1]
+                    tag = first_row.get_attribute("bounds")
+                    self.driver.scroll(last_row, first_row, duration=3000)
+                    rows2 = self.driver.find_elements_by_xpath("//*[@resource-id='com.tencent.mm:id/ab']/..")
+                    row_count2 = len(rows)
+                    if row_count2 > 2:
+                        tag2 = rows2[1].get_attribute("bounds")
+                        if tag == tag2:
+                            retry_count -= 1
+                        else:
+                            return False
+            return retry_count == 0
         except Exception as e:
             # 其它类型的列表有:
             # 订阅号：com.tencent.mm:id/a9x
@@ -183,7 +267,7 @@ class WechatDriver2(object):
         row_index = 0
         current_time = ""
         while True:
-            time.sleep(1)
+            time.sleep(0.5)
             rows = self.driver.find_elements_by_xpath("//*[@resource-id='com.tencent.mm:id/ab']/..")
             row_count = len(rows)
             if row_index < row_count:
@@ -191,7 +275,7 @@ class WechatDriver2(object):
                 row_index += 1
             else:
                 if row_index > 0 and row_count == 0:
-                    self.logger.error("Last Index:{}".format(row_index))
+                    self.logger.error("Conversion Detail: last index:{}".format(row_index))
                 break
             el = row.find_elements_by_id("com.tencent.mm:id/ai")
             if el:
@@ -219,36 +303,31 @@ class WechatDriver2(object):
                 if reply:
                     self.reply_message(reply)
                 continue
-            elif message == "":
-                continue
             message, path = self.process_image_message(row)
             if message:
                 reply = self.messager.append(room, current_time, user, "image", message, path)
                 if reply:
                     self.reply_message(reply)
                 continue
-            elif message == "":
+            message, path = self.process_voice_message(row)
+            if message:
+                self.messager.append(room, current_time, user, "voice", message, path)
                 continue
             message, path = self.process_video_message(row)
             if message:
                 self.messager.append(room, current_time, user, "video", message, path)
                 continue
-            elif message == "":
-                continue
-            message, path = self.process_voice_message(row)
+            message, path = self.process_call_message(row)
             if message:
-                self.messager.append(room, current_time, user, "voice", message, path)
-                continue
-            elif message == "":
+                self.messager.append(room, current_time, user, "call", message, path)
                 continue
             message, path = self.process_file_message(row)
             if message:
                 self.messager.append(room, current_time, user, "file", message, path)
+                continue
             message, path = self.process_other_message(row)
             if message:
                 self.messager.append(room, current_time, user, "other", message, path)
-                continue
-            elif message == "":
                 continue
             message, path = self.process_unknown_message(row)
             if message:
@@ -257,11 +336,13 @@ class WechatDriver2(object):
     def process_text_message(self, row):
         try:
             el = row.find_elements_by_id("com.tencent.mm:id/pq")
-            if el:
+            a = row.find_elements_by_id("com.tencent.mm:id/awb")
+            # 排查带有pq的语音消息
+            if el and not a:
                 ActionChains(self.driver).move_to_element(el[0]).click().pause(0.25).click().perform()
-                full_screen_message_el = self.driver.find_element_by_id("com.tencent.mm:id/awl")
-                message = full_screen_message_el.text
-                TouchAction(self.driver).tap(self.driver.find_element_by_id("com.tencent.mm:id/awk")).perform()
+                text_view = self.wait.until(EC.presence_of_element_located((By.ID, "com.tencent.mm:id/awl")))
+                message = text_view.text
+                self.driver.press_keycode(4)
                 return message, None
         except Exception as e:
             self.logger.error(e)
@@ -331,26 +412,54 @@ class WechatDriver2(object):
 
     def process_voice_message(self, row):
         try:
-            el = row.find_elements_by_id("com.tencent.mm:id/awh")
+            el = row.find_elements_by_id("com.tencent.mm:id/awb")
             if el:
-                return "[语音消息]" + el[0].get_attribute("text"), None
+                a = row.find_elements_by_id("com.tencent.mm:id/awc")
+                title1 = row.find_elements_by_id("com.tencent.mm:id/awd")
+                title2 = row.find_elements_by_id("com.tencent.mm:id/pq")
+                if not a or not title1 or not title2:
+                    return None, None
+                return "[语音消息]{} {}".format(title1[0].text, title2[0].text), None
         except Exception as e:
             self.logger.error(e)
             return "[语音消息]", None
         return None, None
 
+    def process_call_message(self, row):
+        try:
+            el = row.find_elements_by_id("com.tencent.mm:id/awh")
+            a = row.find_elements_by_id("com.tencent.mm:id/awg")
+            if el and a:
+                return "[电话]" + el[0].get_attribute("text"), None
+        except Exception as e:
+            self.logger.error(e)
+            return "[电话]", None
+        return None, None
+
     def process_file_message(self, row):
         try:
             # ----(文件)LinearLayout(ata)->ats,att,atv(文件大小)
-            el = row.find_elements_by_id("com.tencent.mm:id/aba")
-            if el:
-                a = el.find_elements_by_id("com.tencent.mm:id/ats")
-                b = el.find_elements_by_id("com.tencent.mm:id/att")
-                c = el.find_elements_by_id("com.tencent.mm:id/atv")
-                if not a or not b or not c:
+            abv = row.find_elements_by_id("com.tencent.mm:id/abv")
+            el = row.find_elements_by_id("com.tencent.mm:id/ata")
+            if abv and el:
+                a = row.find_elements_by_id("com.tencent.mm:id/atb")
+                b = row.find_elements_by_id("com.tencent.mm:id/atp")
+                title_view = el[0].find_elements_by_id("com.tencent.mm:id/ats")
+                file_size = el[0].find_elements_by_id("com.tencent.mm:id/att")
+                icon = el[0].find_elements_by_id("com.tencent.mm:id/atv")
+                if not a or not b or not title_view or not file_size or not icon:
                     return None, None
-                # TODO:
-                return "[文件]", None
+                TouchAction(self.driver).tap(a[0]).perform()
+                title_textview = self.driver.find_elements_by_id("com.tencent.mm:id/bgc")
+                file_size = self.driver.find_elements_by_id("com.tencent.mm:id/bgd")
+                if title_textview and file_size:
+                    message = "[文件]{}({})".format(title_textview[0].text, file_size[0].text)
+                    path = title_textview[0].text
+                else:
+                    message = "[文件]"
+                    path = None
+                self.driver.press_keycode(4)
+                return message, "{}{}".format(self.wechat_attachment, path)
         except Exception as e:
             self.logger.error(e)
             return "[文件]", None
@@ -358,13 +467,13 @@ class WechatDriver2(object):
 
     def process_other_message(self, row):
         try:
-            el = row.find_elements_by_id("com.tencent.mm:id/abv")
-            if el:
-                a = row.find_elements_by_id("com.tencent.mm:id/ata")
-                b = row.find_elements_by_id("com.tencent.mm:id/atb")
-                c = row.find_elements_by_id("com.tencent.mm:id/atp")
-                title = row.find_elements_by_id("com.tencent.mm:id/atq")
-                if not a or not b or not c or not title:
+            abv = row.find_elements_by_id("com.tencent.mm:id/abv")
+            el = row.find_elements_by_id("com.tencent.mm:id/ata")
+            if abv and el:
+                b = el[0].find_elements_by_id("com.tencent.mm:id/atb")
+                c = el[0].find_elements_by_id("com.tencent.mm:id/atp")
+                title = el[0].find_elements_by_id("com.tencent.mm:id/atq")
+                if not b or not c or not title:
                     return None, None
                 return "[其它消息]" + title[0].text, None
         except Exception as e:
@@ -375,6 +484,7 @@ class WechatDriver2(object):
     def process_unknown_message(self, row):
         try:
             self.logger.warning("Unsupported message")
+            row.screenshot("./images/001.png")
             return "[未知消息]", None
         except Exception as e:
             self.logger.error(e)
@@ -421,17 +531,38 @@ class WechatDriver2(object):
 
     def scroll_top(self):
         try:
-            el = self.driver.find_element_by_id("com.tencent.mm:id/l2")
+            el = self.wait.until(EC.presence_of_element_located((By.ID, "com.tencent.mm:id/l2")))
+            # TouchAction(self.driver).tap(el, x=10, y=10).wait(100).tap(el, x=10, y=10).perform()
             ActionChains(self.driver).move_to_element(el).click().pause(0.25).click().pause(1).perform()
         except Exception as e:
             self.logger.error(e)
 
     def start(self):
-        # self.select_tab('消息')
-        # self.scroll_top()
-        self.conversion_list()
-        # 回到顶部，准备下一轮
-        input("按任意键推出...")
+        error_count = 0
+        stop = False
+        while not stop:
+            try:
+                while not stop:
+                    self.select_tab("消息")
+                    self.conversion_list_pages()
+                    data = read_input_with_timeout("按回车键退出.否则5秒后继续下一轮\n", timeout=5)
+                    if data is not None:
+                        stop = True
+                        break
+                    else:
+                        # 重置错误次数
+                        error_count = 0
+            except Exception as e:
+                logging.error(e)
+                error_count += 1
+                if error_count < 10:
+                    logging.info("程序出错{}次，10s后重试".format(error_count))
+                    time.sleep(10)
+                    self.reset_driver()
+                else:
+                    logging.error("程序连续出错{}次，放弃重试".format(error_count))
+                    # stop = True
+                    break
 
     def start2(self):
         try:

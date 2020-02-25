@@ -11,9 +11,13 @@ https://cmake.org/cmake/help/latest/index.html
   - add_custom_target()
 
 ## 命令
-add_dependencies(target1 target-dependency)
-add_custom_target
-add_custom_command
+- add_dependencies(target1 target-dependency)
+- add_custom_target
+  - 
+- add_custom_command(OUTPUT xxx COMMAND xxx)
+  - 生成一个文件，让基于文件的条件编译可以依赖
+  - 注入到一个target上去，类似钩子
+EXECUTE_PROCESS: 在编译前运行的脚本
 ## 常量/变量
 https://cmake.org/cmake/help/v3.17/manual/cmake-variables.7.html
 

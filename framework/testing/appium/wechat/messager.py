@@ -25,7 +25,7 @@ class Messager(object):
         if path:
             pull_files_from_device(path)
         # 如果需要回复信息，则返回信息内容
-        # if not message.startswith("回复"):
+        # if not message.startswith("回复") and sender != self.me:
         #     self.message_id += 1
         #     return "回复 {}:{}".format(self.message_id, message)
         # TODO: 存到数据库中，并需要做去重处理
