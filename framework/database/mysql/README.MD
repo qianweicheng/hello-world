@@ -20,11 +20,16 @@ mysql -hsome-mysql -uroot -p
 ```
 ## 常用命令
 - 启动/关闭: mysqld_safe
-- 创建数据库: `mysqladmin create databasename;` or `mysql -u root -p databasename < db.sql`
-- 导出数据: `mysqldump -uroot -p [--databases dbname] > db.sql`
+- 创建数据库: 
+  - `mysqladmin create databasename;` or 
+  - `mysql -u root -p databasename < db.sql`
+- 导出数据: 
+  - 全库: `mysqldump -uroot -p [--databases dbname] > db.sql`
   - 只导出结构: `mysqldump -uroot -p --no-data [--databases dbname] > db.sql`
   - 压缩版: `mysqldump -uedi_cp -p --databases ep | gzip > ep.sql.gz`
-- 导入数据: `mysqlimport -uroot -p < mysql.sql`
+- 导入数据: 
+  - `mysql -uroot -p < mysql.sql`
+  - `mysqlimport -uroot -p file.txt`
 - 优化(周期运行): `OPTIMIZE TABLE`
 ### Tips
 - 遇到老的版本跟新的客户端不兼容的错误，可以添加一些flag关闭掉新特性, 比如: `--column-statistics=0`等

@@ -16,12 +16,31 @@ Domain|MX
 GoDaddy.com | godaddy-com.mail.protection.outlook.com
 easilydo.onmicrosoft.com | easilydo.mail.protection.outlook.com
 cornell.edu | cornellprod-mail-onmicrosoft-com.mail.eo.outlook.com
-## Exchange
-https://docs.microsoft.com/zh-cn/Exchange/architecture/client-access/autodiscover?view=exchserver-2019
+
+## Azure
+Azure portal: https://portal.azure.com/
+Web Mail: https://outlook.office.com/mail/inbox
+Web Mail Admin: https://admin.microsoft.com/AdminPortal/Home#/homepage
+## Office365 Exchange协议
+- Outlook on the Web
+- Outlook desktop(MAPI)
+- Exchange Web Service(EWS)
+- Mobile(ActiveSync)
+- IMAP
+- Pop
+- Authenticated SMTP
 ### Autodiscover
+https://docs.microsoft.com/zh-cn/Exchange/architecture/client-access/autodiscover?view=exchserver-2019
 1. http://your-domain/Autodiscover/Autodiscover.xml
 2. http://autodiscover.your-domain/Autodiscover/Autodiscover.xml
 3. 查询DNS是否注册有名称为_autodiscover的SRV服务记录，如果有，获取该服务记录所指定的主机名称（A记录）。假设找到SRV记录，指向主机mail.your-domain。那么Outlook会尝试连接：
 https://mail.your-domain/autodiscover/autodiscover.xml
+
+https://outlook.office365.com/EWS/Exchange.asmx
+
+https://easilydo.onmicrosoft.com/EWS/Exchange.asmx
+
 ### Exchange Web Service(EWS)开发指南
 https://docs.microsoft.com/zh-cn/exchange/client-developer/exchange-server-development
+https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/concept-fundamentals-block-legacy-authentication
+https://techcommunity.microsoft.com/t5/exchange-team-blog/upcoming-changes-to-exchange-web-services-ews-api-for-office-365/ba-p/608055
