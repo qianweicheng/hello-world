@@ -1,5 +1,7 @@
 #include "../include/b.h"
+#include "../include/lib.h"
 #include <stdio.h>
+
 int main(int argc, char** argv)
 {
     double a = 49.0; 
@@ -8,5 +10,6 @@ int main(int argc, char** argv)
     printf("input a:%f\n",a);
     b = cal_sqrt(a);
     printf("sqrt result:%f\n",b);
+    say();
     return 0;
 }

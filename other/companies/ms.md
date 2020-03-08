@@ -21,6 +21,8 @@ cornell.edu | cornellprod-mail-onmicrosoft-com.mail.eo.outlook.com
 Azure portal: https://portal.azure.com/
 Web Mail: https://outlook.office.com/mail/inbox
 Web Mail Admin: https://admin.microsoft.com/AdminPortal/Home#/homepage
+二次验证：https://account.activedirectory.windowsazure.com/UserManagement/MultifactorVerification.aspx?BrandContextID=O365
+在Web Mail Admin->Active users-> Multifactor authentication
 ## Office365 Exchange协议
 - Outlook on the Web
 - Outlook desktop(MAPI)

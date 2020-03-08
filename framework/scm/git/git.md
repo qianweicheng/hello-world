@@ -17,8 +17,9 @@
 直接从暂存区进行文件的删除，不会影响工作区的内容: `git rm --cached file`
 回滚(产生新的提交记录):  `git revert`
 ## 远程库操作
-关联远程库: `git remote set-url origin URL`
+创建：git init [--bare] 带参数表示没有工作目录，一般少用
 添加新远程仓库: `git remote add origin url`
+切换远程库: `git remote set-url origin URL`
 删除现有远程仓库: `git remote rm origin`
 查看远程仓库的地址: `git remote -v`
 查看是否有更新: 
