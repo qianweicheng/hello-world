@@ -1,13 +1,14 @@
 # sqlite
 没有数据类型，自动选择亲和类型. NULL、INTEGER、REAL、TEXT、BLOB。
 ## three different threading modes:
-- Single-thread
-- Multi-thread
-- Serialized
+- Single-thread: 编译时候SQLITE_THREADSAFE=0
+- Serialized：编译时候SQLITE_THREADSAFE=1
+- Multi-thread： 编译时候SQLITE_THREADSAFE=2
 ## 选择模式
 - 在编译期配置线程模式
 - 在启动时候
 - 在运行时候
+- sqlite3_threadsafe，sqlite3.threadsafety
 ## SQLite极致性能提升方法
 关闭同步，Synchronous=Off，提升性能。添删改操作时不必同步等待写入磁盘，操作系统会延迟若干毫秒批量写入
 设置WAL模式，Journal Mode=WAL，减少锁定。写入向前日志模式，避免多线程访问时锁定数据库，写入时不必使用排它锁影响其它线程读取，而是把事务操作写入到WAL文件中，延迟合并
