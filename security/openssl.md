@@ -94,3 +94,9 @@ AES256加密:`openssl genrsa -aes256 -passout pass:123456 -out rsa_aes_private.k
         `openssl rsa -in demo.key -out demo_pri.pem`
     - 导出公钥
         `openssl rsa -in demo.key -pubout -out demo_pub.pem`
+## 文件生成校验码
+```
+$ openssl md5 fileName  = md5 fileName
+$ openssl sha1 fileName = shasum fileName
+$ openssl sha256 fileName = shasum fileName
+```
