@@ -47,6 +47,7 @@ https://opensource.google.com/projects/cel
   - 前端领域使用抽象语法树极为广泛，将js代码转换为抽象语法树后，可以很轻松的对语法树进行分析与优化
   - 转换为AST语法树的工具比较多，v8,Esprima,UglifyJS2,Acorn 等。能转换抽象语法树的也不只是 java,js ,php 等，html,css,sql,json,这些都可转换为抽象语法树
 - 文法识别 (解释器)
+- [参见llvm](./llvm/llvm.md)
 ### 抽象语法树作用
 - 格式化存储（存储网页，存储sql 语句，描述json 的json）
 - 语法检查、格式化、高亮、错误提示、代自动补全
@@ -59,6 +60,3 @@ https://opensource.google.com/projects/cel
   - amd,cmd 规范相互转换
   - bable 编译 es6
   - CoffeeScript、TypeScript、JSX等转化为原生Javascript
-
-## 工具
-http://ast.nln.me/
