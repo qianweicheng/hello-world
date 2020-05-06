@@ -1,4 +1,17 @@
 # sed
+## mac sed vs gnu-sed
+```
+# Install gnu-sed using Homebrew
+# The `--with-default-names` option configures `sed` to use gnu-sed
+# Without that option, you'll need to type `gsed` to use gnu-sed
+brew install --default-names gnu-sed 
+
+# Verify which version of sed is used when you run the `sed` command
+#  OK:  /usr/local/bin/sed
+#  BAD: /usr/local/bin/gsed 
+# If BAD, run `brew uninstall gnu-sed`, then reinstall with `--with-default-names`
+```
+## sed vs awk
 sed擅长取行，awk命令擅长取列
 sed会一次处理一行内容。处理时，把当前处理的行存储在临时缓冲区中，成为"模式空间"，接着用sed命令处理缓冲区中的内容，处理完成后，把缓冲区的内容送往屏幕。接着处理下一行，这样不断重复，直到文件末尾。文件内容并没有改变，除非你使用重定向存储输出。
 sed 有两个内置的存储空间：
