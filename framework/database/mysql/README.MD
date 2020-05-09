@@ -34,7 +34,9 @@ mysql -hsome-mysql -uroot -p
 ### Tips
 - 遇到老的版本跟新的客户端不兼容的错误，可以添加一些flag关闭掉新特性, 比如: `--column-statistics=0`等
 ## 授权
-- 创建用户: `CREATE USER 'username'@'host' IDENTIFIED BY 'password';`
+- 创建用户: 
+  - `CREATE USER 'username'@'host' IDENTIFIED BY 'password';`
+  - `CREATE USER 'exporter'@'%' IDENTIFIED BY 'password' WITH MAX_USER_CONNECTIONS 3;`
 - 授权: 
     `GRANT [privileges] ON dbname.tablename TO 'username'@'host'`
     `GRANT [privileges] ON dbname.tablename TO 'username'@'host' WITH GRANT OPTION;`
