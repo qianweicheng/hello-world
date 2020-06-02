@@ -34,14 +34,33 @@
                                         mailimap_resp_cond_bye_parse
                                         mailimap_mailbox_data_parse
                                         mailimap_message_data_parse_progress
-                                            mailimap_msg_att_parse_progress(Bodystruct)
+                                            mailimap_msg_att_parse_progress(重要，解析Header结构)
                                                 mailimap_msg_att_new
+                                                mailimap_struct_list_parse_progress(循环解析)
+                                                    mailimap_msg_att_item_parse_progress
+                                                        mailimap_msg_att_static_parse_progress
+                                                            mailimap_msg_att_bodystructure_parse
+                                                            mailimap_msg_att_body_parse
                                     mailimap_response_data_parse_progress
                                         mailimap_star_parse
                                         mailimap_resp_cond_state_parse
                                         mailimap_resp_cond_bye_parse
                                         mailimap_mailbox_data_parse
-                                        mailimap_message_data_parse_progress（解析message）
+                                            mailimap_message_data_parse_progress（解析message）
+                                                mailimap_msg_att_parse_progress
+                                                    mailimap_struct_spaced_list_parse_progress
+                                                        mailimap_struct_list_parse_progress（While 循环）
+                                                            mailimap_msg_att_static_parse_progress
+                                                                mailimap_msg_att_body_parse
+                                                                mailimap_msg_att_bodystructure_parse
+                                                                    mailimap_body_parse
+                                                                        mailimap_body_type_1part_parse
+                                                                            mailimap_body_type_msg_parse
+                                                                            mailimap_body_type_text_parse
+                                                                            mailimap_body_type_basic_parse
+                                                                        mailimap_body_type_mpart_parse
+                                                                            mailimap_struct_multiple_parse
+                                                                mailimap_msg_att_body_section_parse_progress
                                         mailimap_capability_data_parse
                                         mailimap_extension_data_parse
                                         mailstream_log_error
@@ -93,3 +112,7 @@ mailimap_response
                     mailimap_resp_text
                         mailimap_resp_text_code
                         char * rsp_text
+
+## 5.29
+读取一行
+mailstream_read_line_append(fd, buffer)
