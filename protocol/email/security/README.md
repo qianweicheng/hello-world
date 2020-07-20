@@ -87,3 +87,5 @@ https://www.dmarcanalyzer.com/spf/checker/
 https://www.dmarcanalyzer.com/dkim/dkim-check/  
 https://www.dmarcanalyzer.com/dmarc/dmarc-record-check/  
 https://toolbox.googleapps.com/apps/checkmx/
+hunter.io查询域名对应的email地址
+https://hunter.io/email-verifier/weicheng@edison.tech

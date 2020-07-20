@@ -25,3 +25,9 @@ https://reactnative.cn
 - 运行`./gradlew assembleRelease`
     关键在于:`apply from: "../../node_modules/react-native/react.gradle"`
     此脚本会编译出一个bundle放在`build/generated/assets/react/release/index.xxx.bundle`,然后将其放入apk中。debug环境由`bundleInDebug`控制是否放入
+
+## 调试
+### iOS
+CMD+2
+CMD+D
+CMD + SHAKE

@@ -97,5 +97,57 @@ Metaspace: 元空间并不在虚拟机中，而是使用本地内存
 - jconsole
 - jvisualvm
 - jmx
+- jstack
+- jps
+- jinfo [pid]
+- jstat -gc
+- jmap 对性能影响大
+- jps
+- arthas
+  - jad反编译，可以热替换
+  - redefine 重新定义class
+- mat/jhat/jvisualvm 分析dump文件
 ## 参考
 - https://www.oracle.com/technetwork/tutorials/tutorials-1876574.html
+## JVM
+volatile 作用
+1. 内存可见性（内存屏障）
+2. 禁止指令重排序
+## 内存布局（4个部分），数组（5个部分）
+- markword： 8字节。
+  - 锁信息, 轻量级锁，偏向锁，重量级锁
+  - GC Info 对象年龄
+  - hashcode
+- class pointer：默认4字节，jvm8字节，但这里经过压缩，
+- (Optional)数组长度
+- instance data
+- padding
+## jvm 启动参数
+‘-’开头的标准 
+'-X' 开头的稳定
+'-XX' 不稳定的
+java -X 查看所有
+Java -XX
+查看所有参数默认值: java -XX:+PrintFlagsInitial
+查看当前使用的参数:java -XX:+PrintCommandLineFlags
+查看所有参数：java -XX:+PrintFlagsFinal
+ 
+
+## 工具
+org.openjdk.jol 查看内存布局
+ClassLayout.parseInstance(instance).toPrintable()
+
+## 对象两种指针方式
+1：句柄池 （指针池）间接指针，节省内存
+2：直接指针，访问速度快
+
+## 生产环境配置
+`生产环境必须设置LogGC`
+-Xms 1024M
+-Xmx 1024M
+-XX:+UseG1GC
+-XX:+PrintGC
+-XX:+PrintGCCause
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps
+-XX:+HeapDumpOnOutOfMemoryError

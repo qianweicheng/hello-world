@@ -12,6 +12,18 @@
     ```
 3. 将脚本`chmod a+x Victim.sh`
 ## Preference文件路径
-- `/Library/Application Support/`
-- `~/Library/Application\ Support/`
-- `~/Library/Preferences`
+```
+/Library/Application Support/
+~/Library/Application\ Support/
+~/Library/Preferences
+```
+## IntelliJ
+```
+cd ~/Library
+rm -rf Logs/IntelliJIdeaxxx/ 
+rm -rf Preferences/IntelliJIdeaxxx/
+rm -rf Application\ Support/IntelliJIdeaxxx/
+rm -rf Caches/IntelliJIdeaxxx
+rm -rf ~/.idea
+/Users/xxxx/Library/Preferences
+```

@@ -1,6 +1,31 @@
 # Elasticsearch
 Refer: https://www.elastic.co/guide/en/elasticsearch/reference/current/
-## PUT VS POST
+## DSL查询语句：
+1. Query Context: 带权重
+2. Filter Context: 不带权重
+### 基于词：term,terms
+基于全文:match系列，query_string等
+1. Full-Text query: 
+    match_all|
+    match|
+    match_phrase|
+    match_phrase_prefix|
+    multi_match:#底层查询使用match|match_phrase等，通过type控制
+    common| 会把term分词高频和低频两组进行查询然后合并
+    query_string|simple_query_string
+2. Term level query: 
+    term:#term是代表完全匹配，即不进行分词器分析
+    terms,terms_set,
+    range,exists,prefix,wildcard,regexp,
+    fuzzy:term的模糊版本
+    type,ids
+3. Compound querys: 
+    constant_score（默认1）,
+    bool: must|must_not|should|filter
+    dis_max:合并个子查询，选择最高分。 通过tie_breaker和boost影响评分
+    function_score 自定义函数计算
+    boosting 可以减分
+### PUT VS POST
 1. 更新：PUT会将新的json值完全替换掉旧的；而POST方式只会更新相同字段的值，其他数据不会改变，新提交的字段若不存在则增加。
 2. PUT和DELETE操作是幂等的。所谓幂等是指不管进行多少次操作，结果都一样。比如用PUT修改一篇文章，然后在做同样的操作，每次操作后的结果并没有什么不同，DELETE也是一样。
 3. POST操作不是幂等的，比如常见的POST重复加载问题：当我们多次发出同样的POST请求后，其结果是创建了若干的资源。
@@ -27,21 +52,64 @@ GET /edi_test/a/_mget
 ```
 
 ## Search API
-1. 搜索选项（search_type）
+filter不影响查询权重
+
+- 搜索选项（search_type）
 count：只返回个数
 query_and_fetch(默认)
 scan：顺序读取
-1. from，size,可以放URL，也可以放body。比如
+- from，size,可以放URL，也可以放body。比如
 ```
 GET /_search
 {
-    "from" : 0, "size" : 10,
+    "from" : 0, 
+    "size" : 10,
     "query" : {
         "term" : { "user" : "kimchy" }
     }
 }
+GET /_search
+{
+    "query": {
+        "match" : {
+            "message" : "this is a test"
+        }
+    }
+}
+GET /_search
+{
+    "query": {
+        "match" : {
+           "message" : {
+                "query" : "this is a testt",
+                "fuzziness": "AUTO",
+                "zero_terms_query": "all"
+            }
+        }
+    }
+}
+GET _search
+{
+  "from": 0,
+  "size": 100,
+  "query": {
+    "bool": {
+        "must": [
+            {
+            "match": {
+                "device_id": "bf11200fab138dbb2fba2d7a8dd92243302b437423fe56408e92d7735d591e5d"
+            }
+            }
+        ],
+        "filter": [
+            {"term": {"version": "1.0.28"}},
+            {"range": {"servertime": {"gte": 0, "lte": 1591782810347}}}
+        ]
+    }
+  }
+}
 ```
-1. Sort
+- Sort
 ```
 "sort": { "date": { "order": "desc" }},
 "sort": [
@@ -49,14 +117,14 @@ GET /_search
     { "_score": { "order": "desc" }}
 ]
 ```
-1. projection". stored_fields 或者_source
+- projection". stored_fields 或者_source
 ```
 "_source": {
         "includes": [ "obj1.*", "obj2.*" ],
         "excludes": [ "*.description" ]
 }
 ```
-1. Highlight
+- Highlight
 ```
  "highlight" : {
     "fields" : {
@@ -64,9 +132,9 @@ GET /_search
     }
 }
 ```
-1. explain:分析性能用
-1. version": true
-1. search_after
+- explain:分析性能用
+- version": true
+- search_after
 ```
 GET /_search
 {
@@ -88,28 +156,6 @@ GET /_search
     }
 }
 ```
-## DSL查询语句：
-1. Query Context: 带权重
-2. Filter Context: 不带权重
-## 基于词：term,terms
-基于全文:match系列，query_string等
-1. Full-Text query: 
-    match_all|
-    match|
-    match_phrase|
-    match_phrase_prefix|
-    multi_match:#底层查询使用match|match_phrase等，通过type控制
-    common| 会把term分词高频和低频两组进行查询然后合并
-    query_string|simple_query_string
-2. Term level query: 
-    term:#term是代表完全匹配，即不进行分词器分析
-    terms,terms_set,
-    range,exists,prefix,wildcard,regexp,
-    fuzzy:term的模糊版本
-    type,ids
-3. Compound querys: 
-    constant_score（默认1）,
-    bool: must|must_not|should|filter
-    dis_max:合并个子查询，选择最高分。 通过tie_breaker和boost影响评分
-    function_score 自定义函数计算
-    boosting 可以减分
+- Delete By Query
+_delete_by_query
+
