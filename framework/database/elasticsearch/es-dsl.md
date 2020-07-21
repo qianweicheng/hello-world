@@ -50,10 +50,8 @@ GET /edi_test/a/_mget
  "ids" : [ "2", "1" ]
 }
 ```
-
 ## Search API
 filter不影响查询权重
-
 - 搜索选项（search_type）
 count：只返回个数
 query_and_fetch(默认)
@@ -158,4 +156,66 @@ GET /_search
 ```
 - Delete By Query
 _delete_by_query
+## DSL查询语句：
+1. Query Context: 带权重
+2. Filter Context: 不带权重,主要用于结构化搜索
+## 基于词：term,terms
+基于全文:match系列，query_string等
+1. Full-Text query: 
+    match_all|
+    match|
+    match_phrase|
+    match_phrase_prefix|
+    multi_match:#底层查询使用match|match_phrase等，通过type控制
+    common| 会把term分词高频和低频两组进行查询然后合并
+    query_string|simple_query_string
+2. Term level query: 
+    term:#term是代表完全匹配，即不进行分词器分析
+    terms,terms_set,
+    range,exists,prefix,wildcard,regexp,
+    fuzzy:term的模糊版本
+    type,ids
+3. Compound querys: 
+    constant_score（默认1）,
+    bool: must|must_not|should|filter
+    dis_max:合并个子查询，选择最高分。 通过tie_breaker和boost影响评分
+    function_score 自定义函数计算
+    boosting 可以减分
 
+## Example
+```
+GET /_search
+{
+  "query": {
+    "simple_query_string" : {
+        "query": "\"fried eggs\" +(eggplant | potato) -frittata",
+        "fields": ["title^5", "body"],
+        "default_operator": "and"
+    }
+  }
+}
+GET log2/_search
+{
+  "query": {
+    "bool" : {
+      "filter":[
+        {"term":{"version":"1.0.12"}},
+        { "range":{"servertime" : {"gte" : 0,"lte" : 1589896072000}}}
+      ]
+    }
+  }
+}
+
+POST log2/_delete_by_query
+{
+  "query": {
+    "bool" : {
+      "filter":[
+        {"term":{"version":"1.0.3"}},
+        { "range":{"servertime" : {"gte" : 0,"lte" : 1589896072000}}}
+      ]
+    }
+  }
+}
+
+```

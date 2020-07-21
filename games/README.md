@@ -27,3 +27,4 @@ X3D
 Autodesk Gameware
 glTF
 JT
+usdz: from fbx obj gltf glb
