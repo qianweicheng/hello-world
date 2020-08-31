@@ -1,1 +1,1 @@
-# Elasticsearch
+# Elastic Search

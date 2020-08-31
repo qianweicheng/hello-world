@@ -59,6 +59,18 @@ PUT /my-index
         }
     }
 }
+PUT /log2
+{
+    "mappings": {
+        "client": {
+            "properties": {
+                "servertime": {
+                    "type": "date"
+                }
+            }
+        }
+    }
+}
 PUT /my-index/_settings
 {
     "number_of_shards" :   1,
@@ -101,6 +113,17 @@ PUT my_index/_mapping/_doc
           "search_quote_analyzer":
         }
       }
+}
+```
+```
+POST _reindex
+{
+  "source": {
+    "index": "log2"
+  },
+  "dest": {
+    "index": "log"
+  }
 }
 ```
 ## Devops
