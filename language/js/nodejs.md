@@ -76,3 +76,24 @@ https://github.com/creationix/nvm/blob/master/README.md
   nvm alias default node                Always default to the latest available node version on a shell
 ```
 > 使用前最好清理下node_modules
+## 切换源
+- 使用nrm工具切换淘宝源: `npx nrm use taobao`
+- 如果之后需要切换回官方源可使用: `npx nrm use npm`
+## npx(npm install -g npx)
+有很多命令，我们只需要执行一次的，但是却要全局安装一次，实在不科学，使用npx，可以在不全局安装依赖包的情况下，运行命令，而且运行后不会污染全局环境.使用npx可以在命令行直接执行本地已安装的依赖包命令，不用在scripts脚本写入命令，也不用麻烦的去找本地脚本。
+## npx
+- 执行本地命令
+    ```
+        npm i -D mocha
+        npx mocha --version
+    ```
+    ```
+        npx http-server -p 3000  #指定端口
+    ```
+- 执行一次性命令
+- 切换node版本
+    ```
+        npx node@6 -v
+        npx node@7 -v
+        npx node@8 -v
+    ```

@@ -3,11 +3,11 @@
 https://reactnative.cn
 ## Install
 `brew install watchman flow`
-`npm install -g yarn react-native-cli`
+`npm install -g yarn`
 升级：
 `react-native upgrade`
 ## Create Project
-`react-native init AwesomeProject`
+`npx react-native init AwesomeProject`
 ## Run
 #### Debug
 本地启动一个webserver, 通过watchman监控文件变化，实时编译/打包, 上传到device中去，bundle本身不在apk包里面
