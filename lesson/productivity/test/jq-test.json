@@ -1,0 +1,14 @@
+{
+    "name": "weicheng",
+    "log": [
+        {
+            "time":"1月", "place":"shanghai"
+        },
+        {
+            "time": "2月","place": "beijing"
+        },
+        {
+            "time": "3月","place": "yichun"
+        }
+    ]
+}

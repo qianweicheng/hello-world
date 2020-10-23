@@ -25,6 +25,9 @@ in: map(in[0,1])
 map: map(.A = .+1)
 ```
 ## Demo
-```
+```case 1
 cat aws-instance-info.json | jq '.Reservations[].Instances[] | select(.State.Name == "running", .State.Name == "stopped") | {id:.InstanceId, status:.State.Name, dns:.PublicDnsName,ip:.PublicIpAddress, name: .Tags[] | select(.Key=="Name") | .Value}'
+```
+```case 2
+jq '.log[] | select(.time=="1月") | {aa:.time, bb:.place}' a.json
 ```
