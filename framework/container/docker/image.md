@@ -69,3 +69,8 @@ CMD ["./app"]
 ```
 ### 从另外的image拷贝
 `COPY --from=lachlanevenson/k8s-kubectl:v1.10.3 /usr/local/bin/kubectl /usr/local/bin/kubectl`
+
+### 清理
+```
+/bin/sh -c set -eux; 	apt-get update; 	apt-get install -y --no-install-recommends 		ca-certificates p11-kit 	; 	rm -rf /var/lib/apt/lists/*
+```
