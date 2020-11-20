@@ -14,8 +14,10 @@ cmd+enter full screen
 cmd+d split screen by vertical
 cmd+shift+d split screen by horizontal
 ```
-## zsh:新的shell
-- Install: `curl -L http://install.ohmyz.sh | sh`
+## zsh
+- Install: 
+  - zsh: `yum install zsh`
+  - ohmyz: `curl -L http://install.ohmyz.sh | sh`
 chsh [-s 修改默认] /bin/zsh
 配置文件在 .zshrc, 类似.bash_profile+.bash_rc的作用
 oh-my-zsh安装文件在$ZSH所指代的目录下
