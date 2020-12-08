@@ -10,9 +10,12 @@
     1. 工作在第4层
     2. 工作在第7层
 - LVS
-    - NAT
-    - DR
-    - TUN
+  - 模式
+      - NAT
+      - DR
+      - TUN
+  - Install
+    shell: `yum install ipvsadm -y`
 - Hardward(NetScaler、F5、Radware)
 ## 比较
 效率从低到高ngix<HAProxy<LVS<Hardward, 衡量负载均衡器好坏的几个重要因素： 
