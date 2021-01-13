@@ -17,6 +17,11 @@
 - 官网下载安装:`/Library/Frameworks/Python.framework/Versions`
 - HomeBrew: `/usr/local/Cellar/python`(不自带pip)
 - Windows下载安装也不自带pip
+
+## Python CERT 问题
+Solution 1: 在按照目录下有个“Install Certificates.command”
+Solution 2: `pip install --upgrade certifi`
+参考: `https://stackoverflow.com/questions/50236117/scraping-ssl-certificate-verify-failed-error-for-http-en-wikipedia-org`
 ## virtualenv
 - 安装虚拟环境：`pip install virtualenv`
 - 创建虚拟环境: `virtualenv -p python3 venv`
