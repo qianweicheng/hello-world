@@ -5,11 +5,11 @@ Rust 开发在开发效率和便捷性、包体积大小等方面还是有很大
 ## Rust
 https://rustwasm.github.io/docs/book/
 ### Install
-1. wasm-pack: `wasm-pack`: `cargo install wasm-pack` or `https://rustwasm.github.io/wasm-pack/installer/`
+1. wasm-pack: `cargo install wasm-pack` or `https://rustwasm.github.io/wasm-pack/installer/`
    1. `wasm-pack new myproject`
 2. 使用模版: `cargo install cargo-generate`
    1. `cargo generate --git https://github.com/rustwasm/wasm-pack-template`
-
+开发文档: https://github.com/rustwasm/book
 ### Build
 `wasm-pack build`
 ## C/C++
