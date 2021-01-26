@@ -1,0 +1,25 @@
+<!DOCTYPE html5>
+<html>
+    <head>
+        <title>WASM Test</title>
+        <script>
+            var importObject = { imports: { imported_func: arg => console.log(arg) } };
+            // WebAssembly.compileStreaming(fetch('dist/hello.wasm'))
+            // .then(module => WebAssembly.instantiate(module, importObject))
+            // .then(instance => instance.exports.add(1,2));
+
+            fetch('dist/hello.wasm').then(response =>
+  response.arrayBuffer()
+).then(function(bytes) {
+  var valid = WebAssembly.validate(bytes);
+  console.log("The given bytes are "
+    + (valid ? "" : "not ") + "a valid wasm module");
+});
+        </script>
+    </head>
+    <body>
+        <input type="text" id="name" /><br/>
+        <button onclick="btn_add()">add(12, 14)</button>
+        <div id="result"></div>
+    </body>
+</html>

@@ -9,7 +9,8 @@ fn main() {
     easy.write_function(|data| {
         stdout().write_all(data).unwrap();
         Ok(data.len())
-    }).unwrap();
+    })
+    .unwrap();
     easy.perform().unwrap();
 
     println!("{}", easy.response_code().unwrap());

@@ -1,0 +1,55 @@
+<!DOCTYPE html5>
+<html>
+    <head>
+        <title>WASM Test</title>
+        <script src="dist/hello.js"></script>
+        <script>
+            Module.onRuntimeInitialized = _ => {
+                show_me("WebAssembly Initialized");
+            }
+            function show_me(msg) {
+                console.log(msg);
+                document.getElementById("result").innerHTML +="<br/>" + msg;
+            }
+            function btn_fib() {
+                const fib = Module.cwrap('fib', 'number', ['number']);
+                let msg = fib(12);
+                show_me("fib " + msg);
+            }
+            function btn_square() {
+                // Call via ccall
+                var result = Module.ccall('square', // name of C function
+                'number', // return type
+                ['number'], // argument types
+                [12]); // arguments
+                show_me("square " + result);
+            }
+            function btn_add() {
+                const add = Module.cwrap('add', 'number', ['number', 'number']);
+                let msg = add(12, 14);
+                show_me("add "+ msg);
+                // Another style of call
+                console.log(Module._add(12, 1.0));
+            }
+            function btn_calljs() {
+                const calljs = Module.cwrap('call_js', null, []);
+                calljs();
+            }
+            function btn_say_hello() {
+                let name = document.getElementById("name").value || "Weicheng";
+                const hello = Module.cwrap('hello', 'string', ['string']);
+                let msg = hello(name);
+                show_me("hello "+ msg);
+            }
+        </script>
+    </head>
+    <body>
+        <input type="text" id="name" /><br/>
+        <button onclick="btn_fib()">fib(12)</button>
+        <button onclick="btn_add()">add(12, 14)</button>
+        <button onclick="btn_square()">square(12)</button>
+        <button onclick="btn_calljs()">call_js()</button>
+        <button onclick="btn_say_hello()">hello()</button>
+        <div id="result"></div>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html5>
+<html>
+    <head>
+        <title>WASM Test</title>
+        <script>
+            // 初始化一个 WebSocket 对象
+            var ws = new WebSocket("ws://localhost:8088/");
+
+            // 建立 web socket 连接成功触发事件
+            ws.onopen = function () {
+                // 使用 send() 方法发送数据
+                ws.send("Hello World");
+            };
+
+            // 接收服务端数据时触发事件
+            ws.onmessage = function (evt) {
+                var received_msg = evt.data;
+                console.log("receive:" + received_msg);
+            };
+
+            // 断开 web socket 连接成功触发事件
+            ws.onclose = function () {
+                console.log("onclose");
+            };
+            function send_data() {
+                let data = document.getElementById("data").value || "Weicheng";
+                ws.send(data);
+            }
+        </script>
+    </head>
+    <body>
+        <input type="text" id="data" /><br/>
+        <button onclick="send_data()">send_data()</button>
+        <div id="result"></div>
+    </body>
+</html>

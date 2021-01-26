@@ -1,4 +1,3 @@
-
 mod second;
 use second::ClassName;
 mod front_of_house;
@@ -12,7 +11,7 @@ fn main() {
     demo1::say_hi();
     demo2::say_hi2();
 
-    let mut vector = vec![1,2,3,4];
+    let mut vector = vec![1, 2, 3, 4];
     vector.push(5);
     println!("{:?}", vector);
     println!("Hello, world!");
@@ -20,5 +19,3 @@ fn main() {
     let object = ClassName::new(1024);
     object.public_method();
 }
-
- 

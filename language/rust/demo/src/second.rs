@@ -5,9 +5,7 @@ pub struct ClassName {
 
 impl ClassName {
     pub fn new(value: i32) -> ClassName {
-        ClassName {
-            field: value
-        }
+        ClassName { field: value }
     }
 
     pub fn public_method(&self) {

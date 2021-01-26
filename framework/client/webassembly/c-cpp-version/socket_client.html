@@ -1,0 +1,27 @@
+<!DOCTYPE html5>
+<html>
+    <head>
+        <title>WASM Test</title>
+        <script src="dist/socket_client.js"></script>
+        <script>
+            Module.onRuntimeInitialized = _ => {
+                show_me("WebAssembly Initialized");
+            }
+            function show_me(msg) {
+                console.log(msg);
+                document.getElementById("result").innerHTML +="<br/>" + msg;
+            }
+            function btn_test() {
+                console.log("=====");
+                const sendData = Module.cwrap('send_data', null, []);
+                let msg = sendData();
+                show_me("sendData " + msg);
+            }
+        </script>
+    </head>
+    <body>
+        <input type="text" id="name" /><br/>
+        <button onclick="btn_test()">test()</button>
+        <div id="result"></div>
+    </body>
+</html>
