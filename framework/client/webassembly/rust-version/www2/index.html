@@ -1,0 +1,24 @@
+<!DOCTYPE html5>
+<html>
+    <head>
+        <title>WASM Test</title>
+        <script src="./index.js"></script>
+        <script>
+            function fun_js(str) {
+                console.error("In js:" + str);
+            }
+            function btn_1() {
+                t1();
+            }
+            function btn_2() {
+                t2();
+            }
+        </script>
+    </head>
+    <body>
+        <input type="text" id="name" /><br/>
+        <button onclick="btn_1()">btn_1()</button>
+        <button onclick="btn_2()">btn_2()</button>
+        <div id="result"></div>
+    </body>
+</html>
