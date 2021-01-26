@@ -1,6 +1,7 @@
 mod utils;
-
 use wasm_bindgen::prelude::*;
+use js_sys::Array;
+extern crate web_sys;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -32,8 +33,9 @@ extern "C" {
 #[wasm_bindgen]
 pub fn greet() {
     alert("Hello, myproject!");
+    fun_js("Hello, js!");
     greet1("weicheng");
-    greet2();
+    // greet2();
 }
 
 #[wasm_bindgen]
@@ -42,10 +44,30 @@ pub fn greet1(name: &str) {
     log_u32(42);
     log_many("Logging", name);
 }
+
+#[wasm_bindgen]
+pub fn strings() -> Array {
+    let arr = Array::new_with_length(10);
+    for i in 0..arr.length() {
+        let s = JsValue::from_str(&format!("str {}", i));
+        arr.set(i, s);
+    }
+    arr
+}
  
 #[wasm_bindgen]
-pub fn greet2() {
-    fun_js("Hello, js!");
+pub fn greet2() -> Result<(), JsValue> {
+    // Use `web_sys`'s global `window` function to get a handle on the global
+    // window object.
+    let window = web_sys::window().expect("should have a window in this context");
+    let document = window.document().expect("should have a document on window");
+    let body = document.body().expect("document should have a body");
+
+    // Manufacture the element we're gonna append
+    let val = document.create_element("p")?;
+    val.set_inner_html("Hello from Rust!");
+
+    body.append_child(&val)?;
+
+    Ok(())
 }
-
-

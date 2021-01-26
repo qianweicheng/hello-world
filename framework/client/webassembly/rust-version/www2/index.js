@@ -1,16 +1,12 @@
 const rust = import('mywebassembly');
 
 rust
-  .then(m => m.greet('World!'))
+  .then(function(m){
+      m.greet('World!')
+      let s = m.strings()
+      for(let item in s) {
+          console.log(s[item]);
+      }
+      m.greet2()
+    })
   .catch(console.error);
-
-
-function t1() {
-    console.log("t1");
-}
-
-function t2() {
-    
-}
-
-export default { t1, t2}
