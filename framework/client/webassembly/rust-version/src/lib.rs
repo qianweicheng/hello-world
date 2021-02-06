@@ -32,7 +32,6 @@ extern "C" {
 
 #[wasm_bindgen]
 pub fn greet() {
-    alert("Hello, myproject!");
     fun_js("Hello, js!");
     greet1("weicheng");
     // greet2();
