@@ -10,8 +10,15 @@
 
 module.exports.add = function(a,b) {
   console.log("add");
-}
+};
 
 module.exports.add2 = function (a, b) {
   console.log("add2");
-}
+};
+
+[1, 2, 3].map((n) => n + 1);
+
+const getMessage = ()=> {
+console.log("hello world.")
+};
+getMessage();

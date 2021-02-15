@@ -7,6 +7,7 @@ const { config } = require('process');
 module.exports = {
   entry: {
     'index': __dirname + '/src/index.js',
+    'test': __dirname + '/src/test.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -17,12 +18,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,
+        test: /\.m?js|ts$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env']
+            // It will override the babel.config.json config.
+            presets: ['@babel/preset-env', "@babel/preset-typescript"]
           }
         }
       }
