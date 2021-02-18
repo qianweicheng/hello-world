@@ -6,6 +6,13 @@ use front_of_house::demo2;
 
 extern crate demo;
 
+
+#[cfg(feature="some_condition")]
+fn conditional_function() {
+    println!("condition met!");
+}
+
+
 fn main() {
     demo::eat_at_restaurant();
     demo1::say_hi();
@@ -18,4 +25,6 @@ fn main() {
 
     let object = ClassName::new(1024);
     object.public_method();
+    conditional_function();
 }
+

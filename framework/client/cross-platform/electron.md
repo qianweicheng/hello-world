@@ -1,4 +1,5 @@
 # Electron
+使用浏览器做图形界面，nodejs做native端，跨线程通宵
 ## 坑
 图标问题
 ## 其他

@@ -2,6 +2,8 @@
 ## Document
 https://webassembly.org/
 Rust 开发在开发效率和便捷性、包体积大小等方面还是有很大优势的
+## WebAssembly Binary Toolkit
+https://github.com/WebAssembly/wabt
 ## Rust
 - 官方文档：`https://rustwasm.github.io/docs.html`
   - 入门文档: `https://rustwasm.github.io/docs/book/` or `https://github.com/rustwasm/book`
@@ -20,8 +22,6 @@ Rust 开发在开发效率和便捷性、包体积大小等方面还是有很大
 ### 模块管理
 cargo
 在线仓库: https://docs.rs/
-
-
 
 ## C/C++
 https://emscripten.org/
