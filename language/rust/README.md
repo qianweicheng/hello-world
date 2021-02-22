@@ -11,3 +11,4 @@ https://doc.rust-lang.org/cargo/reference/config.html
 - 为每个输入参数分配一个生命周期
 - 如果只有一个输入的生命周期，则自动把这个生命周期赋给输出生命周期
 - 如果输入有self参数，则输出参数也自动赋予self的生命周期
+## 
